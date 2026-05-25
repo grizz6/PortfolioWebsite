@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      (function () {
+        var t = localStorage.getItem("portfolio-theme");
+        document.documentElement.setAttribute(
+          "data-theme",
+          t === "light" || t === "dark" ? t : "dark"
+        );
+      })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Projects by Grishma Gajurel — data science, ecology research, machine learning, and analysis."
+    />
+    <meta name="author" content="Grishma Gajurel" />
+    <meta name="theme-color" content="#121110" />
+    <link rel="canonical" href="https://grizz6.github.io/grizgaj/projects.html" />
+    <title>Projects — Grishma Gajurel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@8..144,400;8..144,500;8..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  </head>
+  <body data-page="projects">
+    <div id="site-header"></div>
+
+    <main id="main">
+      <header class="page-header">
+        <h1 class="page-header__title" data-animate="fade-up">Projects</h1>
+        <p class="page-header__lead" data-animate="fade-up">
+          Pipeline queries, model outputs, and insight delivery from 
+          EDA to production-grade ML in Python and R.
+        </p>
+      </header>
+
+      <section class="projects-toolbar" aria-label="Project filters">
+        <div class="search-field">
+          <label class="visually-hidden" for="project-search">Search projects</label>
+          <input
+            type="search"
+            id="project-search"
+            class="search-field__input"
+            placeholder="Search…"
+            autocomplete="off"
+          />
+        </div>
+        <div
+          id="project-filters"
+          class="filter-chips"
+          role="group"
+          aria-label="Filter by tag"
+        ></div>
+      </section>
+
+      <section aria-labelledby="projects-list-heading">
+        <h2 id="projects-list-heading" class="visually-hidden">Project list</h2>
+        <ul id="projects-list" class="project-cards project-cards--full" role="list"></ul>
+        <p id="projects-empty" class="projects-empty" hidden>
+          No projects match your search. Try another tag or clear the filter.
+        </p>
+      </section>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="js/site.js"></script>
+  </body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      (function () {
+        var t = localStorage.getItem("portfolio-theme");
+        document.documentElement.setAttribute(
+          "data-theme",
+          t === "light" || t === "dark" ? t : "dark"
+        );
+      })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="About Grishma Gajurel — data science, ecology research, and continuous learning."
+    />
+    <meta name="author" content="Grishma Gajurel" />
+    <meta name="theme-color" content="#121110" />
+    <link rel="canonical" href="https://grizz6.github.io/grizgaj/about.html" />
+    <title>About — Grishma Gajurel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@8..144,400;8..144,500;8..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  </head>
+  <body data-page="about">
+    <div id="site-header"></div>
+
+    <main id="main">
+      <header class="page-header">
+        <h1 class="page-header__title" data-animate="fade-up">About</h1>
+        <p class="page-header__lead" data-animate="fade-up">
+          Research, data science, and building things that make ideas legible.
+        </p>
+      </header>
+
+      <div class="about-grid">
+        <div class="about-block" data-animate="fade-up">
+          <h2 class="section-label">Background</h2>
+          <p id="about-tagline"></p>
+          <p id="about-bio"></p>
+          <p>
+            I specialize in developing data-driven solutions throughout the entire analytics stack. 
+            My expertise lies in combining robust statistical foundations with practical machine
+            learning and engineering skills in Python and R.
+          </p>
+        </div>
+        <div class="about-block" data-animate="fade-up">
+          <h2 class="section-label">Focus</h2>
+          <ul class="skills-list">
+            <li class="skills-list__item skills-list__item--violet">R</li>
+            <li class="skills-list__item skills-list__item--sky">Python</li>
+            <li class="skills-list__item skills-list__item--peach">HTML</li>
+            <li class="skills-list__item skills-list__item--mint">CSS</li>
+            <li class="skills-list__item skills-list__item--rose">SQL</li>
+            <li class="skills-list__item skills-list__item--lavender">Visualization</li>
+            <li class="skills-list__item skills-list__item--sky">Data analysis</li>
+            <li class="skills-list__item skills-list__item--peach">Tableau</li>
+            <li class="skills-list__item skills-list__item--mint">Power BI</li>
+            <li class="skills-list__item skills-list__item--violet">Machine learning</li>
+            <li class="skills-list__item skills-list__item--rose">Research</li>
+          </ul>
+          <p class="about-note">
+            Findings from research projects have been presented at the
+            <a href="project.html?id=pollination-bee-foraging"
+              >Ecological Society of America (ESA), Baltimore, MD, August 2025</a
+            >.
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="js/site.js"></script>
+  </body>
+</html>

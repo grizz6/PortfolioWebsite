@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      (function () {
+        var t = localStorage.getItem("portfolio-theme");
+        document.documentElement.setAttribute(
+          "data-theme",
+          t === "light" || t === "dark" ? t : "dark"
+        );
+      })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Grishma Gajurel — data science, research, and software projects."
+    />
+    <meta name="author" content="Grishma Gajurel" />
+    <meta name="theme-color" content="#121110" />
+    <link rel="canonical" href="https://grizz6.github.io/grizgaj/" />
+    <title>Grishma Gajurel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@8..144,400;8..144,500;8..144,600&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  </head>
+  <body data-page="home" class="page-home">
+    <div id="site-header"></div>
+
+    <main id="main">
+      <section class="home-hero" aria-labelledby="home-name">
+        <div class="home-hero__scroll" aria-hidden="true">
+          <button
+            type="button"
+            class="home-hero__scroll-btn"
+            aria-label="Scroll to work"
+          >
+            <span class="home-hero__scroll-label">Scroll</span>
+            <span class="home-hero__scroll-line"></span>
+          </button>
+        </div>
+
+        <div class="home-hero__inner" data-animate="fade-up">
+          <header class="home-hero__top">
+            <p class="home-hero__role">
+              <button
+                type="button"
+                class="home-hero__role-dot"
+                aria-label="Reveal a hidden note"
+              ></button>
+              Data science · Research · Software
+            </p>
+            <a class="home-hero__talk" href="contact.html">Let's talk</a>
+          </header>
+
+          <h1 id="home-name" class="home-hero__title">
+            <span class="home-hero__line">Grishma</span>
+            <span class="home-hero__line home-hero__line--dark">Gajurel</span>
+          </h1>
+
+          <p class="home-hero__lead">
+            Analytical, detail-driven, and technically sharp with
+             Python, R, and SQL with a focus on ML and applied statistics.
+          </p>
+
+          <p class="home-hero__secret" id="home-secret" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section class="home-index" aria-labelledby="work-heading">
+        <div class="home-index__head" data-animate="fade-up">
+          <h2 id="work-heading" class="home-index__label">
+            <span class="home-index__paren">(</span>Selected<span
+              class="home-index__paren"
+              >)</span
+            >
+          </h2>
+          <a class="home-index__all" href="projects.html">All projects →</a>
+        </div>
+        <ol id="home-projects" class="home-index__list"></ol>
+      </section>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="js/site.js"></script>
+  </body>
+</html>
