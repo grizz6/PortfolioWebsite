@@ -57,7 +57,6 @@ const PROJECTS = [
       "ecology"
     ],
     "year": "2025",
-    "href": "https://grishmagajurel.com/wp-content/uploads/2026/04/Slide1-scaled.jpg",
     "featured": true,
     "initial": "P"
   },
@@ -85,7 +84,6 @@ const PROJECTS = [
       "pollination"
     ],
     "year": "2025",
-    "href": "https://grishmagajurel.com/wp-content/uploads/2026/02/Insect-Distribution-USDA.pdf",
     "featured": true,
     "initial": "M"
   },
@@ -111,7 +109,6 @@ const PROJECTS = [
       "analytics"
     ],
     "year": "2025",
-    "href": "https://grishmagajurel.com/wp-content/uploads/2026/04/Software-Mailing.pdf",
     "featured": false,
     "initial": "S"
   },
@@ -124,7 +121,6 @@ const PROJECTS = [
       "finance"
     ],
     "year": "2025",
-    "href": "https://grishmagajurel.com/wp-content/uploads/2026/04/Mortgage-Payback.pdf",
     "featured": false,
     "initial": "M"
   },
@@ -137,7 +133,6 @@ const PROJECTS = [
       "analytics"
     ],
     "year": "2025",
-    "href": "https://grishmagajurel.com/wp-content/uploads/2026/04/Used-Smartphone.pdf",
     "featured": false,
     "initial": "U"
   },
@@ -151,19 +146,21 @@ const PROJECTS = [
       "research"
     ],
     "year": "2025",
-    "href": "https://grishmagajurel.com/wp-content/uploads/2026/04/Weather-Regression.pdf",
     "featured": false,
     "initial": "W"
   },
   {
     "id": "portfolio-website",
     "title": "Portfolio Website",
-    "description": "Built and designed a personal portfolio website in WordPress using custom CSS to professionally showcase data science and research projects.",
+    "description": "Built and designed a personal portfolio with HTML, CSS, and vanilla JavaScript to showcase data science and research projects. Hosted on GitHub Pages.",
     "tags": [
+      "html",
+      "css",
+      "javascript",
       "web"
     ],
     "year": "2026",
-    "href": "https://grizz6.github.io/grizgaj/",
+    "href": "https://grishmagajurel.com/",
     "featured": false,
     "initial": "W"
   }
@@ -171,6 +168,14 @@ const PROJECTS = [
 
   const config = SITE_CONFIG;
   const projects = PROJECTS;
+
+  function getProjectHref(project) {
+    if (project.href) return project.href;
+    if (typeof PROJECT_FILES !== "undefined" && PROJECT_FILES[project.id]) {
+      return PROJECT_FILES[project.id];
+    }
+    return null;
+  }
 
   const page = document.body.dataset.page ?? "home";
 
@@ -358,7 +363,8 @@ function createProjectCard(project, index) {
 
   const cta = document.createElement("span");
   cta.className = "project-card__cta";
-  cta.textContent = project.href?.includes("github")
+  const href = getProjectHref(project);
+  cta.textContent = href?.includes("github")
     ? "View on GitHub →"
     : "View project →";
   footer.appendChild(cta);
@@ -616,6 +622,10 @@ function getProjectIdFromUrl() {
   return params.get("id");
 }
 
+function isExternalUrl(href) {
+  return Boolean(href?.startsWith("http") && !href.includes("project.html"));
+}
+
 function renderProjectDetail() {
   const container = document.getElementById("project-detail");
   if (!container) return;
@@ -640,12 +650,11 @@ function renderProjectDetail() {
     )
     .join("");
 
-  const external =
-    project.href?.startsWith("http") && !project.href.includes("project.html");
-  const linkLabel = project.href?.includes("github")
+  const href = getProjectHref(project);
+  const linkLabel = href?.includes("github")
     ? "View on GitHub"
-    : project.href?.includes(".pdf")
-      ? "View report"
+    : href && !isExternalUrl(href)
+      ? "View File"
       : "View project";
 
   container.innerHTML = `
@@ -660,23 +669,26 @@ function renderProjectDetail() {
     </div>
   `;
 
-  if (external && project.href) {
+  if (href) {
     const actions = document.createElement("div");
     actions.className = "project-detail__actions";
     const a = document.createElement("a");
     a.className = "btn btn--primary";
-    a.href = project.href;
+    a.href = href;
     a.textContent = linkLabel;
-    a.target = "_blank";
-    a.rel = "noopener noreferrer";
+    if (isExternalUrl(href)) {
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+    } else {
+      a.target = "_blank";
+      a.rel = "noopener";
+    }
     actions.appendChild(a);
     container.appendChild(actions);
   }
 
   observeAnimations(container);
 }
-
-/* Contact page ------------------------------------------------------------ */
 
 function renderContactPage() {
   const emailLink = document.getElementById("contact-email-link");
