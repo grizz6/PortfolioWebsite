@@ -185,6 +185,12 @@ const PROJECTS = [
     return `${BASE_PATH}${path}`;
   }
 
+  function assetPath(path) {
+    if (!path) return path;
+    if (/^https?:\/\//i.test(path)) return path;
+    return route(path.replace(/^\//, ""));
+  }
+
   function pageHref(id) {
     switch (id) {
       case "home":
@@ -205,7 +211,7 @@ const PROJECTS = [
   function getProjectHref(project) {
     if (project.href) return project.href;
     if (typeof PROJECT_FILES !== "undefined" && PROJECT_FILES[project.id]) {
-      return PROJECT_FILES[project.id];
+      return assetPath(PROJECT_FILES[project.id]);
     }
     return null;
   }
@@ -307,19 +313,20 @@ function initMobileNav() {
   const nav = document.querySelector(".site-nav");
   if (!toggle || !nav) return;
 
+  function setNavOpen(open) {
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    nav.classList.toggle("is-open", open);
+    document.body.classList.toggle("nav-open", open);
+  }
+
   toggle.addEventListener("click", () => {
     const open = toggle.getAttribute("aria-expanded") === "true";
-    toggle.setAttribute("aria-expanded", String(!open));
-    toggle.setAttribute("aria-label", open ? "Open menu" : "Close menu");
-    nav.classList.toggle("is-open", !open);
+    setNavOpen(!open);
   });
 
   nav.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => {
-      toggle.setAttribute("aria-expanded", "false");
-      toggle.setAttribute("aria-label", "Open menu");
-      nav.classList.remove("is-open");
-    });
+    link.addEventListener("click", () => setNavOpen(false));
   });
 }
 
