@@ -39,10 +39,10 @@ const SITE_CONFIG = {
   ],
 
   nav: [
-    { id: "home", label: "Home", href: "index.html" },
-    { id: "about", label: "About", href: "about.html" },
-    { id: "projects", label: "Projects", href: "projects.html" },
-    { id: "contact", label: "Contact", href: "contact.html" },
+    { id: "home", label: "Home" },
+    { id: "about", label: "About" },
+    { id: "projects", label: "Projects" },
+    { id: "contact", label: "Contact" },
   ],
 };
 
@@ -169,6 +169,39 @@ const PROJECTS = [
   const config = SITE_CONFIG;
   const projects = PROJECTS;
 
+  function getBasePath() {
+    if (window.location.protocol === "file:") return "";
+
+    const parts = window.location.pathname.split("/").filter(Boolean);
+    if (window.location.hostname.endsWith("github.io") && parts.length > 0) {
+      return `/${parts[0]}/`;
+    }
+    return "/";
+  }
+
+  const BASE_PATH = getBasePath();
+
+  function route(path) {
+    return `${BASE_PATH}${path}`;
+  }
+
+  function pageHref(id) {
+    switch (id) {
+      case "home":
+        return route("");
+      case "about":
+        return route("about/");
+      case "projects":
+        return route("projects/");
+      case "project":
+        return route("project/");
+      case "contact":
+        return route("contact/");
+      default:
+        return route("");
+    }
+  }
+
   function getProjectHref(project) {
     if (project.href) return project.href;
     if (typeof PROJECT_FILES !== "undefined" && PROJECT_FILES[project.id]) {
@@ -181,14 +214,14 @@ const PROJECTS = [
 
   function navLink(item) {
     const active = item.id === page ? " is-active" : "";
-    return `<li><a class="site-nav__link${active}" href="${item.href}" data-nav="${item.id}">${item.label}</a></li>`;
+    return `<li><a class="site-nav__link${active}" href="${pageHref(item.id)}" data-nav="${item.id}">${item.label}</a></li>`;
   }
 
   const headerHtml = `
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header" role="banner">
       <div class="site-header__inner">
-        <a class="site-logo" href="index.html" aria-label="${config.name} — Home">
+        <a class="site-logo" href="${pageHref("home")}" aria-label="${config.name} — Home">
           <span class="site-logo__mark" aria-hidden="true"></span>
           <span class="site-logo__text">${config.name}</span>
         </a>
@@ -320,7 +353,7 @@ function createProjectCard(project, index) {
 
   const link = document.createElement("a");
   link.className = "project-card__link";
-  link.href = `project.html?id=${encodeURIComponent(project.id)}`;
+  link.href = `${pageHref("project")}?id=${encodeURIComponent(project.id)}`;
 
   const strip = document.createElement("div");
   strip.className = `project-card__strip project-card__strip--${tagHue(project.tags?.[0], index)}`;
@@ -386,7 +419,7 @@ function createHomeProjectRow(project, index) {
 
   const a = document.createElement("a");
   a.className = "home-index__link";
-  a.href = `project.html?id=${encodeURIComponent(project.id)}`;
+  a.href = `${pageHref("project")}?id=${encodeURIComponent(project.id)}`;
 
   const numEl = document.createElement("span");
   numEl.className = "home-index__num";
@@ -623,7 +656,7 @@ function getProjectIdFromUrl() {
 }
 
 function isExternalUrl(href) {
-  return Boolean(href?.startsWith("http") && !href.includes("project.html"));
+  return Boolean(href?.startsWith("http") && !href.includes("project/"));
 }
 
 function renderProjectDetail() {
@@ -636,7 +669,7 @@ function renderProjectDetail() {
   if (!project) {
     container.innerHTML = `
       <p>Project not found.</p>
-      <a class="btn btn--ghost" href="projects.html">Back to projects</a>`;
+      <a class="btn btn--ghost" href="${pageHref("projects")}">Back to projects</a>`;
     document.title = "Not found — Grishma Gajurel";
     return;
   }
@@ -658,7 +691,7 @@ function renderProjectDetail() {
       : "View project";
 
   container.innerHTML = `
-    <a class="project-detail__back" href="projects.html">← All projects</a>
+    <a class="project-detail__back" href="${pageHref("projects")}">← All projects</a>
     <h1 class="project-detail__title">${project.title}</h1>
     <div class="project-detail__meta">
       ${project.year ? `<span>${project.year}</span>` : ""}

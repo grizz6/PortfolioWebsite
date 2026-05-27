@@ -7,19 +7,19 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://grizz6.github.io/grizgaj/about.html</loc>
+    <loc>https://grizz6.github.io/grizgaj/about/</loc>
     <lastmod>2026-05-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://grizz6.github.io/grizgaj/projects.html</loc>
+    <loc>https://grizz6.github.io/grizgaj/projects/</loc>
     <lastmod>2026-05-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://grizz6.github.io/grizgaj/contact.html</loc>
+    <loc>https://grizz6.github.io/grizgaj/contact/</loc>
     <lastmod>2026-05-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>

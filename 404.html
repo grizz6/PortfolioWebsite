@@ -6,9 +6,9 @@
       (function () {
         var path = location.pathname.replace(/\/$/, "").replace(/^\//, "");
         var routes = {
-          projects: "projects.html",
-          about: "about.html",
-          contact: "contact.html",
+          projects: "projects/",
+          about: "about/",
+          contact: "contact/",
         };
         if (routes[path]) {
           location.replace(routes[path] + location.search + location.hash);

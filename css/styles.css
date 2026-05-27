@@ -329,6 +329,7 @@ a:hover {
   .site-nav {
     position: fixed;
     inset: var(--header-height) 0 auto 0;
+    z-index: 1000;
     padding: var(--space-lg);
     background: color-mix(in srgb, var(--bg) 95%, transparent);
     backdrop-filter: blur(16px);
