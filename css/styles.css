@@ -321,6 +321,24 @@ a:hover {
   transition: transform var(--transition), opacity var(--transition);
 }
 
+/* Mobile nav backdrop --------------------------------------------------- */
+.nav-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.65);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--transition), visibility var(--transition);
+}
+
+.nav-backdrop.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
 @media (max-width: 720px) {
   #site-header {
     z-index: 1000;

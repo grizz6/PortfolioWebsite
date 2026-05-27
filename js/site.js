@@ -313,17 +313,26 @@ function initMobileNav() {
   const nav = document.querySelector(".site-nav");
   if (!toggle || !nav) return;
 
+  // Backdrop so the page content doesn't visually bleed through under the menu.
+  const backdrop = document.createElement("div");
+  backdrop.className = "nav-backdrop";
+  backdrop.setAttribute("aria-hidden", "true");
+  document.body.appendChild(backdrop);
+
   function setNavOpen(open) {
     toggle.setAttribute("aria-expanded", String(open));
     toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
     nav.classList.toggle("is-open", open);
     document.body.classList.toggle("nav-open", open);
+    backdrop.classList.toggle("is-visible", open);
   }
 
   toggle.addEventListener("click", () => {
     const open = toggle.getAttribute("aria-expanded") === "true";
     setNavOpen(!open);
   });
+
+  backdrop.addEventListener("click", () => setNavOpen(false));
 
   nav.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", () => setNavOpen(false));
