@@ -3,7 +3,7 @@
  * Loaded before js/site.js.
  */
 const PROJECT_FILES = {
-  "pollination-bee-foraging": "files/pollination-bee-foraging-esa.png",
+  "pollination-bee-foraging": "files/Slide1.jpg",
   "pollination-urban-orchards": "files/insect-distribution-usda.pdf",
   "software-mailing": "files/software-mailing.pdf",
   "mortgage-payback": "files/mortgage-payback.pdf",
