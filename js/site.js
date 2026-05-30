@@ -61,20 +61,6 @@ const PROJECTS = [
     "initial": "P"
   },
   {
-    "id": "python-911-analysis",
-    "title": "Python Data Analysis Project",
-    "description": "In this Python-based exploratory data analysis project, we utilized Pandas, Seaborn, and Matplotlib to analyze 911 emergency call data. The objective was to identify temporal and categorical patterns across EMS, Fire, and Traffic call types. By examining trends by hour, day, and month, we uncovered valuable insights.",
-    "tags": [
-      "python",
-      "data-analysis",
-      "pandas"
-    ],
-    "year": "2025",
-    "href": "https://github.com/grizz6/Python-mini-projects/blob/main/911%20Call%20data/911%20Call%20data.ipynb",
-    "featured": true,
-    "initial": "9"
-  },
-  {
     "id": "pollination-urban-orchards",
     "title": "Maximizing Pollination Services in Urban Orchards",
     "description": "Conducted a comprehensive research report on pollination services provided by urban orchards in St. Louis, spanning 18 orchards, for SEED St. Louis. R language was used for data visualization and Adobe InDesign for layout design. The findings were shared to the community as well as the direct correlation between insect diversity and fruit yield, as well as identifying areas of pollination deficiency.",
@@ -86,6 +72,46 @@ const PROJECTS = [
     "year": "2025",
     "featured": true,
     "initial": "M"
+  },
+  {
+    "id": "rad-conference",
+    "title": "Research Across Disciplines (RAD) Conference",
+    "description": "Presented ecology research findings at the Research Across Disciplines (RAD) Conference at Webster University. The presentation covered the weather regression project alongside other ecological datasets, including merged datasets from collaborating universities, highlighting cross-institutional analysis of urban orchard field data.",
+    "tags": [
+      "research",
+      "r",
+      "ecology"
+    ],
+    "year": "2025",
+    "featured": true,
+    "initial": "R"
+  },
+  {
+    "id": "weather-regression",
+    "title": "Weather Regression",
+    "description": "An R-based analysis was done to merge and clean multiple years of field-collected and database weather records across urban orchard locations in St. Louis. Linear regression was applied to validate field-collected measurements against database records for temperature, humidity, and wind speed, with the objective of ensuring data reliability and consistency across sites before their utilization in broader ecological analyses.",
+    "tags": [
+      "r",
+      "regression",
+      "research"
+    ],
+    "year": "2025",
+    "featured": false,
+    "initial": "W"
+  },
+  {
+    "id": "python-911-analysis",
+    "title": "Python Data Analysis Project",
+    "description": "In this Python-based exploratory data analysis project, we utilized Pandas, Seaborn, and Matplotlib to analyze 911 emergency call data. The objective was to identify temporal and categorical patterns across EMS, Fire, and Traffic call types. By examining trends by hour, day, and month, we uncovered valuable insights.",
+    "tags": [
+      "python",
+      "data-analysis",
+      "pandas"
+    ],
+    "year": "2025",
+    "href": "https://github.com/grizz6/Python-mini-projects/blob/main/911%20Call%20data/911%20Call%20data.ipynb",
+    "featured": false,
+    "initial": "9"
   },
   {
     "id": "brain-tumor-ml",
@@ -135,19 +161,6 @@ const PROJECTS = [
     "year": "2025",
     "featured": false,
     "initial": "U"
-  },
-  {
-    "id": "weather-regression",
-    "title": "Weather Regression",
-    "description": "An R-based analysis was done to merge and clean multiple years of field-collected and database weather records across urban orchard locations in St. Louis. Linear regression was applied to validate field-collected measurements against database records for temperature, humidity, and wind speed, with the objective of ensuring data reliability and consistency across sites before their utilization in broader ecological analyses.",
-    "tags": [
-      "r",
-      "regression",
-      "research"
-    ],
-    "year": "2025",
-    "featured": false,
-    "initial": "W"
   },
   {
     "id": "portfolio-website",

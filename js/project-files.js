@@ -5,8 +5,9 @@
 const PROJECT_FILES = {
   "pollination-bee-foraging": "files/Slide1.jpg",
   "pollination-urban-orchards": "files/insect-distribution-usda.pdf",
+  "rad-conference": "files/rad.pdf",
+  "weather-regression": "files/weather-regression.pdf",
   "software-mailing": "files/software-mailing.pdf",
   "mortgage-payback": "files/mortgage-payback.pdf",
   "smartphone-price": "files/used-smartphone.pdf",
-  "weather-regression": "files/weather-regression.pdf",
 };
