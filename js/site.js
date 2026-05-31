@@ -49,7 +49,7 @@ const SITE_CONFIG = {
 const PROJECTS = [
   {
     "id": "pollination-bee-foraging",
-    "title": "Pollination & Urban Bee Foraging Study",
+    "title": "ESA 2025 · Pollination & Urban Bee Foraging Study",
     "description": "Collaborated with interdisciplinary research teams across multiple universities to investigate the impact of urbanization on bee foraging behavior in urban orchards, examining whether increased pollinator diversity enhances pollination efficacy. Developed comprehensive statistical models and visualizations in R, including logistic, linear, linear mixed-effects, and multiple linear regression analyses. Findings presented at Ecological Society of America (ESA) in Baltimore, MD, August 2025.",
     "tags": [
       "research",
