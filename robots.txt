@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://grizz6.github.io/grizgaj/sitemap.xml
