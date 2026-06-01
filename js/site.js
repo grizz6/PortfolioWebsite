@@ -255,13 +255,13 @@ const PROJECTS = [
           <span class="nav-toggle__bar" aria-hidden="true"></span>
           <span class="nav-toggle__bar" aria-hidden="true"></span>
         </button>
-        <nav id="site-nav" class="site-nav" aria-label="Primary">
-          <ul class="site-nav__list">
-            ${(config.nav ?? []).map(navLink).join("")}
-          </ul>
-        </nav>
       </div>
-    </header>`;
+    </header>
+    <nav id="site-nav" class="site-nav" aria-label="Primary">
+      <ul class="site-nav__list">
+        ${(config.nav ?? []).map(navLink).join("")}
+      </ul>
+    </nav>`;
 
   const footerHtml = `
     <footer class="site-footer" role="contentinfo">
@@ -323,22 +323,51 @@ function initTheme() {
 
 function initMobileNav() {
   const toggle = document.querySelector(".nav-toggle");
-  const nav = document.querySelector(".site-nav");
-  if (!toggle || !nav) return;
+  const nav = document.getElementById("site-nav");
+  const headerInner = document.querySelector(".site-header__inner");
+  if (!toggle || !nav || !headerInner) return;
 
-  // Backdrop so the page content doesn't visually bleed through under the menu.
-  const backdrop = document.createElement("div");
-  backdrop.className = "nav-backdrop";
-  backdrop.setAttribute("aria-hidden", "true");
-  document.body.appendChild(backdrop);
+  let menuRoot = document.getElementById("mobile-menu");
+  if (!menuRoot) {
+    menuRoot = document.createElement("div");
+    menuRoot.id = "mobile-menu";
+    menuRoot.className = "mobile-menu";
+    menuRoot.setAttribute("aria-hidden", "true");
+    document.body.appendChild(menuRoot);
+  }
+
+  let backdrop = menuRoot.querySelector(".nav-backdrop");
+  if (!backdrop) {
+    backdrop = document.createElement("div");
+    backdrop.className = "nav-backdrop";
+    backdrop.setAttribute("aria-hidden", "true");
+    menuRoot.appendChild(backdrop);
+  }
+
+  const mq = window.matchMedia("(max-width: 720px)");
+
+  function placeNav() {
+    if (mq.matches) {
+      if (nav.parentElement !== menuRoot) {
+        menuRoot.appendChild(nav);
+      }
+    } else if (nav.parentElement !== headerInner) {
+      headerInner.insertBefore(nav, toggle);
+      setNavOpen(false);
+    }
+  }
 
   function setNavOpen(open) {
     toggle.setAttribute("aria-expanded", String(open));
     toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
     nav.classList.toggle("is-open", open);
+    menuRoot.classList.toggle("is-open", open);
     document.body.classList.toggle("nav-open", open);
-    backdrop.classList.toggle("is-visible", open);
+    menuRoot.setAttribute("aria-hidden", open ? "false" : "true");
   }
+
+  placeNav();
+  mq.addEventListener("change", placeNav);
 
   toggle.addEventListener("click", () => {
     const open = toggle.getAttribute("aria-expanded") === "true";
