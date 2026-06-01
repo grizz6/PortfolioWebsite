@@ -1,48 +1,47 @@
 # Grishma Gajurel — Portfolio
 
-Personal portfolio site for Grishma Gajurel: data science, ecology research, and software projects.
+Portfolio website for Grishma Gajurel.
 
-## How it was built
+## Purpose
 
-This is a **static website** with no build step, no framework, and no package manager.
+- Present research and analytics work in one place (projects, reports, and posters)
+- Provide a clean, recruiter-friendly overview (About + contact links)
+- Keep project details consistent and easy to update from a single source of truth
 
-- **HTML** — one file per page (`index.html`, `about.html`, `projects.html`, `project.html`, `contact.html`, plus `404.html` for missing pages and clean URL routing)
-- **CSS** — `css/styles.css` (layout, typography, light/dark theme via `data-theme` on the document root)
-- **JavaScript** — `js/site.js` (single script: site config, project data, shared header/footer, page behavior, theme toggle)
-- **Fonts** — Inter and Newsreader loaded from Google Fonts
-- **Icons** — `favicon.svg`
+## Tools, tech, and code used
 
-There is no server-side code. Open any `.html` file in a browser to preview locally; paths are relative.
+### Frontend stack
+- **HTML**: page markup and structure
+- **CSS**: layout, typography, responsive styling, theme tokens (light/dark)
+- **Vanilla JavaScript**: site behavior and rendering
+- **Fonts**: Inter + Newsreader (Google Fonts)
+- **Icon**: `favicon.svg`
 
-GitHub Pages serves the repo as plain static files. `.nojekyll` turns off Jekyll processing. The `404.html` page maps short paths (`/projects`, `/about`, `/contact`) to the matching `.html` files because GitHub Pages does not use `.htaccess`.
+### How the pages are wired
+- **Shared header/footer + navigation**: generated once in `js/site.js` and injected into every page via the `#site-header` / `#site-footer` slots.
+- **Clean routes**: `/about/`, `/projects/`, `/contact/`, `/project/` are folder routes (each has an `index.html`).
+- **Project detail**: `project/?id=<slug>` reads from the in-code `PROJECTS` list and renders a single project view.
+- **Project files (PDFs/posters)**: mapped by project id in `js/project-files.js` so links are always relative (e.g. `files/weather-regression.pdf`).
+- **Theme**: stored in `localStorage` and applied using `data-theme` on the document root.
+
+### Project data model
+Projects live in `js/site.js` as objects with fields like:
+- `id`, `title`, `description`, `tags`, `year`
+- `featured` (controls which projects appear on the home page)
+- Optional `href` for external links (e.g. GitHub)
 
 ## What the site contains
 
 ### Pages
+- **Home**: intro + selected projects
+- **About**: background and focus areas
+- **Projects**: complete project list with filtering
+- **Project**: single project detail view (`?id=<slug>`)
+- **Contact**: email + social links
 
-| Page | File | Purpose |
-|------|------|---------|
-| Home | `index.html` | Hero, tagline, up to three featured projects |
-| About | `about.html` | Bio and background |
-| Projects | `projects.html` | Full project list with tags and years |
-| Project detail | `project.html` | Single project view (`?id=<slug>`) |
-| Contact | `contact.html` | Email and social links |
+### Content files
+- `files/`: PDFs and posters linked from projects
+- `robots.txt`, `sitemap.xml`: discovery/SEO helpers
 
-### Projects (in `js/site.js`)
-
-- Pollination & Urban Bee Foraging Study
-- Python Data Analysis Project (911 call data)
-- Maximizing Pollination Services in Urban Orchards
-- Python ML Project (brain tumor)
-- Software Mailing Analysis
-- Mortgage Payback Analysis
-- Used Smartphone Price Analysis
-- Weather Regression
-- Portfolio Website
-
-Featured projects on the home page are marked with `featured: true` in the project list (maximum three).
-
-### Other files
-
-- `robots.txt`, `sitemap.xml` — basic SEO
-- `.github/workflows/deploy-pages.yml` — deploy to GitHub Pages on push to `main`
+### Deployment tooling
+- `.github/workflows/deploy-pages.yml`: GitHub Pages deployment workflow
