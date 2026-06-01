@@ -56,12 +56,12 @@
   --nav-backdrop: rgba(26, 25, 23, 0.5);
   --nav-shadow: 0 20px 48px rgba(26, 25, 23, 0.14);
 
-  /* Mobile drawer — always dark when open (both themes) */
-  --nav-menu-bg: #121110;
-  --nav-menu-text: #ece9e3;
-  --nav-menu-muted: #9a948c;
-  --nav-menu-line: rgba(236, 233, 227, 0.14);
-  --nav-menu-backdrop: rgba(0, 0, 0, 0.82);
+  /* Mobile drawer (light mode) */
+  --nav-menu-bg: rgba(250, 248, 245, 0.98);
+  --nav-menu-text: #1a1917;
+  --nav-menu-muted: #5c5852;
+  --nav-menu-line: rgba(26, 25, 23, 0.18);
+  --nav-menu-backdrop: rgba(26, 25, 23, 0.55);
 }
 
 [data-theme="dark"] {
@@ -96,6 +96,13 @@
   --nav-overlay-bg: rgba(18, 17, 16, 0.97);
   --nav-backdrop: rgba(0, 0, 0, 0.75);
   --nav-shadow: 0 24px 56px rgba(0, 0, 0, 0.5);
+
+  /* Mobile drawer (dark mode) */
+  --nav-menu-bg: rgba(18, 17, 16, 0.98);
+  --nav-menu-text: #ece9e3;
+  --nav-menu-muted: #9a948c;
+  --nav-menu-line: rgba(236, 233, 227, 0.16);
+  --nav-menu-backdrop: rgba(0, 0, 0, 0.82);
 }
 
 *,
