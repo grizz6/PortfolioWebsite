@@ -1,7 +1,5 @@
 # Grishma Gajurel — Portfolio
 
-Portfolio website for Grishma Gajurel.
-
 ## Purpose
 
 - Present research and analytics work in one place (projects, reports, and posters)
