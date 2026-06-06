@@ -48,19 +48,6 @@ const SITE_CONFIG = {
 
 const PROJECTS = [
   {
-    "id": "pollination-bee-foraging",
-    "title": "ESA 2025 · Pollination & Urban Bee Foraging Study",
-    "description": "Collaborated with interdisciplinary research teams across multiple universities to investigate the impact of urbanization on bee foraging behavior in urban orchards, examining whether increased pollinator diversity enhances pollination efficacy. Developed comprehensive statistical models and visualizations in R, including logistic, linear, linear mixed-effects, and multiple linear regression analyses. Findings presented at Ecological Society of America (ESA) in Baltimore, MD, August 2025.",
-    "tags": [
-      "research",
-      "r",
-      "ecology"
-    ],
-    "year": "2025",
-    "featured": true,
-    "initial": "P"
-  },
-  {
     "id": "pollination-urban-orchards",
     "title": "Maximizing Pollination Services in Urban Orchards",
     "description": "Conducted a comprehensive research report on pollination services provided by urban orchards in St. Louis, spanning 18 orchards, for SEED St. Louis. R language was used for data visualization and Adobe InDesign for layout design. The findings were shared to the community as well as the direct correlation between insect diversity and fruit yield, as well as identifying areas of pollination deficiency.",
@@ -72,6 +59,45 @@ const PROJECTS = [
     "year": "2025",
     "featured": true,
     "initial": "M"
+  },
+  {
+    "id": "python-911-analysis",
+    "title": "Python Data Analysis Project",
+    "description": "In this Python-based exploratory data analysis project, we utilized Pandas, Seaborn, and Matplotlib to analyze 911 emergency call data. The objective was to identify temporal and categorical patterns across EMS, Fire, and Traffic call types. By examining trends by hour, day, and month, we uncovered valuable insights.",
+    "tags": [
+      "python",
+      "data-analysis",
+      "pandas"
+    ],
+    "year": "2025",
+    "href": "https://github.com/grizz6/Python-mini-projects/blob/main/911%20Call%20data/911%20Call%20data.ipynb",
+    "featured": false,
+    "initial": "9"
+  },
+  {
+    "id": "mortgage-payback",
+    "title": "Mortgage Payback Analysis",
+    "description": "Developed a mortgage risk analytics framework utilizing logistic regression, random-effects logistic regression, bagging, gradient boosting, and K-means clustering to predict loan defaults, forecast payoff timing, and segment borrowers based on risk profiles. This framework enables more informed underwriting and portfolio management decisions.",
+    "tags": [
+      "machine-learning",
+      "finance"
+    ],
+    "year": "2025",
+    "featured": false,
+    "initial": "M"
+  },
+  {
+    "id": "pollination-bee-foraging",
+    "title": "ESA 2025 · Pollination & Urban Bee Foraging Study",
+    "description": "Collaborated with interdisciplinary research teams across multiple universities to investigate the impact of urbanization on bee foraging behavior in urban orchards, examining whether increased pollinator diversity enhances pollination efficacy. Developed comprehensive statistical models and visualizations in R, including logistic, linear, linear mixed-effects, and multiple linear regression analyses. Findings presented at Ecological Society of America (ESA) in Baltimore, MD, August 2025.",
+    "tags": [
+      "research",
+      "r",
+      "ecology"
+    ],
+    "year": "2025",
+    "featured": true,
+    "initial": "P"
   },
   {
     "id": "rad-conference",
@@ -100,20 +126,6 @@ const PROJECTS = [
     "initial": "W"
   },
   {
-    "id": "python-911-analysis",
-    "title": "Python Data Analysis Project",
-    "description": "In this Python-based exploratory data analysis project, we utilized Pandas, Seaborn, and Matplotlib to analyze 911 emergency call data. The objective was to identify temporal and categorical patterns across EMS, Fire, and Traffic call types. By examining trends by hour, day, and month, we uncovered valuable insights.",
-    "tags": [
-      "python",
-      "data-analysis",
-      "pandas"
-    ],
-    "year": "2025",
-    "href": "https://github.com/grizz6/Python-mini-projects/blob/main/911%20Call%20data/911%20Call%20data.ipynb",
-    "featured": false,
-    "initial": "9"
-  },
-  {
     "id": "brain-tumor-ml",
     "title": "Python ML Project",
     "description": "A Python-based machine learning project utilizing a brain tumor dataset aims to predict patient survival rates based on clinical characteristics such as age, tumor size, tumor type, and growth rate. The project employs linear regression with comprehensive data preprocessing, encompassing outlier management, label encoding, and feature scaling. The objective is to identify the clinical factors that have the most significant impact on survival outcomes in brain tumor patients.",
@@ -137,18 +149,6 @@ const PROJECTS = [
     "year": "2025",
     "featured": false,
     "initial": "S"
-  },
-  {
-    "id": "mortgage-payback",
-    "title": "Mortgage Payback Analysis",
-    "description": "Developed a mortgage risk analytics framework utilizing logistic regression, random-effects logistic regression, bagging, gradient boosting, and K-means clustering to predict loan defaults, forecast payoff timing, and segment borrowers based on risk profiles. This framework enables more informed underwriting and portfolio management decisions.",
-    "tags": [
-      "machine-learning",
-      "finance"
-    ],
-    "year": "2025",
-    "featured": false,
-    "initial": "M"
   },
   {
     "id": "smartphone-price",
