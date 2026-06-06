@@ -71,7 +71,7 @@ const PROJECTS = [
     ],
     "year": "2025",
     "href": "https://github.com/grizz6/Python-mini-projects/blob/main/911%20Call%20data/911%20Call%20data.ipynb",
-    "featured": false,
+    "featured": true,
     "initial": "9"
   },
   {
@@ -83,7 +83,7 @@ const PROJECTS = [
       "finance"
     ],
     "year": "2025",
-    "featured": false,
+    "featured": true,
     "initial": "M"
   },
   {
@@ -96,7 +96,7 @@ const PROJECTS = [
       "ecology"
     ],
     "year": "2025",
-    "featured": true,
+    "featured": false,
     "initial": "P"
   },
   {
@@ -109,7 +109,7 @@ const PROJECTS = [
       "ecology"
     ],
     "year": "2025",
-    "featured": true,
+    "featured": false,
     "initial": "R"
   },
   {
@@ -513,7 +513,7 @@ function renderHomeProjects() {
   const container = document.getElementById("home-projects");
   if (!container) return;
 
-  const featured = projects.filter((p) => p.featured).slice(0, 3);
+  const featured = projects.slice(0, 3);
   container.replaceChildren(
     ...featured.map((p, i) => createHomeProjectRow(p, i))
   );
