@@ -1,35 +1,75 @@
 # Grishma Gajurel — Portfolio
 
-A static personal portfolio site presenting research, data-analytics projects, and reports (deployed via GitHub Pages).
+## About
 
-## Purpose
+My personal portfolio site, live at **[www.grishmagajurel.com](https://www.grishmagajurel.com/)**. It collects my ecology research, data analytics, and machine learning projects in one place, with downloadable reports and posters for each.
 
-- Present research and analytics work in one place (projects, reports, and posters)
-- Provide a clean, recruiter-friendly overview (About + contact links)
-- Keep project details consistent and easy to update from a single source of truth
+It's a hand-built static site: plain HTML, CSS, and vanilla JavaScript, with no framework, build step, backend, or npm dependencies. All content lives in one JavaScript file, so adding a project means adding one object.
 
-## How it's done
+**Pages:** Home · About · Projects (with tag filters and search) · Project detail · Contact · 404
 
-The whole site is a **single-page-app-flavored static site** — no build step, no backend, no fetch calls. Every page is a plain HTML file that shares one script.
+---
 
-1. `js/site.js` holds one JS object, `SITE_CONFIG` (name, bio, social links, nav), and one array, `PROJECTS` (each project's id, title, description, tags, year, `featured` flag).
-2. On page load, `site.js` renders the shared header/nav/footer into `#site-header` / `#site-footer` slots that exist on every HTML page, so there's one place to edit navigation instead of duplicating markup across pages.
-3. The **Projects** page renders the full `PROJECTS` list; the **Home** page filters to `featured: true` only.
-4. The **Project detail** page reads an `id` query parameter (`project/?id=<slug>`), looks it up in `PROJECTS`, and renders a single project view — this is the "routing" layer, done entirely client-side with `URLSearchParams`, no server or router library.
-5. `js/project-files.js` maps each project `id` to its downloadable file(s) (PDFs/posters in `files/`) so links stay relative and don't need hardcoding per page.
-6. Theme (light/dark) is stored in `localStorage` and applied via a `data-theme` attribute on `<html>`, read on load before paint.
-7. `.github/workflows/static.yml` deploys the repo straight to GitHub Pages on push — no build/bundle step, since the site is already static.
+## Projects featured
 
-## Code used
+| Project | Deliverable |
+|---|---|
+| Maximizing Pollination Services in Urban Orchards (report for SEED St. Louis) | `files/insect-distribution-usda.pdf` |
+| Python Data Analysis Project (911 calls) | links to the notebook on GitHub |
+| Mortgage Payback Analysis | `files/mortgage-payback.pdf` |
+| ESA 2025 · Pollination & Urban Bee Foraging Study | `files/Slide1.jpg` |
+| Research Across Disciplines (RAD) Conference | `files/rad.pdf` |
+| Weather Regression | `files/weather-regression.pdf` |
+| Python ML Project (brain tumor survival) | links to the notebook on GitHub |
+| Software Mailing Analysis | `files/software-mailing.pdf` |
+| Used Smartphone Price Analysis | `files/used-smartphone.pdf` |
+| Portfolio Website | links to this site |
 
-Plain **HTML**, **CSS** (custom, with light/dark theme tokens), and **vanilla JavaScript** (no framework, no npm dependencies). Fonts via Google Fonts (Inter + Newsreader). Icons via a single `favicon.svg`.
+Code for most of these is in my other repos: [ESA](https://github.com/grizz6/ESA), [R-Projects](https://github.com/grizz6/R-Projects), [Academic-Project---Webster-University](https://github.com/grizz6/Academic-Project---Webster-University), and [Python-mini-projects](https://github.com/grizz6/Python-mini-projects).
 
-## The "algorithm"
+---
 
-There's no numerical algorithm here — the interesting logic is the **data-driven rendering pattern**:
+## How it works
 
-- Content lives as data (`PROJECTS` array), not as hand-written HTML per project.
-- Every page is a small template function that maps that data array to DOM nodes at load time (`array.map()` → template strings → injected via `innerHTML`).
-- The "router" is a one-line lookup: `PROJECTS.find(p => p.id === new URLSearchParams(location.search).get('id'))`.
+```
+index.html, about/, projects/, project/, contact/   ← thin HTML shells with empty slots
+        │
+        ├── js/project-files.js   PROJECT_FILES: project id → PDF/image in files/
+        └── js/site.js            SITE_CONFIG (name, bio, links, nav) + PROJECTS array
+                                  → renders header, footer, and page content on load
+```
 
-This means adding a new project is a single object appended to `PROJECTS` — every page (home, list, detail) picks it up automatically with no HTML duplication.
+1. **Content as data.** `js/site.js` defines `SITE_CONFIG` (name, tagline, bio, social links, nav items) and `PROJECTS` (id, title, description, tags, year, featured flag).
+2. **Shared layout.** Each HTML page has `#site-header` and `#site-footer` placeholders and a `data-page` attribute. `site.js` fills in the header, nav (highlighting the current page), and footer, so navigation is defined once.
+3. **Per-page rendering,** based on `data-page`:
+   - **Home** shows the first three projects in `PROJECTS`.
+   - **Projects** builds a card for every project, generates tag filter buttons from all tags, and filters live as you type in the search box.
+   - **Project detail** reads `?id=` from the URL with `URLSearchParams`, finds the matching project, and renders it, with a not-found state if there's no match.
+   - **About** and **Contact** pull the tagline, bio, email, and social links from `SITE_CONFIG`. Contact includes a copy-email button.
+4. **Deliverable links.** A project's `href` (external link) wins; otherwise `js/project-files.js` maps its id to a file in `files/`, with the path built relative to the site root.
+5. **Works on any host.** `getBasePath()` detects whether the site is on a custom domain, a `username.github.io/repo/` subpath, or opened locally as a file, and prefixes every link and asset path to match.
+6. **Pretty URLs.** Every page exists twice, as `about.html` and `about/index.html`, so `/about/` works without server rewrites.
+7. **Theme.** Dark by default, with a light/dark toggle saved in `localStorage`. An inline script in `<head>` applies the saved theme before first paint to avoid a flash.
+8. **Motion and polish.** Scroll-reveal animations via `IntersectionObserver`, a header that changes on scroll, a responsive mobile nav under 720px, an auto-updating footer year, and a few hidden interactions on the home page.
+
+## Deployment
+
+GitHub Pages serves the `main` branch at the custom domain. `.github/workflows/static.yml` uploads the repository as-is on every push, since there's nothing to build.
+
+## Run locally
+
+Open `index.html` directly, or serve the folder:
+
+```bash
+python3 -m http.server 8000
+```
+
+Then visit http://localhost:8000.
+
+## Built with
+
+HTML5, CSS (custom properties for light/dark themes, about 1,800 lines), vanilla JavaScript, Google Fonts (Inter and Newsreader), GitHub Pages and GitHub Actions.
+
+## License
+
+MIT. See [`LICENSE`](LICENSE).
