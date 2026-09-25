@@ -4,9 +4,9 @@
 
 My personal portfolio site, live at **[www.grishmagajurel.com](https://www.grishmagajurel.com/)**. It collects my ecology research, data analytics, and machine learning projects in one place, with downloadable reports and posters for each.
 
-It's a hand-built static site: plain HTML, CSS, and vanilla JavaScript, with no framework, build step, backend, or npm dependencies. All content lives in one JavaScript file, so adding a project means adding one object.
+It's a hand-built, single-page static site: plain HTML, CSS, and vanilla JavaScript, with no framework, build step, backend, or npm dependencies. All content lives in one JavaScript file, so adding a project means adding one object.
 
-**Pages:** Home · About · Projects (with tag filters and search) · Project detail · Contact · 404
+**Sections:** Hero · The receipts (achievements in Google's XYZ format) · Real-world impact · By the numbers · How I can help · Built like software · Case studies and projects · Where I've been · What I'm looking for · Contact
 
 ---
 
@@ -14,16 +14,17 @@ It's a hand-built static site: plain HTML, CSS, and vanilla JavaScript, with no 
 
 | Project | Deliverable |
 |---|---|
-| Maximizing Pollination Services in Urban Orchards (report for SEED St. Louis) | `files/insect-distribution-usda.pdf` |
-| Python Data Analysis Project (911 calls) | links to the notebook on GitHub |
-| Mortgage Payback Analysis | `files/mortgage-payback.pdf` |
-| ESA 2025 · Pollination & Urban Bee Foraging Study | `files/Slide1.jpg` |
-| Research Across Disciplines (RAD) Conference | `files/rad.pdf` |
-| Weather Regression | `files/weather-regression.pdf` |
-| Python ML Project (brain tumor survival) | links to the notebook on GitHub |
-| Software Mailing Analysis | `files/software-mailing.pdf` |
-| Used Smartphone Price Analysis | `files/used-smartphone.pdf` |
-| Portfolio Website | links to this site |
+| synthkit (open-source Python library for realistic test data) | [grizz6/synthkit](https://github.com/grizz6/synthkit) |
+| AI Data Analyst Agent | [grizz6/AI-Data-Analyst-Agent](https://github.com/grizz6/AI-Data-Analyst-Agent) |
+| Urban bee foraging (ESA 2025) | `files/Slide1.jpg`, [grizz6/ESA](https://github.com/grizz6/ESA) |
+| Pollination in urban orchards (report for SEED St. Louis) | `files/insect-distribution-usda.pdf` |
+| Orchard microclimate modeling | `files/weather-regression.pdf` |
+| Mortgage default and payoff | `files/mortgage-payback.pdf` |
+| Mailing campaign targeting | `files/software-mailing.pdf` |
+| Used smartphone pricing | `files/used-smartphone.pdf` |
+| Research Across Disciplines (RAD) talk | `files/rad.pdf` |
+| 911 call patterns | notebook on GitHub |
+| Brain tumor survival model | notebook on GitHub |
 
 Code for most of these is in my other repos: [ESA](https://github.com/grizz6/ESA), [R-Projects](https://github.com/grizz6/R-Projects), [Academic-Project---Webster-University](https://github.com/grizz6/Academic-Project---Webster-University), and [Python-mini-projects](https://github.com/grizz6/Python-mini-projects).
 
@@ -32,25 +33,17 @@ Code for most of these is in my other repos: [ESA](https://github.com/grizz6/ESA
 ## How it works
 
 ```
-index.html, about/, projects/, project/, contact/   ← thin HTML shells with empty slots
-        │
-        ├── js/project-files.js   PROJECT_FILES: project id → PDF/image in files/
-        └── js/site.js            SITE_CONFIG (name, bio, links, nav) + PROJECTS array
-                                  → renders header, footer, and page content on load
+index.html          the whole site: layout, styles, and the motion code
+js/content.js       window.PORTFOLIO: every piece of text, project, and link
+js/kit.js           shared helpers that render content into the page
+files/              reports, posters, and slides linked from projects
 ```
 
-1. **Content as data.** `js/site.js` defines `SITE_CONFIG` (name, tagline, bio, social links, nav items) and `PROJECTS` (id, title, description, tags, year, featured flag).
-2. **Shared layout.** Each HTML page has `#site-header` and `#site-footer` placeholders and a `data-page` attribute. `site.js` fills in the header, nav (highlighting the current page), and footer, so navigation is defined once.
-3. **Per-page rendering,** based on `data-page`:
-   - **Home** shows the first three projects in `PROJECTS`.
-   - **Projects** builds a card for every project, generates tag filter buttons from all tags, and filters live as you type in the search box.
-   - **Project detail** reads `?id=` from the URL with `URLSearchParams`, finds the matching project, and renders it, with a not-found state if there's no match.
-   - **About** and **Contact** pull the tagline, bio, email, and social links from `SITE_CONFIG`. Contact includes a copy-email button.
-4. **Deliverable links.** A project's `href` (external link) wins; otherwise `js/project-files.js` maps its id to a file in `files/`, with the path built relative to the site root.
-5. **Works on any host.** `getBasePath()` detects whether the site is on a custom domain, a `username.github.io/repo/` subpath, or opened locally as a file, and prefixes every link and asset path to match.
-6. **Pretty URLs.** Every page exists twice, as `about.html` and `about/index.html`, so `/about/` works without server rewrites.
-7. **Theme.** Dark by default, with a light/dark toggle saved in `localStorage`. An inline script in `<head>` applies the saved theme before first paint to avoid a flash.
-8. **Motion and polish.** Scroll-reveal animations via `IntersectionObserver`, a header that changes on scroll, a responsive mobile nav under 720px, an auto-updating footer year, and a few hidden interactions on the home page.
+1. **Content as data.** `js/content.js` holds the headline, receipts, impact, stats, services, experience, education, talks, goals, tools, and projects. Change the words there and the page updates.
+2. **Rendering.** `js/kit.js` fills `data-*` hooks (email, name, stats, services, experience, and more) and builds the expandable project list, where the first three are full case studies and the rest appear behind "Show more".
+3. **Motion.** A gooey blob in the hero that follows the cursor (canvas with a blur and contrast filter), headline letters that change weight near the cursor (Fraunces variable font), ink-bleed chapter headings, odometer chapter numbers, a circle reveal into the numbers, stacking service cards that draw themselves, project previews with an RGB split, a live terminal that types out synthkit's test run, and a git-style career graph that draws as you scroll. All motion respects `prefers-reduced-motion`.
+4. **Old links still work.** `about/`, `projects/`, `project/`, and `contact/` (and their `.html` versions) now redirect to the matching section of the single page, and `404.html` does the same for any other old path.
+5. **Palette.** Stone and moss neutrals with a burgundy blob, set as CSS custom properties at the top of `index.html`.
 
 ## Deployment
 
@@ -68,7 +61,7 @@ Then visit http://localhost:8000.
 
 ## Built with
 
-HTML5, CSS (custom properties for light/dark themes, about 1,800 lines), vanilla JavaScript, Google Fonts (Inter and Newsreader), GitHub Pages and GitHub Actions.
+HTML5, CSS (custom properties), vanilla JavaScript, canvas, Google Fonts (Fraunces and Inter Tight), GitHub Pages and GitHub Actions.
 
 ## License
 
