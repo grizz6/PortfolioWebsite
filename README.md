@@ -49,14 +49,6 @@ files/              reports, posters, and slides linked from projects
 
 GitHub Pages serves the `main` branch at the custom domain. `.github/workflows/static.yml` uploads the repository as-is on every push, since there's nothing to build.
 
-## Run locally
-
-Open `index.html` directly, or serve the folder:
-
-```bash
-python3 -m http.server 8000
-```
-
 Then visit http://localhost:8000.
 
 ## Built with
