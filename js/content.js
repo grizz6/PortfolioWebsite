@@ -98,21 +98,20 @@ window.PORTFOLIO = {
   // Real-world outcomes, each tied to a real client, audience or artifact.
   impact: [
     { who: "SEED St. Louis", kind: "Client · nonprofit", what: "Wrote the findings report for a USDA-funded pollination study. SEED used it to plan next steps for each of its 15 urban orchards.", proof: { label: "Read the report", href: "files/insect-distribution-usda.pdf" } },
-    { who: "Webster University research team", kind: "Research team", what: "Turned 10,000+ records from seven partner institutions into one dataset the whole team could trust and analyze.", proof: null },
+    { who: "Webster University research team", kind: "Research team", what: "Turned 10,000+ records from seven partner institutions into one validated dataset, and the questions of 50+ non-technical stakeholders into clear recommendations.", proof: null },
     { who: "Ecological Society of America", kind: "National conference · 2025", what: "Presented how city density changes which pollinators show up and how much fruit sets, to a national audience in Baltimore.", proof: { label: "See the poster", href: "files/Slide1.jpg" } },
     { who: "Open-source developers", kind: "synthkit · public library", what: "Built a tested library that lets teams test with realistic data instead of real people's records. 316 tests, CI on three operating systems.", proof: { label: "View on GitHub", href: "https://github.com/grizz6/synthkit" } },
   ],
 
   // Achievements in Google XYZ form: accomplished X (measured by Y), by doing Z. <b> marks the measurable part.
   receipts: [
-    { metric: "10,000+", unit: "records", x: "Unified <b>10,000+ records from 7 partner institutions</b> into one dataset the whole team trusted,", z: "by cleaning, reconciling and validating three field seasons of data in R.", tag: "R" },
-    { metric: "15", unit: "orchards", x: "Gave SEED St. Louis a <b>next-step plan for each of 15 urban orchards</b>,", z: "by turning regression and field-experiment results into a plain-language findings report.", tag: "Client" },
-    { metric: "10", unit: "behaviors", x: "Showed how city density shapes <b>10 bee foraging behaviors across 3 field seasons</b>, presented at ESA 2025,", z: "by fitting mixed-effects models on GIS-derived urbanization scores.", tag: "Research" },
-    { metric: "316", unit: "tests", x: "Shipped synthkit with <b>316 automated tests passing on Linux, macOS and Windows</b>,", z: "by modeling column correlations with a Gaussian copula so fake data behaves like real data.", tag: "Open source" },
-    { metric: "0", unit: "made-up numbers", x: "Built an AI data analyst that <b>can't report a number it didn't compute</b>,", z: "by doing all the math in pandas and rejecting any reply that cites a figure outside the results.", tag: "AI" },
-    { metric: "2+ yrs", unit: "in production", x: "Kept a live product fast and stable for <b>over two years at Aaran Tech</b>,", z: "by restructuring slow SQL and PySpark jobs and building Laravel APIs with React front ends.", tag: "Software" },
+    { metric: "10,000+", unit: "records", x: "Unified <b>10,000+ records from 7 partner institutions</b> into one validated dataset,", z: "by building a site-name map and lining up dates and units across three field seasons in R.", tag: "R" },
+    { metric: "60%", unit: "faster", x: "Made production data transformations <b>run 60% faster</b> at Aaran Tech,", z: "by rewriting SQL and PySpark jobs with CTEs, tighter joins and window functions.", tag: "SQL" },
+    { metric: "15", unit: "orchards", x: "Gave SEED St. Louis a <b>next-step plan for each of 15 urban orchards</b>,", z: "by turning model results into a plain-language findings report with site-level recommendations.", tag: "Client" },
+    { metric: "10", unit: "behaviors", x: "Measured how city density changes <b>10 bee foraging behaviors across 15 orchards</b>, presented at ESA 2025,", z: "by fitting a binomial mixed-effects model on paved-surface cover within 500 m of each site.", tag: "Research" },
+    { metric: "316", unit: "tests", x: "Shipped synthkit with <b>316 automated tests passing on Linux, macOS and Windows</b>,", z: "by modeling column relationships with a Gaussian copula and failing the build when new data drifts from its profile.", tag: "Open source" },
+    { metric: "0", unit: "made-up numbers", x: "Built an AI data analyst that <b>can't report a number it didn't compute</b>, backed by 128 tests,", z: "by doing all the math in a pandas pipeline and rejecting any reply that cites a figure outside the results.", tag: "AI" },
   ],
-
   // Only real quotes go here. The section stays hidden while this is empty.
   testimonials: [],
 
