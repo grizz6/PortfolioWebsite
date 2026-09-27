@@ -6,7 +6,7 @@ window.PORTFOLIO = {
   name: "Grishma Gajurel",
   first: "Grishma",
   last: "Gajurel",
-  title: "Data Scientist & Software Engineer",
+  title: "Data Analyst & Software Engineer",
   email: "gajurel.grizma@gmail.com",
   social: [
     { label: "GitHub", href: "https://github.com/grizz6" },
@@ -117,7 +117,7 @@ window.PORTFOLIO = {
   testimonials: [],
 
   goals: [
-    { title: "Data science in industry", desc: "Owning analyses end to end, from messy source data to the decision it supports." },
+    { title: "Data analytics in industry", desc: "Owning analyses end to end, from messy source data to the decision it supports." },
     { title: "Freelance analytics", desc: "Helping small teams, nonprofits and labs make sense of the data they already have." },
     { title: "Data products", desc: "Building tools people rely on, like synthkit, that make data work safer and faster." },
   ],
