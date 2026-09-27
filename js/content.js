@@ -41,7 +41,7 @@ window.PORTFOLIO = {
       title: "Statistics & research",
       desc: "Want to know if something really made a difference? I set up the analysis, run the models and explain the answer in plain words.",
       example: "Like figuring out how city life changes the way bees forage.",
-      tags: ["R", "Mixed models", "A/B testing"],
+      tags: ["R", "Mixed models", "ANOVA"],
     },
     {
       title: "Machine learning",
@@ -53,7 +53,7 @@ window.PORTFOLIO = {
       title: "Software & data engineering",
       desc: "I build the software around the analysis: Python tools, APIs, pipelines and web front ends, tested and shipped with CI so they keep working after I hand them over.",
       example: "Like synthkit, my open-source library with 316 automated tests.",
-      tags: ["Python", "FastAPI", "React", "CI/CD"],
+      tags: ["Python", "dbt", "FastAPI", "CI/CD"],
     },
   ],
 
@@ -122,12 +122,12 @@ window.PORTFOLIO = {
   ],
 
   tools: [
-    { group: "Statistics", items: ["Mixed-effects models (lme4)", "Logistic, linear & ridge regression", "Hypothesis testing", "Cross-validation", "ROC / AUC", "Clustering"] },
-    { group: "Programming", items: ["R (tidyverse, caret, glmnet)", "Python (pandas, scikit-learn)", "SQL", "PostgreSQL", "PySpark", "TypeScript"] },
-    { group: "Reporting", items: ["Tableau", "Power BI", "ggplot2", "Plotly", "Excel", "InDesign"] },
-    { group: "Engineering & AI", items: ["LLM agents", "Hallucination guardrails", "FastAPI", "Playwright", "ETL pipelines", "GitHub Actions"] },
+    { group: "Statistics", items: ["Mixed-effects models (lme4)", "Linear, logistic & ridge regression", "Hypothesis testing", "ANOVA", "Cross-validation", "ROC / AUC", "Clustering & segmentation"] },
+    { group: "Programming", items: ["SQL (CTEs, window functions)", "Python (pandas, NumPy, scikit-learn)", "R (tidyverse, lme4, caret, glmnet)", "PySpark", "TypeScript", "PHP"] },
+    { group: "Data modeling & pipelines", items: ["dbt", "Google BigQuery", "PostgreSQL", "Schema design", "ETL / ELT pipelines", "Data quality testing"] },
+    { group: "Reporting", items: ["Tableau", "Power BI (DAX, Power Query)", "Excel", "ggplot2", "Plotly", "InDesign"] },
+    { group: "Engineering & AI", items: ["FastAPI", "Laravel", "React", "pytest", "Git", "GitHub Actions", "LLM APIs", "Hallucination guardrails"] },
   ],
-
   projects: [
     {
       title: "synthkit",
