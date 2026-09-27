@@ -122,13 +122,13 @@ window.PORTFOLIO = {
   ],
 
   tools: [
-    { group: "Statistics", items: ["Mixed-effects models (lme4)", "Linear, logistic & ridge regression", "Hypothesis testing", "ANOVA", "Cross-validation", "ROC / AUC", "Clustering & segmentation"] },
-    { group: "Programming", items: ["SQL (CTEs, window functions)", "Python (pandas, NumPy, scikit-learn)", "R (tidyverse, lme4, caret, glmnet)", "PySpark", "TypeScript", "PHP"] },
-    { group: "Data modeling & pipelines", items: ["dbt", "Google BigQuery", "PostgreSQL", "Schema design", "ETL / ELT pipelines", "Data quality testing"] },
-    { group: "Reporting", items: ["Tableau", "Power BI (DAX, Power Query)", "Excel", "ggplot2", "Plotly", "InDesign"] },
-    { group: "Engineering & AI", items: ["FastAPI", "Laravel", "React", "pytest", "Git", "GitHub Actions", "LLM APIs", "Hallucination guardrails"] },
-  ],
-  projects: [
+    { group: "Analytics & statistics", items: ["Linear, logistic & ridge regression", "Mixed-effects models (GLMMs)", "Hypothesis testing", "ANOVA", "Cross-validation", "ROC / AUC", "Clustering", "Segmentation", "Predictive modeling", "Data cleaning", "Outlier treatment"] },
+    { group: "Programming", items: ["SQL (CTEs, joins, window functions, query tuning)", "Python (pandas, NumPy, scikit-learn, FastAPI, pytest)", "R (tidyverse, lme4, caret, glmnet, ggplot2)", "PySpark", "TypeScript", "PHP"] },
+    { group: "Data modeling & pipelines", items: ["dbt", "Google BigQuery", "PostgreSQL", "Relational schema design", "Data modeling", "ETL / ELT pipelines", "Data quality testing", "Scheduled job monitoring", "Documentation"] },
+    { group: "BI & visualization", items: ["Tableau", "Power BI (DAX, Power Query, data modeling)", "Microsoft Excel", "ggplot2", "Plotly", "Dashboards", "KPI reporting", "Adobe InDesign"] },
+    { group: "Engineering & AI", items: ["REST API design", "Laravel", "React", "Git", "GitHub Actions", "CI/CD", "LLM APIs", "Hallucination guardrails", "AI-assisted development (Claude Code, Cursor)"] },
+    { group: "Microsoft 365", items: ["SharePoint", "Microsoft Teams", "Excel", "PowerPoint"] },
+  ],  projects: [
     {
       title: "synthkit",
       kind: "Python library",

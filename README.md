@@ -6,7 +6,7 @@ My personal portfolio site, live at **[www.grishmagajurel.com](https://www.grish
 
 It's a hand-built, single-page static site: plain HTML, CSS, and vanilla JavaScript, with no framework, build step, backend, or npm dependencies. All content lives in one JavaScript file, so adding a project means adding one object.
 
-**Sections:** Hero · The receipts (achievements in Google's XYZ format) · Real-world impact · By the numbers · How I can help · Built like software · Case studies and projects · Where I've been · Contact
+**Sections:** Hero · The receipts (achievements in Google's XYZ format) · Real-world impact · By the numbers · How I can help · Built like software · Case studies and projects · Where I've been · Toolkit · Contact
 
 ---
 
