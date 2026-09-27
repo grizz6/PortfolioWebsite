@@ -174,10 +174,19 @@
   .drag-hint { text-align: center; color: var(--muted); font-family: var(--serif); font-style: italic; margin-top: 1.5rem; }
 
   /* Tools marquee with a weight wave */
-  .mq { overflow: hidden; border-block: 1px solid var(--ink); padding: 1.6rem 0; white-space: nowrap; margin-top: 4rem; }
-  .mq div { display: inline-block; will-change: transform; }
-  .mq span { font-family: var(--serif); font-size: clamp(2.2rem, 5vw, 4.4rem); padding: 0 1.1rem; font-variation-settings: "wght" var(--mw, 300), "SOFT" var(--ms, 0), "WONK" 1, "opsz" 144; }
-  .mq span:nth-child(3n) { color: var(--acct); font-style: italic; }
+  /* Skills */
+  .skills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .sk { position: relative; padding: clamp(1.4rem, 2.6vw, 2rem); border-radius: 1.4rem; background: var(--card); display: flex; flex-direction: column; transition: transform 500ms var(--ease), background 400ms, color 400ms; }
+  .sk:hover { transform: translateY(-6px); background: var(--ink); color: var(--bg); }
+  .sk-top { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: 1.2rem; }
+  .sk h3 { margin: 0; font-family: var(--serif); font-weight: 400; font-size: clamp(1.5rem, 2.2vw, 1.9rem); line-height: 1.05; font-variation-settings: "wght" 450, "opsz" 144; }
+  .sk-n { font-family: var(--serif); font-style: italic; color: var(--acct); white-space: nowrap; }
+  .sk:hover .sk-n { color: var(--accd); }
+  .sk ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .sk li { font-size: 0.88rem; line-height: 1.3; border: 1px solid var(--line); border-radius: 999px; padding: 0.3rem 0.75rem; transition: background 300ms, color 300ms, border-color 300ms; }
+  .sk:hover li { border-color: rgba(255,255,255,.22); }
+  .sk li:hover { background: var(--acc); color: var(--accink); border-color: var(--acc); }
+  .sk:nth-child(1) { grid-column: span 2; }
 
   .impact { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
   .imp { position: relative; padding: clamp(1.6rem, 3vw, 2.4rem); border-radius: 1.4rem; background: var(--card); display: flex; flex-direction: column; min-height: 17rem; overflow: hidden; transition: transform 500ms var(--ease), background 400ms, color 400ms; }
@@ -340,6 +349,7 @@
     .w-body { padding-left: 0.5rem; } .cs, .goals, .impact { grid-template-columns: 1fr; }
     .preview { display: none; }
     .rc { grid-template-columns: 1fr; gap: 0.6rem; } .rc-t { justify-self: start; }
+    .skills { grid-template-columns: 1fr; } .sk:nth-child(1) { grid-column: auto; }
     .units { grid-template-columns: 1fr 1fr; } 
     .commit { margin-left: 76px; } .gitlog svg { width: 70px; }
     .proof ul { grid-template-columns: 1fr 1fr; gap: 1rem 0; } .proof li { border-left: 0; padding-left: 0; } .proof li:last-child { grid-column: 1 / -1; }
@@ -421,7 +431,11 @@
   <section id="background" aria-labelledby="b-h">
     <div class="sec" style="padding-bottom:2.5rem"><div class="chap" style="margin:0"><span class="odo" data-odo="06" aria-hidden="true"></span><h2 class="ink" id="b-h">Where I've <em>been</em></h2></div>
     <div class="gitlog" id="gitlog"><svg id="gitsvg" aria-hidden="true"></svg></div></div>
-    <div class="mq" aria-label="Tools" style="margin-top:0"><div id="mq"></div></div>
+  </section>
+
+  <section class="sec" id="skills" aria-labelledby="k-h">
+    <div class="chap"><span class="odo" data-odo="00" aria-hidden="true"></span><h2 class="ink" id="k-h">The <em>toolkit</em></h2><span class="hint">Everything I work with</span></div>
+    <div class="skills" id="skills-grid"></div>
   </section>
 
 </main>
@@ -435,8 +449,8 @@
 
 <div class="preview" id="preview" aria-hidden="true"><canvas id="pv" width="480" height="320"></canvas></div>
 
-<script src="js/content.js?v=6"></script>
-<script src="js/kit.js?v=6"></script>
+<script src="js/content.js?v=7"></script>
+<script src="js/kit.js?v=7"></script>
 <script>
 (function () {
   const { P, fill, work, reveal, split, magnetic, scramble, lerp, clamp, reduce, el, $, $$ } = KIT;
@@ -450,6 +464,8 @@
 
   // Odometer chapter numbers
   // Receipts in Google XYZ form: accomplished X, measured by Y, by doing Z
+  // Skills from the CV
+  P.tools.forEach((g, i) => { const d = el("article", "sk"); d.setAttribute("data-reveal", ""); d.style.transitionDelay = i * 60 + "ms"; d.innerHTML = `<div class="sk-top"><h3></h3><span class="sk-n">${g.items.length} skills</span></div><ul></ul>`; d.querySelector("h3").textContent = g.group; g.items.forEach((t) => d.querySelector("ul").appendChild(el("li", null, t))); $("#skills-grid").appendChild(d); });
   const RC = P.receipts.map((r) => [r.metric, r.unit, r.x, r.z, r.tag]);
   RC.forEach(([m, u, x, z, t]) => { const li = el("li", "rc"); li.setAttribute("data-reveal", ""); li.innerHTML = `<span class="rc-m"><b>${m}</b><small>${u}</small></span><p>${x} <span class="z">${z}</span></p><span class="rc-t">${t}</span>`; $("#receipts").appendChild(li); });
   // Unit charts
@@ -553,8 +569,6 @@
   drawGit(); addEventListener("load", drawGit); addEventListener("resize", drawGit);
 
   // Tools marquee
-  const all = P.tools.flatMap((g) => g.items), mq = $("#mq");
-  mq.innerHTML = [...all, ...all].map((t) => `<span>${t}</span>`).join(""); const mqs = $$("span", mq);
 
   // Ink bleed + odometer when a chapter shows up
   const inkd = $("#inkd");
@@ -595,7 +609,6 @@
     if (rp > 0.35 && !rdark._c) { rdark._c = 1; rdark.classList.add("is-lit"); $$("[data-count]", rdark).forEach((b) => KIT.countUp(b)); }
     { const gr = gl.getBoundingClientRect(), gp = reduce ? 1 : clamp((innerHeight * 0.7 - gr.top) / gr.height, 0, 1); $$(".lane", gsvg).forEach((l) => (l.style.strokeDashoffset = l._L * gp)); const line = gr.top + gp * gr.height; rows.forEach((r, i) => { const on = reduce || r.el.getBoundingClientRect().top < innerHeight * 0.78; r.el.classList.toggle("on", on); const n = gsvg.querySelector(`[data-i="${i}"]`); if (n) n.classList.toggle("on", on); }); }
     const v = scrollY - lastY; lastY = scrollY;
-    if (!reduce) { mqx -= 0.6 + Math.abs(v) * 0.3; const w = mq.scrollWidth / 2; if (-mqx > w) mqx += w; mq.style.transform = `translateX(${mqx}px)`; mqs.forEach((s, i) => { const k = (Math.sin(t * 2 + i * 0.7) + 1) / 2; s.style.setProperty("--mw", (200 + k * 700).toFixed(0)); s.style.setProperty("--ms", (k * 100).toFixed(0)); }); }
     requestAnimationFrame(frame);
   })(t0);
 
