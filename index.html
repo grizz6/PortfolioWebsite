@@ -324,19 +324,6 @@
   .c-chips span { font-size: 0.8rem; border: 1px solid var(--line); border-radius: 999px; padding: 0.2rem 0.7rem; }
   .commit a { font-family: var(--serif); font-style: italic; border-bottom: 1px solid currentColor; }
 
-  /* What I'm looking for */
-  .want { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
-  .want a { position: relative; display: grid; grid-template-columns: 4rem 1fr 1.2fr auto; gap: 1.6rem; align-items: center; padding: clamp(1.4rem, 3vw, 2.2rem) 0.8rem; border-bottom: 1px solid var(--line); overflow: hidden; }
-  .want a::before { content: ""; position: absolute; inset: 0; background: var(--ink); transform: translateY(101%); transition: transform 600ms var(--ease); }
-  .want a:hover::before, .want a:focus-visible::before { transform: none; }
-  .want a > * { position: relative; transition: color 400ms; }
-  .want a:hover > *, .want a:focus-visible > * { color: var(--bg); }
-  .want .n { font-family: var(--serif); font-style: italic; font-size: 1.4rem; color: var(--muted); }
-  .want .t { font-family: var(--serif); font-size: clamp(1.8rem, 3.6vw, 3.2rem); line-height: 1; letter-spacing: -0.02em; font-variation-settings: "wght" 350, "opsz" 144; transition: font-variation-settings 600ms var(--ease), color 400ms; }
-  .want a:hover .t { font-variation-settings: "wght" 700, "SOFT" 100, "WONK" 1, "opsz" 144; font-style: italic; }
-  .want .d { color: var(--muted); }
-  .want .go { font-size: 0.85rem; white-space: nowrap; padding: 0.6rem 1rem; border-radius: 999px; border: 1px solid currentColor; }
-  .want a:hover .go { background: var(--acc); color: var(--accink); border-color: var(--acc); }
   @keyframes grain { 0% { transform: translate(0,0); } 25% { transform: translate(-5%,3%); } 50% { transform: translate(4%,-6%); } 75% { transform: translate(-3%,5%); } }
   @keyframes up { to { opacity: 1; transform: none; } }
   @keyframes spin { to { transform: rotate(360deg); } }
@@ -355,7 +342,6 @@
     .rc { grid-template-columns: 1fr; gap: 0.6rem; } .rc-t { justify-self: start; }
     .units { grid-template-columns: 1fr 1fr; } 
     .commit { margin-left: 76px; } .gitlog svg { width: 70px; }
-    .want a { grid-template-columns: 2.6rem 1fr; } .want .d { grid-column: 2; } .want .go { grid-column: 2; justify-self: start; }
     .proof ul { grid-template-columns: 1fr 1fr; gap: 1rem 0; } .proof li { border-left: 0; padding-left: 0; } .proof li:last-child { grid-column: 1 / -1; }
     .steps { grid-template-columns: 1fr 1fr; row-gap: 2.4rem; } .steps::before, .steps .rail { display: none; }
     .eng-grid, .rules { grid-template-columns: 1fr; } .term { transform: none; } .ci { grid-template-columns: 1fr 1fr; }
@@ -438,10 +424,6 @@
     <div class="mq" aria-label="Tools" style="margin-top:0"><div id="mq"></div></div>
   </section>
 
-  <section class="sec" aria-labelledby="g-h">
-    <div class="chap"><span class="odo" data-odo="07" aria-hidden="true"></span><h2 class="ink" id="g-h">What I'm <em>looking for</em></h2><span class="hint">Pick one, email me</span></div>
-    <ol class="want" id="want"></ol>
-  </section>
 </main>
 
 <footer id="contact">
@@ -472,8 +454,6 @@
   RC.forEach(([m, u, x, z, t]) => { const li = el("li", "rc"); li.setAttribute("data-reveal", ""); li.innerHTML = `<span class="rc-m"><b>${m}</b><small>${u}</small></span><p>${x} <span class="z">${z}</span></p><span class="rc-t">${t}</span>`; $("#receipts").appendChild(li); });
   // Unit charts
   const reveal2 = $("#reveal"), rdark = $("#rdark");
-  // What I'm looking for
-  P.goals.forEach((g, i) => { const li = el("li"); const a = el("a"); a.href = `mailto:${P.email}?subject=${encodeURIComponent(g.title)}`; a.innerHTML = `<span class="n">0${i + 1}</span><span class="t"></span><span class="d"></span><span class="go">Let's talk →</span>`; a.querySelector(".t").textContent = g.title; a.querySelector(".d").textContent = g.desc; li.appendChild(a); li.setAttribute("data-reveal", ""); $("#want").appendChild(li); });
   // Number the visible chapters in order
   $$(".chap .odo").filter((o) => !o.closest("[hidden]")).forEach((o, i) => (o.dataset.odo = String(i + 1).padStart(2, "0")));
   const liLink = P.social.find((x) => /linkedin/i.test(x.label)); if (liLink) $("#li").href = liLink.href; else $("#li").remove();
