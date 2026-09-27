@@ -127,7 +127,6 @@ window.PORTFOLIO = {
     { group: "Data modeling & pipelines", items: ["dbt", "Google BigQuery", "PostgreSQL", "Relational schema design", "Data modeling", "ETL / ELT pipelines", "Data quality testing", "Scheduled job monitoring", "Documentation"] },
     { group: "BI & visualization", items: ["Tableau", "Power BI (DAX, Power Query, data modeling)", "Microsoft Excel", "ggplot2", "Plotly", "Dashboards", "KPI reporting", "Adobe InDesign"] },
     { group: "Engineering & AI", items: ["REST API design", "Laravel", "React", "Git", "GitHub Actions", "CI/CD", "LLM APIs", "Hallucination guardrails", "AI-assisted development (Claude Code, Cursor)"] },
-    { group: "Microsoft 365", items: ["SharePoint", "Microsoft Teams", "Excel", "PowerPoint"] },
   ],  projects: [
     {
       title: "synthkit",
