@@ -33,6 +33,8 @@
     for (let i = 0; i < nBack; i++) trees.push(makeTree(W * ((i + 0.5) / nBack) + (r() - 0.5) * 60, gy - H * 0.07, (0.62 + r() * 0.18) * k, r, 6));
     for (let i = 0; i < nFront; i++) trees.push(makeTree(W * ((i + 0.5) / nFront) + (r() - 0.5) * 80, gy + 6, (1 + r() * 0.25) * k, r, 7));
     split = nBack;
+    // Tell the page where the front trees stand, so the hero tag can hang from a branch
+    window.ORCHARD_TREES = trees.slice(split).map((t) => ({ x: t.x0, y: t.y0, s: t.s })).sort((a, b) => a.x - b.x); dispatchEvent(new CustomEvent("orchard:trees"));
     buildAtlas();
     // Static layers, drawn once
     const hill = (g, col, base, amp, fq, ph, top) => { g.fillStyle = col; g.beginPath(); g.moveTo(0, H - top); for (let xx = 0; xx <= W + 20; xx += 10) g.lineTo(xx, base - top + Math.sin(xx * fq + ph) * amp + Math.sin(xx * fq * 2.3 + ph * 2) * amp * 0.4); g.lineTo(W, H - top); g.fill(); };
