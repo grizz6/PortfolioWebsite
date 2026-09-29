@@ -10,7 +10,7 @@
 <script>
   (function () {
     var p = location.pathname.replace(/\/$/, "").split("/").pop();
-    var map = { about: "#about", projects: "#work", project: "#work", contact: "#contact" };
+    var map = { about: "#background", projects: "#work", project: "#work", contact: "#contact" };
     if (map[p]) location.replace("/" + map[p]);
   })();
 </script>

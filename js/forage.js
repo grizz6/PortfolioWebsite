@@ -1,6 +1,6 @@
 /**
- * Foraging paths: a live drawing at the top of the work section. Bees fly between 15 blossoms (one per orchard
- * in the study) and every flight leaves a faint line, so the plate slowly draws a map of foraging. The cursor
+ * Foraging paths: a live drawing at the top of the projects. Bees fly between 10 blossoms (one per orchard
+ * in the bee foraging study) and every flight leaves a faint line, so the plate slowly draws a map of foraging. The cursor
  * becomes a flower they visit, and a click plants a new one. Old lines fade, so the map keeps changing.
  */
 (() => {
@@ -17,13 +17,13 @@
     cv.width = trail.width = Math.round(W * D); cv.height = trail.height = Math.round(H * D);
     x.setTransform(D, 0, 0, D, 0, 0); tx.setTransform(D, 0, 0, D, 0, 0);
     const r = RNG(15);
-    flowers = Array.from({ length: 15 }, () => ({ x: W * (0.06 + r() * 0.88), y: H * (0.14 + r() * 0.72), r: 5 + r() * 3, c: C.petal[Math.floor(r() * 3)] }));
-    bees = Array.from({ length: W < 600 ? 6 : 10 }, (_, i) => ({ x: flowers[i % 15].x, y: flowers[i % 15].y, vx: 0, vy: 0, tgt: (i * 7) % 15, wait: 0, c: C.line[i % 4] }));
+    flowers = Array.from({ length: 10 }, () => ({ x: W * (0.06 + r() * 0.88), y: H * (0.14 + r() * 0.72), r: 5 + r() * 3, c: C.petal[Math.floor(r() * 3)] }));
+    bees = Array.from({ length: W < 600 ? 6 : 10 }, (_, i) => ({ x: flowers[i % 10].x, y: flowers[i % 10].y, vx: 0, vy: 0, tgt: (i * 7) % 10, wait: 0, c: C.line[i % 4] }));
     if (reduce) { for (let k = 0; k < 900; k++) step(k / 60, false, 0, 0); paint(0); }
   }
   let pending = false;
   new ResizeObserver(() => { if (pending) return; pending = true; requestAnimationFrame(() => { pending = false; if (cv.clientWidth !== W || cv.clientHeight !== H) build(); }); }).observe(cv);
-  cv.addEventListener("click", (e) => { const b = cv.getBoundingClientRect(); flowers.push({ x: e.clientX - b.left, y: e.clientY - b.top, r: 7, c: C.petal[2], born: performance.now() }); if (flowers.length > 24) flowers.splice(15, 1); });
+  cv.addEventListener("click", (e) => { const b = cv.getBoundingClientRect(); flowers.push({ x: e.clientX - b.left, y: e.clientY - b.top, r: 7, c: C.petal[2], born: performance.now() }); if (flowers.length > 19) flowers.splice(10, 1); });
 
   function step(t, near, cx, cy) {
     bees.forEach((b, i) => {
