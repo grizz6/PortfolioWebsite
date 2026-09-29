@@ -40,12 +40,10 @@
   #orchard { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
   .o-sun { position: absolute; left: 80%; top: 24%; width: calc(var(--r, 60px) * 2); aspect-ratio: 1; border-radius: 50%; background: #F2CC8F; transform: translate3d(-50%, -50%, 0); will-change: transform; pointer-events: none; }
   .o-sun::before { content: ""; position: absolute; inset: -150%; border-radius: 50%; background: radial-gradient(closest-side, rgba(242,204,143,.45) 12%, rgba(242,204,143,0)); }
-  /* The hero's only words: a paper tag hanging by twine from a garden stake among the trees */
-  .gtag { position: absolute; left: clamp(1.5rem, 8vw, 8rem); bottom: 12vh; z-index: 2; width: min(24rem, 86vw); height: min(34vh, 18rem); }
-  .stake { position: absolute; left: 0; bottom: 0; width: 9px; height: 100%; border-radius: 5px 5px 2px 2px; background: linear-gradient(90deg, #86674d, #5f4533 70%, #4d3829); box-shadow: 2px 0 0 rgba(0,0,0,.06); }
-  .twine { position: absolute; left: 4px; top: 6px; width: 60px; height: 60px; overflow: visible; pointer-events: none; }
-  .twine path { fill: none; stroke: #b99567; stroke-width: 2; stroke-linecap: round; }
-  .tag-wrap { position: absolute; left: 2.3rem; top: 2.3rem; transform-origin: 1.1rem 1.1rem; animation: swing 4.2s ease-in-out infinite; filter: drop-shadow(0 12px 12px rgba(27,28,25,.25)); }
+  /* The hero's only words: a paper tag tied by twine to a branch of one of the front trees */
+  .gtag { position: absolute; left: clamp(1.5rem, 8vw, 8rem); bottom: 26vh; z-index: 2; }
+  .hang { position: absolute; left: calc(1.1rem - 1px); bottom: calc(100% - 1.1rem); width: 2px; height: 56px; border-radius: 2px; background: #b99567; }
+  .tag-wrap { position: absolute; left: 0; top: 0; transform-origin: 1.1rem 1.1rem; animation: swing 4.2s ease-in-out infinite; filter: drop-shadow(0 12px 12px rgba(27,28,25,.25)); }
   @keyframes swing { 0%, 100% { rotate: 5deg; } 50% { rotate: -2deg; } }
   .tag { position: relative; width: min(19rem, 72vw); padding: 1.1rem 1.4rem 1.2rem 1.3rem; clip-path: polygon(1rem 0, 100% 0, 100% 100%, 1rem 100%, 0 calc(100% - 1rem), 0 1rem);
     background: #F2EAD8 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8'/%3E%3CfeColorMatrix values='0 0 0 0 .4 0 0 0 0 .33 0 0 0 0 .22 0 0 0 .08 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -245,7 +243,7 @@
 <main id="top">
   <section class="hero" id="hero" aria-labelledby="hh">
     <span class="o-sun" aria-hidden="true"></span><canvas id="orchard" aria-label="A generative orchard growing and blossoming"></canvas><span class="o-hint" aria-hidden="true">Move for wind · click to regrow</span><div class="fireflies" aria-hidden="true"><i style="left:2%;top:45%;animation-delay:0.0s,0.0s"></i><i style="left:39%;top:68%;animation-delay:0.6s,0.4s"></i><i style="left:76%;top:51%;animation-delay:1.2s,0.8s"></i><i style="left:18%;top:74%;animation-delay:1.7999999999999998s,1.2000000000000002s"></i><i style="left:55%;top:57%;animation-delay:2.4s,1.6s"></i><i style="left:92%;top:80%;animation-delay:3.0s,0.0s"></i><i style="left:34%;top:63%;animation-delay:3.5999999999999996s,0.4s"></i><i style="left:71%;top:46%;animation-delay:0.0s,0.8s"></i><i style="left:13%;top:69%;animation-delay:0.6s,1.2000000000000002s"></i><i style="left:50%;top:52%;animation-delay:1.2s,1.6s"></i><i style="left:87%;top:75%;animation-delay:1.7999999999999998s,0.0s"></i><i style="left:29%;top:58%;animation-delay:2.4s,0.4s"></i><i style="left:66%;top:81%;animation-delay:3.0s,0.8s"></i><i style="left:8%;top:64%;animation-delay:3.5999999999999996s,1.2000000000000002s"></i><i style="left:45%;top:47%;animation-delay:0.0s,1.6s"></i><i style="left:82%;top:70%;animation-delay:0.6s,0.0s"></i><i style="left:24%;top:53%;animation-delay:1.2s,0.4s"></i><i style="left:61%;top:76%;animation-delay:1.7999999999999998s,0.8s"></i></div>
-    <div class="gtag"><span class="stake" aria-hidden="true"></span><svg class="twine" viewBox="0 0 60 60" aria-hidden="true"><path d="M1 2 C 16 4, 34 18, 49 49" /></svg><div class="tag-wrap"><div class="tag"><span class="eyelet" aria-hidden="true"></span><small data-name></small><h1 class="prox" id="hh" data-title></h1></div></div></div>
+    <div class="gtag"><span class="hang" aria-hidden="true"></span><div class="tag-wrap"><div class="tag"><span class="eyelet" aria-hidden="true"></span><small data-name></small><h1 class="prox" id="hh" data-title></h1></div></div></div>
     <a class="badge" href="#background" aria-label="Scroll down"><span aria-hidden="true"></span></a>
   </section>
 
@@ -289,12 +287,18 @@
 </footer>
 
 
-<script src="js/content.js?v=18"></script>
-<script src="js/kit.js?v=18"></script>
+<script src="js/content.js?v=19"></script>
+<script src="js/kit.js?v=19"></script>
 <script>
 (function () {
   const { P, fill, work, reveal, magnetic, clamp, reduce, el, $, $$ } = KIT;
   fill();
+
+  // Hero tag: tie it to a branch of the first front tree (the orchard reports where its trees stand)
+  const gtag = $(".gtag");
+  const tieTag = () => { const T = window.ORCHARD_TREES; if (!T || !T.length) return; const t = T.find((t) => t.x > 60) || T[0], len = 56;
+    gtag.style.left = t.x + 34 * t.s - 17.6 + "px"; gtag.style.top = t.y - 215 * t.s + len - 17.6 + "px"; gtag.style.bottom = "auto"; };
+  addEventListener("orchard:trees", tieTag); addEventListener("resize", tieTag); tieTag();
 
   // Proximity headline: words → chars
   const hh = $("#hh"), text = hh.textContent; hh.setAttribute("aria-label", text); hh.textContent = "";
@@ -403,7 +407,7 @@
 })();
 </script>
 <!-- Orchard hero, foraging drawing and document covers (see js/motion.js) -->
-<script src="js/motion.js?v=18"></script>
+<script src="js/motion.js?v=19"></script>
 
 </body>
 </html>
