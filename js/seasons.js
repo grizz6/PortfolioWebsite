@@ -1,8 +1,8 @@
 /**
  * Seasons on scroll: the page moves through a year as you read. The ground colour drifts from spring at the
  * top to summer, autumn and winter at the contact, and a light layer of falling things follows the season:
- * a few petals, a quiet summer, a few leaves, then light snow. The hero keeps its own petals, so this layer fades in
- * below it.
+ * a few petals, a quiet summer, a few leaves, then light snow. This is the page's only falling layer: the petals
+ * over the hero come from here too, and start once its trees have blossomed.
  * With reduced motion, the colour still follows the scroll but nothing falls.
  */
 (() => {
@@ -34,13 +34,16 @@
   const P = [];
   const spawn = (kind, top) => ({ kind, x: Math.random() * W, y: top ? -12 - Math.random() * 40 : Math.random() * H, v: kind === "snow" ? 0.35 + Math.random() * 0.4 : 0.4 + Math.random() * 0.5, a: Math.random() * 6.28, s: kind === "leaf" ? 4 + Math.random() * 3 : kind === "petal" ? 2.5 + Math.random() * 2 : 1 + Math.random() * 1.6, c: Math.random(), sway: 0.5 + Math.random() });
   const COL = { petal: ["#E8B4A0", "#F7E4DA", "#D98A7A"], leaf: ["#C8643B", "#E0A33A", "#B5652F", "#8C3B2A"], snow: ["#FFFFFF"] };
-  let wind = 0;
+  let wind = 0, bloomAt = 0;
+  const heroEl = $("#hero");
 
   scene(document.body, (t, dt) => {
-    const f = tint(), w = weights(f), hero = clamp(scrollY / (innerHeight * 0.8), 0, 1), k = dt * 60;
+    const f = tint(), w = weights(f), k = dt * 60;
+    if (!bloomAt && heroEl.classList.contains("is-in")) bloomAt = t + 5;
+    const bloom = bloomAt && t > bloomAt ? 1 : 0;
     // How many of each should be falling right now
     const n = small() ? 0.5 : 1;
-    const want = { petal: Math.round(10 * w[0] * hero * n), leaf: Math.round(9 * w[2] * n), snow: Math.round(22 * w[3] * n) };
+    const want = { petal: Math.round(12 * w[0] * bloom * n), leaf: Math.round(9 * w[2] * n), snow: Math.round(22 * w[3] * n) };
     for (const kind in want) { let have = 0; for (const p of P) if (p.kind === kind && !p.gone) have++; for (; have < want[kind]; have++) P.push(spawn(kind, false)); if (have > want[kind]) { let drop = have - want[kind]; for (const p of P) if (drop && p.kind === kind && !p.gone) { p.gone = true; drop--; } } }
     wind = lerp(wind, Math.sin(t * 0.3) * 0.6 + Math.sin(t * 0.07) * 0.4, 0.02);
     x.setTransform(D, 0, 0, D, 0, 0); x.clearRect(0, 0, W, H);

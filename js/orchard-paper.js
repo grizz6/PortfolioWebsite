@@ -1,18 +1,17 @@
 /**
- * Orchard hero, 2D paper variant. Trees grow and blossom, the cursor makes wind, bees visit flowers
- * and gather around the cursor, and a click regrows the orchard.
+ * Orchard hero. Trees grow and blossom, the cursor makes wind, and a click regrows the orchard.
+ * Falling petals come from the seasons layer and bees live in the foraging plate, so neither repeats here.
  *
  * Fast path: the sky and sun are CSS layers, the hills are drawn once per resize, and each frame draws
- * branches, blossoms, petals and bees in a handful of batched paths instead of thousands of calls.
+ * branches in a few batched paths and stamps the blossoms from a sprite atlas.
  */
 (() => {
   const { $, clamp, damp, reduce, RNG, M, scene } = MO;
   const hero = $("#hero"), cv = $("#orchard"), x = cv.getContext("2d"), sun = $("#hero .o-sun");
   hero.classList.add("is-paper");
-  const C = { bark: "#3B2A22", barkBack: "#7a6a5c", hill1: "#C5D0A8", hill2: "#9DB27E", ground: "#5E6B45", leaf: ["#5E6B45", "#87A96B", "#3D5A40"], bloom: ["#E8B4A0", "#F7E4DA", "#D98A7A", "#F2CC8F", "#FFFFFF"], bee: "#E0A33A", page: "#E1DFD8" };
+  const C = { bark: "#3B2A22", barkBack: "#7a6a5c", hill1: "#C5D0A8", hill2: "#9DB27E", ground: "#5E6B45", leaf: ["#5E6B45", "#87A96B", "#3D5A40"], bloom: ["#E8B4A0", "#F7E4DA", "#D98A7A", "#F2CC8F", "#FFFFFF"], page: "#E1DFD8" };
   const COLORS = [...C.leaf, ...C.bloom], CHUNK = 4;
-  let W = 0, H = 0, D = 1, trees = [], split = 0, bees = [], petals = [], t0 = null, wind = 0, seed = 11, inHero = false, hills = null, ground = null, fade = null;
-  hero.addEventListener("pointerenter", () => (inHero = true)); hero.addEventListener("pointerleave", () => (inHero = false));
+  let W = 0, H = 0, D = 1, trees = [], split = 0, t0 = null, wind = 0, seed = 11, hills = null, ground = null, fade = null;
 
   function makeTree(x0, y0, s, r, depthMax) {
     const br = [];
@@ -35,8 +34,6 @@
     for (let i = 0; i < nFront; i++) trees.push(makeTree(W * ((i + 0.5) / nFront) + (r() - 0.5) * 80, gy + 6, (1 + r() * 0.25) * k, r, 7));
     split = nBack;
     buildAtlas();
-    bees = Array.from({ length: W < 700 ? 6 : 12 }, () => ({ x: r() * W, y: H * (0.3 + r() * 0.4), vx: 0, vy: 0, tr: [], tgt: null, wait: 0 }));
-    petals = Array.from({ length: W < 700 ? 14 : 26 }, () => ({ x: r() * W, y: r() * H, v: 0.3 + r() * 0.7, s: 2 + r() * 3, a: r() * 6, c: Math.floor(r() * 3) }));
     // Static layers, drawn once
     const hill = (g, col, base, amp, fq, ph, top) => { g.fillStyle = col; g.beginPath(); g.moveTo(0, H - top); for (let xx = 0; xx <= W + 20; xx += 10) g.lineTo(xx, base - top + Math.sin(xx * fq + ph) * amp + Math.sin(xx * fq * 2.3 + ph * 2) * amp * 0.4); g.lineTo(W, H - top); g.fill(); };
     const hTop = Math.floor(gy - H * 0.15 - 40), gTop = Math.floor(gy - 20), fTop = Math.floor(H * 0.9);
@@ -61,7 +58,6 @@
   cv.addEventListener("click", () => { seed = Math.floor(Math.random() * 9999); build(); t0 = performance.now() / 1000; });
   build();
 
-  const tips = [];
   // Draw in small subtree chunks (branches, then that chunk's blossoms), which keeps the original look of
   // branches cutting through earlier blossoms while still batching most of the work
   function drawTrees(from, to, g, t, back) {
@@ -85,7 +81,7 @@
         const a = pa + b.ang + sway, ex = px + Math.cos(a) * b.len * grow, ey = py + Math.sin(a) * b.len * grow;
         P[k * 3] = ex; P[k * 3 + 1] = ey; P[k * 3 + 2] = a;
         if (grow > 0) { const l = levels[b.depth]; l.moveTo(px, py); l.lineTo(ex, ey); }
-        if (b.fl && bk > 0) { stamps.push(b, ex, ey); if (!back) tips.push([ex, ey]); }
+        if (b.fl && bk > 0) stamps.push(b, ex, ey);
       }
       flush();
     }
@@ -102,43 +98,9 @@
     wind = damp(wind, M.vx * 0.04 + Math.sin(t * 0.6) * 0.3, 0.05, dt);
     x.setTransform(D, 0, 0, D, 0, 0); x.clearRect(0, 0, W, H); x.lineCap = "round";
     blit(hills);
-    tips.length = 0;
     drawTrees(0, split, g, t, true);
     blit(ground);
     drawTrees(split, trees.length, g, t, false);
     blit(fade);
-    if (reduce) return;
-    const k = dt * 60;
-    if (g > 0.8) {
-      const pp = [0, 1, 2].map(() => new Path2D());
-      for (const p of petals) {
-        p.x += (wind * 1.5 + 0.3) * k; p.y += p.v * k; p.a += 0.03 * k;
-        if (p.y > H || p.x > W + 10) { p.y = -10; p.x = Math.random() * W; } if (p.x < -10) p.x = W;
-        pp[p.c].moveTo(p.x + p.s, p.y); pp[p.c].ellipse(p.x, p.y, p.s, p.s * 0.55, p.a, 0, 6.283);
-      }
-      x.globalAlpha = 0.85; pp.forEach((p, i) => { x.fillStyle = C.bloom[i]; x.fill(p); }); x.globalAlpha = 1;
-    }
-    // Bees visit blossoms, and treat your cursor like a flower
-    if (!tips.length) return;
-    const hb = hero.getBoundingClientRect(), cx = M.x - hb.left, cy = M.y - hb.top;
-    const trail = [new Path2D(), new Path2D(), new Path2D()];
-    bees.forEach((b, i) => {
-      const near = inHero && Math.hypot(b.x - cx, b.y - cy) < 280;
-      if (near) { b.tgt = [cx + Math.cos(t * 3 + i) * 26, cy + Math.sin(t * 3.4 + i * 2) * 18]; b.wait = 0; }
-      else if (!b.tgt || b.wait > 0) { b.wait -= k; if (b.wait <= 0 || !b.tgt) { b.tgt = tips[Math.floor(Math.random() * tips.length)]; b.wait = 0; } }
-      const dx = b.tgt[0] - b.x, dy = b.tgt[1] - b.y, d = Math.hypot(dx, dy);
-      if (!near && d < 6) { b.wait = 40 + Math.random() * 60; b.tgt = null; }
-      b.vx += ((dx / (d + 1)) * 0.2 + (Math.random() - 0.5) * 0.35) * k; b.vy += ((dy / (d + 1)) * 0.2 + (Math.random() - 0.5) * 0.35 + Math.sin(t * 9 + i) * 0.05) * k;
-      const sp = Math.hypot(b.vx, b.vy), mx = near ? 3.4 : 2.6; if (sp > mx) { b.vx *= mx / sp; b.vy *= mx / sp; } b.vx *= 0.96; b.vy *= 0.96;
-      b.x += b.vx * k; b.y += b.vy * k; b.tr.push(b.x, b.y); if (b.tr.length > 52) b.tr.splice(0, 2);
-      for (let q = 0, n = b.tr.length / 2; q < n; q += 3) trail[Math.min(2, Math.floor((q / n) * 3))].rect(b.tr[q * 2], b.tr[q * 2 + 1], 1.6, 1.6);
-    });
-    x.fillStyle = C.bee; trail.forEach((p, i) => { x.globalAlpha = 0.08 + i * 0.12; x.fill(p); }); x.globalAlpha = 1;
-    bees.forEach((b, i) => {
-      const a = Math.atan2(b.vy, b.vx), c = Math.cos(a) * D, s = Math.sin(a) * D; x.setTransform(c, s, -s, c, b.x * D, b.y * D);
-      x.fillStyle = "rgba(255,255,255,.8)"; x.beginPath(); x.ellipse(-1, -3 - Math.abs(Math.sin(t * 40 + i)) * 1.5, 2.8, 1.7, -0.4, 0, 6.283); x.fill();
-      x.fillStyle = C.bee; x.beginPath(); x.ellipse(0, 0, 4.4, 2.9, 0, 0, 6.283); x.fill(); x.fillStyle = "#1B1C19"; x.fillRect(-1.2, -2.7, 1.4, 5.4); x.fillRect(1.6, -2.3, 1.1, 4.6);
-    });
-    x.setTransform(D, 0, 0, D, 0, 0);
   });
 })();
