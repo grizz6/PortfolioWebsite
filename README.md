@@ -6,7 +6,7 @@ My personal portfolio site, live at **[www.grishmagajurel.com](https://www.grish
 
 It's a hand-built, single-page static site: plain HTML, CSS, and vanilla JavaScript, with no framework, build step, backend, or npm dependencies. All content lives in one JavaScript file, so adding a project means adding one object.
 
-**Sections:** Hero · The receipts (achievements in Google's XYZ format) · Real-world impact · By the numbers · How I can help · Built like software · Case studies and projects · Where I've been · Toolkit · Contact
+**Sections:** Hero (a generative orchard) · The receipts · Real-world impact · By the numbers · How I can help · Built like software · Selected reports · Case studies and projects · Where I've been · Toolkit · Contact
 
 ---
 
@@ -41,9 +41,9 @@ files/              reports, posters, and slides linked from projects
 
 1. **Content as data.** `js/content.js` holds the headline, receipts, impact, stats, services, experience, education, talks, tools, and projects. Change the words there and the page updates.
 2. **Rendering.** `js/kit.js` fills `data-*` hooks (email, name, stats, services, experience, and more) and builds the expandable project list, where the first three are full case studies and the rest appear behind "Show more".
-3. **Motion.** A gooey blob in the hero that follows the cursor (canvas with a blur and contrast filter), headline letters that change weight near the cursor (Fraunces variable font), ink-bleed chapter headings, odometer chapter numbers, a circle reveal into the numbers, stacking service cards that draw themselves, project previews with an RGB split, a live terminal that types out synthkit's test run, and a git-style career graph that draws as you scroll. All motion respects `prefers-reduced-motion`.
+3. **Motion.** A generative orchard in the hero: trees grow branch by branch and blossom, the mouse makes wind, petals drift, bees fly between flowers and gather around the cursor, and a click grows a new orchard (canvas 2D). A Three.js section deals my real reports past as realistic 3D paper pages with generative cover art, and clicking a page opens it. Headline letters that change weight near the cursor (Fraunces variable font), ink-bleed chapter headings, odometer chapter numbers, a circle reveal into the numbers, stacking service cards that draw themselves, project previews with an RGB split, a live terminal that types out synthkit's test run, and a git-style career graph that draws as you scroll. All motion respects `prefers-reduced-motion`.
 4. **Old links still work.** `about/`, `projects/`, `project/`, and `contact/` (and their `.html` versions) now redirect to the matching section of the single page, and `404.html` does the same for any other old path.
-5. **Palette.** Stone and moss neutrals with a burgundy blob, set as CSS custom properties at the top of `index.html`.
+5. **Palette.** Stone and moss neutrals set as CSS custom properties at the top of `index.html`, with warm orchard colours (blossom, terracotta, mustard) in the art.
 
 ## Deployment
 
@@ -53,7 +53,7 @@ Then visit http://localhost:8000.
 
 ## Built with
 
-HTML5, CSS (custom properties), vanilla JavaScript, canvas, Google Fonts (Fraunces and Inter Tight), GitHub Pages and GitHub Actions.
+HTML5, CSS (custom properties), vanilla JavaScript, canvas, Three.js, Google Fonts (Fraunces and Inter Tight), GitHub Pages and GitHub Actions.
 
 ## License
 
