@@ -94,9 +94,10 @@ window.MO = (function () {
   const api = { $, $$, clamp, lerp, sstep, damp, reduce, RNG, Noise, M, scene, three, load, DOCS, COVERS, coverArt, pageCanvas, idle, fontsReady, progress, dots };
 
   // Boot: the orchard now, the reports (and three.js) only once they are about a screen away
-  const v = "?v=10";
+  const v = "?v=11";
   const boot = async () => {
     await load("js/orchard-paper.js" + v);
+    load("js/seasons.js" + v); load("js/forage.js" + v);
     const rp = $("#reports"); if (!rp) return;
     const go = async () => { if (glOK) { try { await three(); await load("js/reports-gl.js" + v); return; } catch (e) {} } await load("js/reports-css.js" + v); };
     const o = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { o.disconnect(); go(); } }, { rootMargin: "150% 0px" }); o.observe(rp);
