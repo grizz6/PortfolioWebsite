@@ -4,8 +4,8 @@
  * Only transforms and one custom property change per frame, so the compositor does the work.
  */
 (() => {
-  const { $, clamp, lerp, sstep, damp, reduce, M, scene, DOCS, coverArt, idle, progress, dots: mkDots } = MO;
-  const sec = $("#reports"), s = $("#reports .rp-s"), cap = $("#reports .rp-cap"), N = DOCS.length;
+  const { $, clamp, lerp, sstep, damp, reduce, M, scene, DOCS, coverArt, idle, deal } = MO;
+  const sec = $("#reports"), s = $("#reports .rp-s"), N = DOCS.length;
   const old = $("canvas", s); if (old) old.remove();
   const wall = document.createElement("div"); wall.className = "rp-wall";
   const ring = document.createElement("div"); ring.className = "rp-ring"; wall.appendChild(ring); s.prepend(wall);
@@ -13,23 +13,18 @@
     const a = document.createElement("a"); a.className = "rp-page"; a.href = d.href; a.target = "_blank"; a.rel = "noopener noreferrer";
     a.innerHTML = `<canvas width="390" height="320" aria-hidden="true"></canvas><span class="k"></span><h3></h3><p class="s"></p><span class="f"><span>Grishma Gajurel</span><span>${String(i + 1).padStart(2, "0")} / ${String(N).padStart(2, "0")}</span></span>`;
     $(".k", a).textContent = d.kind; $("h3", a).textContent = d.title; $(".s", a).textContent = d.sub;
-    a.addEventListener("focus", () => st.scrollTo(pFor(i)));
+    a.addEventListener("focus", () => go(i));
     ring.appendChild(a); return { a, i, lift: 0, lean: 0, last: "" };
   });
   // Paint covers in idle time, at half size: the page is small, so nobody can tell
   let ci = 0; const paint = () => { if (ci >= N) return; const c = $("canvas", pages[ci].a); c.getContext("2d").drawImage(coverArt(DOCS[ci], 780, 640), 0, 0, 390, 320); ci++; idle(paint); }; idle(paint);
   let hover = -1; pages.forEach((q) => { q.a.addEventListener("pointerenter", () => (hover = q.i)); q.a.addEventListener("pointerleave", () => hover === q.i && (hover = -1)); });
 
-  const st = progress(sec);
-  const pFor = (i) => { const sN = i / (N - 1); let a = 0, b = 1; for (let k = 0; k < 24; k++) { const m = (a + b) / 2; (m * m * (3 - 2 * m) < sN ? (a = m) : (b = m)); } return 0.24 + ((a + b) / 2) * 0.72; };
-  const dots = mkDots($("#reports .rp-dots"), N, (i) => st.scrollTo(pFor(i)));
 
   // Drag to deal
-  let drag = null, U = 140;
-  wall.addEventListener("pointerdown", (e) => { drag = { x: e.clientX, y0: scrollY, moved: 0 }; });
-  addEventListener("pointermove", (e) => { if (!drag) return; const dx = e.clientX - drag.x; drag.moved = Math.max(drag.moved, Math.abs(dx)); if (drag.moved > 6) { wall.classList.add("is-drag"); scrollTo(0, drag.y0 - (dx / (U * 2.2)) * st.span * (0.72 / (N - 1))); } }, { passive: true });
-  addEventListener("pointerup", () => { setTimeout(() => (drag = null), 0); wall.classList.remove("is-drag"); });
-  wall.addEventListener("click", (e) => { if (drag && drag.moved > 6) e.preventDefault(); }, true);
+  let U = 140;
+  const { st, go, drag, caption } = deal(sec, wall, () => U * 2.2);
+  wall.addEventListener("click", (e) => { if (drag.moved > 6) e.preventDefault(); }, true);
   const measure = () => (U = pages[0].a.offsetWidth / 2.1); new ResizeObserver(measure).observe(pages[0].a); measure();
 
   let rx = 0, ry = 0;
@@ -49,6 +44,6 @@
       if (tf !== q.last) { q.last = tf; q.a.style.transform = tf; q.a.style.setProperty("--shade", (Math.min(1, ao) * 0.12 + Math.abs(q.lean) * 0.08).toFixed(3)); }
     });
     const ai = clamp(Math.round(act), 0, N - 1);
-    if (cap._i !== ai && fan > 0.5) { cap._i = ai; cap.innerHTML = `<b>${DOCS[ai].title}</b><span>${DOCS[ai].kind.toLowerCase()} · drag, or click the page to open</span>`; dots.forEach((d, j) => d.classList.toggle("on", j === ai)); }
+    if (fan > 0.5) caption(ai);
   });
 })();

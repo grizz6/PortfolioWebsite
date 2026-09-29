@@ -6,12 +6,10 @@
  */
 window.MO = (function () {
   "use strict";
-  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
-  const clamp = (v, a, b) => Math.max(a, Math.min(b, v)), lerp = (a, b, t) => a + (b - a) * t;
+  const { $, $$, clamp, lerp, reduce } = KIT;
   const sstep = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
   // Frame-rate independent easing: move `k` of the way per 60 fps frame, whatever the real frame time
   const damp = (a, b, k, dt) => lerp(a, b, 1 - Math.pow(1 - k, dt * 60));
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const RNG = (s) => { s = Math.floor(s) % 2147483646 + 1; return () => ((s = (s * 16807) % 2147483647) / 2147483647); };
   function Noise(seed) {
     const r = RNG(seed), perm = [...Array(256).keys()];
@@ -88,13 +86,27 @@ window.MO = (function () {
     st.scrollTo = (p) => scrollTo({ top: st.top + p * st.span, behavior: reduce ? "auto" : "smooth" });
     return st;
   }
-  // Report dots become buttons that deal straight to a page
-  function dots(el, n, go) { el.innerHTML = ""; for (let i = 0; i < n; i++) { const b = document.createElement("button"); b.type = "button"; b.setAttribute("aria-label", `Show ${DOCS[i].title}`); b.addEventListener("click", () => go(i)); el.appendChild(b); } return [...el.children]; }
+  // Dealing through the reports, shared by the WebGL pages and the CSS fallback: eased scroll progress, dots that
+  // jump to a page, and horizontal drags that scroll the section. `pagePx()` is how far a drag moves one page.
+  function deal(sec, grab, pagePx) {
+    const N = DOCS.length, st = progress(sec);
+    const at = (i) => { const s = i / (N - 1); let a = 0, b = 1; for (let k = 0; k < 24; k++) { const m = (a + b) / 2; (m * m * (3 - 2 * m) < s ? (a = m) : (b = m)); } return 0.24 + ((a + b) / 2) * 0.72; };
+    const go = (i) => st.scrollTo(at(i));
+    const box = $(".rp-dots", sec); box.innerHTML = "";
+    const dots = DOCS.map((d, i) => { const b = document.createElement("button"); b.type = "button"; b.setAttribute("aria-label", `Show ${d.title}`); b.addEventListener("click", () => go(i)); box.appendChild(b); return b; });
+    const drag = { on: false, x: 0, y0: 0, moved: 0, get active() { return this.on && this.moved > 6; } };
+    grab.addEventListener("pointerdown", (e) => Object.assign(drag, { on: true, x: e.clientX, y0: scrollY, moved: 0 }));
+    addEventListener("pointermove", (e) => { if (!drag.on) return; const dx = e.clientX - drag.x; drag.moved = Math.max(drag.moved, Math.abs(dx)); if (drag.moved > 6) { grab.classList.add("is-drag"); scrollTo(0, drag.y0 - (dx / pagePx()) * st.span * (0.72 / (N - 1))); } }, { passive: true });
+    addEventListener("pointerup", () => { setTimeout(() => (drag.on = false), 0); grab.classList.remove("is-drag"); });
+    const cap = $(".rp-cap", sec); let shown = -1;
+    const caption = (i) => { if (i === shown) return; shown = i; cap.innerHTML = `<b>${DOCS[i].title}</b><span>${DOCS[i].kind.toLowerCase()} · drag, or click the page to open</span>`; dots.forEach((b, j) => b.classList.toggle("on", j === i)); };
+    return { st, go, drag, caption };
+  }
 
-  const api = { $, $$, clamp, lerp, sstep, damp, reduce, RNG, Noise, M, scene, three, load, DOCS, COVERS, coverArt, pageCanvas, idle, fontsReady, progress, dots };
+  const api = { $, $$, clamp, lerp, sstep, damp, reduce, RNG, Noise, M, scene, three, load, DOCS, COVERS, coverArt, pageCanvas, idle, fontsReady, deal };
 
   // Boot: the orchard now, the reports (and three.js) only once they are about a screen away
-  const v = "?v=12";
+  const v = "?v=13";
   const boot = async () => {
     await load("js/orchard-paper.js" + v);
     load("js/seasons.js" + v); load("js/forage.js" + v);

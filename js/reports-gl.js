@@ -7,8 +7,8 @@
  */
 (() => {
   if (!window.THREE) return;
-  const { $, $$, clamp, lerp, sstep, damp, reduce, M, scene, DOCS, pageCanvas, idle, fontsReady, progress, dots: mkDots } = MO;
-  const T = THREE, sec = $("#reports"), cv = $("#reports canvas"), cap = $("#reports .rp-cap"), N = DOCS.length;
+  const { $, clamp, lerp, sstep, damp, reduce, M, scene, DOCS, pageCanvas, idle, fontsReady, deal } = MO;
+  const T = THREE, sec = $("#reports"), cv = $("#reports canvas"), N = DOCS.length;
   const dpr = Math.min(devicePixelRatio || 1, 1.75);
   const r = new T.WebGLRenderer({ canvas: cv, antialias: dpr < 1.5, alpha: true, powerPreference: "high-performance" });
   r.setPixelRatio(dpr); r.setClearColor(0, 0);
@@ -39,19 +39,11 @@
   // Paint the covers one per idle slot, then swap the image in place (no shader recompiles)
   fontsReady().then(() => { let i = 0; const next = () => { if (i >= N) return; const q = pages[i]; q.tx.image = pageCanvas(DOCS[i], i); q.tx.needsUpdate = true; i++; idle(next); }; idle(next); });
 
-  const st = progress(sec);
-  // Invert the dealing curve so a dot (or a drag) can land exactly on a page
-  const pFor = (i) => { const s = i / (N - 1); let a = 0, b = 1; for (let k = 0; k < 24; k++) { const m = (a + b) / 2; (m * m * (3 - 2 * m) < s ? (a = m) : (b = m)); } return 0.24 + ((a + b) / 2) * 0.72; };
-  const dots = mkDots($("#reports .rp-dots"), N, (i) => st.scrollTo(pFor(i)));
-
   const ray = new T.Raycaster(), v2 = new T.Vector2(); let hover = -1, W = 0, H = 0;
   cv.style.pointerEvents = "auto"; cv.style.touchAction = "pan-y";
-  // Drag to deal: horizontal drags scroll the section; a short press still counts as a click
-  let drag = null;
-  cv.addEventListener("pointerdown", (e) => { drag = { x: e.clientX, y0: scrollY, moved: 0 }; });
-  addEventListener("pointermove", (e) => { if (!drag) return; const dx = e.clientX - drag.x; drag.moved = Math.max(drag.moved, Math.abs(dx)); if (drag.moved > 6) { cv.classList.add("is-drag"); scrollTo(0, drag.y0 - (dx / (W * 0.3)) * st.span * (0.72 / (N - 1))); } }, { passive: true });
-  addEventListener("pointerup", () => { setTimeout(() => (drag = null), 0); cv.classList.remove("is-drag"); });
-  cv.addEventListener("click", () => { if (drag && drag.moved > 6) return; if (hover >= 0) { pages[hover].pop = 1; window.open(DOCS[hover].href, "_blank", "noopener"); } });
+  // Drag to deal; a short press still counts as a click
+  const { st, drag, caption } = deal(sec, cv, () => W * 0.3);
+  cv.addEventListener("click", () => { if (drag.moved > 6) return; if (hover >= 0) { pages[hover].pop = 1; window.open(DOCS[hover].href, "_blank", "noopener"); } });
 
   const resize = () => {
     W = cv.clientWidth; H = cv.clientHeight; if (!W || !H) return; r.setSize(W, H, false); cam.aspect = W / H; cam.updateProjectionMatrix();
@@ -65,9 +57,9 @@
     const p = st.update(dt), vel = clamp(st.v * 2.2, -1.2, 1.2);
     const fan = reduce ? 1 : sstep(0.02, 0.24, p), act = sstep(0.24, 0.96, p) * (N - 1);
     rx = damp(rx, M.ny, 0.08, dt); ry = damp(ry, M.nx, 0.08, dt);
-    v2.set(M.nx, M.ny); ray.setFromCamera(v2, cam); const hits = drag && drag.moved > 6 ? [] : ray.intersectObjects(pages.map((q) => q.m));
+    v2.set(M.nx, M.ny); ray.setFromCamera(v2, cam); const hits = drag.active ? [] : ray.intersectObjects(pages.map((q) => q.m));
     hover = hits.length ? pages.findIndex((q) => q.m === hits[0].object) : -1;
-    cv.style.cursor = drag && drag.moved > 6 ? "" : hover >= 0 ? "pointer" : "grab";
+    cv.style.cursor = drag.active ? "" : hover >= 0 ? "pointer" : "grab";
     pages.forEach((q) => {
       const i = q.i, o = i - act, ao = Math.abs(o), so = Math.sign(o);
       const fx = o * 1.05 + so * Math.min(1, ao) * 0.85, fz = -ao * 0.85 + (ao < 0.5 ? 0.9 * (1 - ao * 2) : 0), fry = -clamp(o, -1, 1) * 0.95;
@@ -78,7 +70,7 @@
       q.m.rotation.set(-0.08 + rx * 0.05, lerp(-0.2, fry, fan) + ry * 0.08 + q.bend * 0.1, lerp((i - 2.5) * 0.05, 0, fan));
     });
     const ai = clamp(Math.round(act), 0, N - 1);
-    if (cap._i !== ai && fan > 0.5) { cap._i = ai; cap.innerHTML = `<b>${DOCS[ai].title}</b><span>${DOCS[ai].kind.toLowerCase()} · drag or click the page to open</span>`; dots.forEach((d, j) => d.classList.toggle("on", j === ai)); }
+    if (fan > 0.5) caption(ai);
     r.render(scene3, cam);
   });
 })();
