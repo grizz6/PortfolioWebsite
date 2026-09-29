@@ -6,7 +6,7 @@
 <title>Grishma Gajurel — Data Analyst &amp; Software Engineer</title>
 <meta name="description" content="Grishma Gajurel, data analyst and software engineer. Research, machine learning, dashboards, and tested data tools like synthkit." />
 <meta name="author" content="Grishma Gajurel" />
-<meta name="theme-color" content="#E1DFD8" />
+<meta name="theme-color" content="#F3EBDD" />
 <link rel="canonical" href="https://www.grishmagajurel.com/" />
 <meta property="og:title" content="Grishma Gajurel — Data Analyst &amp; Software Engineer" />
 <meta property="og:description" content="I turn messy, multi-source data into models and reports people can act on." />
@@ -47,12 +47,26 @@
 
   /* Hero: gooey blob + proximity type */
   .hero { position: relative; height: 100svh; min-height: 680px; overflow: hidden; }
-  .goo { position: absolute; inset: 0; filter: blur(28px) contrast(22); background: #fff; }
-  .tint { position: absolute; inset: 0; pointer-events: none; }
-  .tint.a { background: var(--blob); mix-blend-mode: lighten; }
-  .tint.b { background: var(--bg); mix-blend-mode: multiply; }
-  .goo canvas { width: 100%; height: 100%; display: block; }
-  .hero__copy { position: absolute; left: var(--pad); right: var(--pad); bottom: 12vh; mix-blend-mode: difference; color: #fff; }
+  #orchard { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .hero__copy { position: absolute; left: var(--pad); right: var(--pad); top: clamp(6.5rem, 16vh, 10rem); color: var(--ink); z-index: 2; pointer-events: none; }
+  .hero__copy a { pointer-events: auto; }
+  .hero .prox { font-size: clamp(2.6rem, 5.6vw, 6rem); max-width: 17ch; }
+  .o-hint { position: absolute; right: var(--pad); top: 5.2rem; z-index: 3; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; padding: .45rem .85rem; border-radius: 999px; background: rgba(243,235,221,.8); backdrop-filter: blur(6px); opacity: 0; transition: opacity 1s 2.5s; }
+  .hero.is-in .o-hint { opacity: 1; }
+  @media (max-width: 760px) { .o-hint { display: none; } }
+
+  /* Reports: real work as paper */
+  .reports { position: relative; height: 300vh; }
+  .rp-s { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+  .rp-s canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .rp-h { position: absolute; left: var(--pad); top: 18vh; z-index: 2; margin: 0; font-family: var(--serif); font-weight: 400; font-size: clamp(2.6rem, 6vw, 6rem); line-height: .95; letter-spacing: -.03em; font-variation-settings: "opsz" 144; pointer-events: none; }
+  .rp-h em { color: var(--acc); font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1; }
+  .rp-k { display: block; margin-bottom: 1.2rem; font-family: "Inter Tight", sans-serif; font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .rp-cap { position: absolute; left: var(--pad); bottom: 14vh; z-index: 2; max-width: 22rem; line-height: 1.5; }
+  .rp-cap b { display: block; font-family: var(--serif); font-weight: 400; font-size: 1.6rem; line-height: 1.1; }
+  .rp-cap span { color: var(--muted); font-size: .85rem; }
+  .rp-dots { position: absolute; left: var(--pad); bottom: 9vh; z-index: 2; display: flex; gap: .45rem; } .rp-dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--line); transition: background 300ms, transform 300ms; } .rp-dots i.on { background: var(--acc); transform: scale(1.3); }
+  @media (max-width: 760px) { .rp-h { top: 11vh; } .rp-cap { bottom: 18vh; } .rp-dots { bottom: 14vh; } }
   .top { display: flex; gap: 1rem; align-items: center; margin: 0 0 1.6rem; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.14em; }
   .top::before { content: ""; width: 2.5rem; height: 1px; background: currentColor; }
   .prox { margin: 0; max-width: 16ch; font-family: var(--serif); font-weight: 400; font-size: clamp(2.8rem, 7.2vw, 7.4rem); line-height: 0.98; letter-spacing: -0.03em; }
@@ -368,7 +382,7 @@
 
 <main id="top">
   <section class="hero" id="hero" aria-labelledby="hh">
-    <div class="goo" aria-hidden="true"><canvas id="goo"></canvas></div><div class="tint a" aria-hidden="true"></div><div class="tint b" aria-hidden="true"></div>
+    <canvas id="orchard" aria-label="A generative orchard growing and blossoming, with bees flying between the flowers"></canvas><span class="o-hint" aria-hidden="true">Move for wind · click to regrow</span>
     <div class="hero__copy"><p class="top" data-title></p><h1 class="prox" id="hh" data-headline></h1><div class="cur-line" data-currently></div></div>
     <a class="badge" href="#about" aria-label="Scroll down"><span aria-hidden="true"></span></a>
   </section>
@@ -419,6 +433,15 @@
           <div class="ci" aria-hidden="true"><span><b>✓</b>Linux</span><span><b>✓</b>macOS</span><span><b>✓</b>Windows</span><span><b>✓</b>Py 3.10–3.13</span></div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="reports" id="reports" aria-labelledby="rp-h">
+    <div class="rp-s">
+      <canvas aria-hidden="true"></canvas>
+      <h2 class="rp-h" id="rp-h"><span class="rp-k">Selected reports</span>Reports people<br />can <em>act on.</em></h2>
+      <div class="rp-cap" aria-live="polite"><b>Scroll</b><span>to deal through the work. Click a page to open it.</span></div>
+      <div class="rp-dots"></div>
     </div>
   </section>
 
@@ -498,12 +521,7 @@
   if (reduce) done(); else { let n = 0; const id = setInterval(() => { n = Math.min(100, n + 3 + Math.random() * 6); nEl.textContent = Math.round(n); ring.style.strokeDashoffset = 283 - (283 * n) / 100; lg.style.setProperty("--lw", 100 + n * 8); lg.style.setProperty("--ls", n); lg.textContent = n < 50 ? "g" : "G"; $("#hello").textContent = hello[Math.min(hello.length - 1, Math.floor(n / 18))]; if (n >= 100) { clearInterval(id); setTimeout(done, 250); } }, 50); }
 
   // Gooey blob
-  const gc = $("#goo"), gx = gc.getContext("2d");
-  let GW, GH, mx = innerWidth * 0.7, my = innerHeight * 0.45, bx = mx, by = my;
-  const size = () => { GW = gc.width = gc.clientWidth; GH = gc.height = gc.clientHeight; };
-  size(); addEventListener("resize", size);
-  const blobs = Array.from({ length: 7 }, (_, i) => ({ a: i * 0.9, r: 60 + Math.random() * 70, s: 0.3 + Math.random() * 0.5, d: 90 + Math.random() * 120 }));
-  $("#hero").addEventListener("pointermove", (e) => { mx = e.clientX; my = e.clientY; });
+
 
   // Services
   const ILL = [
@@ -522,7 +540,7 @@
   // Work + RGB-split preview
   const pv = $("#pv"), px = pv.getContext("2d"), prev = $("#preview");
   const off = document.createElement("canvas"); off.width = 480; off.height = 320; const ox = off.getContext("2d");
-  const cols = ["#7a1f35", "#121110", "#1d5a43", "#2f45ff", "#8a3b2a", "#3d5a80", "#6b5a2f"];
+  const cols = ["#5E6B45", "#C8643B", "#2F6F73", "#5B2A45", "#B07A1F", "#3D5A40", "#8C3B2A"];
   let cur = -1, hot = 0, vx = 0, lastX = 0;
   function paint(i) {
     const p = P.projects[i]; ox.fillStyle = cols[i % cols.length]; ox.fillRect(0, 0, 480, 320);
@@ -587,12 +605,8 @@
   let pX = 0, pY = 0, rot = 0, mqx = 0, lastY = scrollY; const t0 = performance.now();
   (function frame(now) {
     const t = (now - t0) / 1000;
-    const hr = gc.getBoundingClientRect();
+    const hr = $("#hero").getBoundingClientRect();
     if (hr.bottom > 0) {
-      bx = lerp(bx, mx, 0.08); by = lerp(by, my, 0.08);
-      gx.clearRect(0, 0, GW, GH); gx.fillStyle = "#000";
-      gx.beginPath(); gx.arc(bx, by, 130, 0, 7); gx.fill();
-      blobs.forEach((b) => { const ang = b.a + t * b.s; gx.beginPath(); gx.arc(GW * 0.68 + Math.cos(ang) * b.d * 1.8, GH * 0.42 + Math.sin(ang * 1.3) * b.d, b.r, 0, 7); gx.fill(); });
       if (!reduce) chars.forEach((c) => { const r = c.getBoundingClientRect(); const d = Math.hypot(r.left + r.width / 2 - (prev._x ?? -999), r.top + r.height / 2 - (prev._y ?? -999)); const k = clamp(1 - d / 220, 0, 1); c.style.setProperty("--w", (300 + k * 600).toFixed(0)); c.style.setProperty("--s", (k * 100).toFixed(0)); c.style.setProperty("--k", k > 0.5 ? 1 : 0); c.classList.toggle("hot", k > 0.75); });
     }
     pX = lerp(pX, prev._x || 0, 0.14); pY = lerp(pY, prev._y || 0, 0.14); rot = lerp(rot, clamp(vx * 0.4, -12, 12), 0.1);
@@ -617,5 +631,178 @@
   reveal();
 })();
 </script>
+<!-- ============ Orchard hero + paper reports ============ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v)), lerp = (a, b, t) => a + (b - a) * t;
+  const sstep = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const RNG = (s) => { s = Math.floor(s) % 2147483646 + 1; return () => ((s = (s * 16807) % 2147483647) / 2147483647); };
+  function Noise(seed) {
+    const r = RNG(seed), perm = [...Array(256).keys()];
+    for (let i = 255; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [perm[i], perm[j]] = [perm[j], perm[i]]; }
+    const p = new Uint8Array(512); for (let i = 0; i < 512; i++) p[i] = perm[i & 255];
+    const fade = (t) => t * t * t * (t * (t * 6 - 15) + 10), g = (h, x, y) => { switch (h & 3) { case 0: return x + y; case 1: return -x + y; case 2: return x - y; default: return -x - y; } };
+    return (x, y) => { const X = Math.floor(x) & 255, Y = Math.floor(y) & 255; x -= Math.floor(x); y -= Math.floor(y); const u = fade(x), v = fade(y), a = p[X] + Y, b = p[X + 1] + Y; return lerp(lerp(g(p[a], x, y), g(p[b], x - 1, y), u), lerp(g(p[a + 1], x, y - 1), g(p[b + 1], x - 1, y - 1), u), v); };
+  }
+  const M = { x: -9999, y: -9999, vx: 0, nx: 0, ny: 0 }; let lx = 0;
+  addEventListener("pointermove", (e) => { M.vx = e.clientX - lx; lx = e.clientX; M.x = e.clientX; M.y = e.clientY; M.nx = (e.clientX / innerWidth) * 2 - 1; M.ny = -((e.clientY / innerHeight) * 2 - 1); });
+  const loops = []; const tick = (now) => { const t = now / 1000; loops.forEach((f) => f(t)); M.vx *= 0.9; requestAnimationFrame(tick); };
+
+  // ================= Orchard hero =================
+  (() => {
+    const hero = $("#hero"), cv = $("#orchard"), x = cv.getContext("2d");
+    const C = { sky1: "#F3EBDD", sky2: "#E6E4D3", sun: "#F2CC8F", hill1: "#C5D0A8", hill2: "#9DB27E", ground: "#5E6B45", bark: "#3B2A22", barkBack: "#7a6a5c", leaf: ["#5E6B45", "#87A96B", "#3D5A40"], bloom: ["#E8B4A0", "#F7E4DA", "#D98A7A", "#F2CC8F", "#FFFFFF"], bee: "#E0A33A", page: "#E1DFD8" };
+    let W = 0, H = 0, D = 1, trees = [], bees = [], petals = [], t0 = null, wind = 0, seed = 11, inHero = false;
+    hero.addEventListener("pointerenter", () => (inHero = true)); hero.addEventListener("pointerleave", () => (inHero = false));
+    function makeTree(x0, y0, s, r, depthMax) {
+      const br = [];
+      (function grow(parent, ang, len, depth) {
+        const b = { parent, ang, len, depth, w: Math.max(0.8, (depth + 0.5) * 1.5 * s), idx: br.length }; br.push(b);
+        if (depth > 0) { const k = r() < 0.2 ? 3 : 2; for (let j = 0; j < k; j++) grow(b, (j - (k - 1) / 2) * (0.38 + r() * 0.34) + (r() - 0.5) * 0.25, len * (0.7 + r() * 0.12), depth - 1); }
+        else b.fl = Array.from({ length: 3 + Math.floor(r() * 4) }, () => ({ dx: (r() - 0.5) * 16 * s, dy: (r() - 0.5) * 14 * s, rr: (2 + r() * 3.4) * s, c: r() < 0.3 ? C.leaf[Math.floor(r() * 3)] : C.bloom[Math.floor(r() * C.bloom.length)] }));
+      })(null, 0, 64 * s, depthMax);
+      return { x0, y0, s, br, depthMax, ph: r() * 6 };
+    }
+    function build() {
+      D = Math.min(devicePixelRatio || 1, 2); W = cv.clientWidth; H = cv.clientHeight; cv.width = W * D; cv.height = H * D; x.setTransform(D, 0, 0, D, 0, 0);
+      const r = RNG(seed), gy = H * 0.88, k = clamp(H / 900, 0.7, 1.2) * (W < 700 ? 0.8 : 1); trees = [];
+      const nBack = Math.max(3, Math.round(W / 250)), nFront = Math.max(2, Math.round(W / 360));
+      for (let i = 0; i < nBack; i++) trees.push(makeTree(W * ((i + 0.5) / nBack) + (r() - 0.5) * 60, gy - H * 0.07, (0.62 + r() * 0.18) * k, r, 6));
+      for (let i = 0; i < nFront; i++) trees.push(makeTree(W * ((i + 0.5) / nFront) + (r() - 0.5) * 80, gy + 6, (1 + r() * 0.25) * k, r, 7));
+      bees = Array.from({ length: W < 700 ? 10 : 22 }, () => ({ x: r() * W, y: H * (0.3 + r() * 0.4), vx: 0, vy: 0, tr: [], tgt: null, wait: 0 }));
+      petals = Array.from({ length: W < 700 ? 24 : 46 }, () => ({ x: r() * W, y: r() * H, v: 0.3 + r() * 0.7, s: 2 + r() * 3, a: r() * 6, c: C.bloom[Math.floor(r() * 3)] }));
+    }
+    cv.addEventListener("click", () => { seed = Math.floor(Math.random() * 9999); build(); t0 = performance.now() / 1000; });
+    addEventListener("resize", () => { build(); });
+    build();
+    const tips = [];
+    loops.push((t) => {
+      const hb = hero.getBoundingClientRect(); if (hb.bottom < 0) return;
+      if (cv.clientWidth !== W || cv.clientHeight !== H) build();
+      if (t0 === null) { if (hero.classList.contains("is-in") || reduce) t0 = t; else t0 = null; }
+      const g = reduce ? 1 : t0 === null ? 0 : clamp((t - t0) / 5.5, 0, 1), gy = H * 0.88, sc = clamp(-hb.top / H, 0, 1);
+      wind = lerp(wind, M.vx * 0.04 + Math.sin(t * 0.6) * 0.3, 0.05);
+      const sky = x.createLinearGradient(0, 0, 0, H); sky.addColorStop(0, C.sky1); sky.addColorStop(1, C.sky2); x.fillStyle = sky; x.fillRect(0, 0, W, H);
+      const sunR = Math.min(W, H) * 0.075, sx = W * (W < 700 ? 0.78 : 0.8), sy = H * 0.24 + sc * H * 0.25;
+      const glow = x.createRadialGradient(sx, sy, sunR * 0.5, sx, sy, sunR * 4); glow.addColorStop(0, "rgba(242,204,143,.45)"); glow.addColorStop(1, "rgba(242,204,143,0)"); x.fillStyle = glow; x.fillRect(0, 0, W, H);
+      x.fillStyle = C.sun; x.beginPath(); x.arc(sx, sy, sunR, 0, 6.283); x.fill();
+      const hill = (col, base, amp, fq, ph) => { x.fillStyle = col; x.beginPath(); x.moveTo(0, H); for (let xx = 0; xx <= W + 20; xx += 20) x.lineTo(xx, base + Math.sin(xx * fq + ph) * amp + Math.sin(xx * fq * 2.3 + ph * 2) * amp * 0.4); x.lineTo(W, H); x.fill(); };
+      hill(C.hill1, gy - H * 0.15, 16, 0.004, 1); hill(C.hill2, gy - H * 0.06, 13, 0.006, 3);
+      tips.length = 0; const split = trees.length - Math.max(2, Math.round(W / 360));
+      trees.forEach((tr, ti) => {
+        if (ti === split) hill(C.ground, gy + 2, 7, 0.008, 5);
+        const P = [], back = ti < split;
+        tr.br.forEach((b, k) => {
+          const par = b.parent ? P[b.parent.idx] : { x: tr.x0, y: tr.y0, a: -Math.PI / 2 };
+          const lvl = tr.depthMax - b.depth, grow = clamp(g * (tr.depthMax + 2) - lvl, 0, 1);
+          const sway = reduce ? 0 : (lvl / tr.depthMax) * wind * 0.12 + Math.sin(t * 1.4 + tr.ph + lvl) * 0.012 * lvl;
+          const a = par.a + b.ang + sway, ex = par.x + Math.cos(a) * b.len * grow, ey = par.y + Math.sin(a) * b.len * grow;
+          P[k] = { x: ex, y: ey, a };
+          if (grow > 0) { x.strokeStyle = back ? C.barkBack : C.bark; x.lineWidth = b.w; x.lineCap = "round"; x.beginPath(); x.moveTo(par.x, par.y); x.lineTo(ex, ey); x.stroke(); }
+          if (b.fl) { const bk = clamp((g - 0.72) / 0.28, 0, 1); if (bk > 0) { x.globalAlpha = back ? 0.75 : 1; b.fl.forEach((f) => { x.fillStyle = f.c; x.beginPath(); x.arc(ex + f.dx, ey + f.dy, f.rr * bk, 0, 6.283); x.fill(); }); x.globalAlpha = 1; if (!back) tips.push([ex, ey]); } }
+        });
+      });
+      // soft hand-off into the page colour
+      const fade = x.createLinearGradient(0, H * 0.9, 0, H); fade.addColorStop(0, "rgba(225,223,216,0)"); fade.addColorStop(1, C.page); x.fillStyle = fade; x.fillRect(0, H * 0.9, W, H * 0.1);
+      if (g > 0.8 && !reduce) petals.forEach((p) => { p.x += wind * 1.5 + 0.3; p.y += p.v; p.a += 0.03; if (p.y > H || p.x > W + 10) { p.y = -10; p.x = Math.random() * W; } if (p.x < -10) p.x = W; x.save(); x.translate(p.x, p.y); x.rotate(p.a); x.fillStyle = p.c; x.globalAlpha = 0.85; x.beginPath(); x.ellipse(0, 0, p.s, p.s * 0.55, 0, 0, 6.283); x.fill(); x.restore(); });
+      // bees: they visit blossoms, and treat your cursor like a flower
+      if (tips.length && !reduce) {
+        const cx = M.x - hb.left, cy = M.y - hb.top;
+        bees.forEach((b, i) => {
+          const near = inHero && Math.hypot(b.x - cx, b.y - cy) < 280;
+          if (near) { b.tgt = [cx + Math.cos(t * 3 + i) * 26, cy + Math.sin(t * 3.4 + i * 2) * 18]; b.wait = 0; }
+          else if (!b.tgt || b.wait > 0) { b.wait--; if (b.wait <= 0 || !b.tgt) { b.tgt = tips[Math.floor(Math.random() * tips.length)]; b.wait = 0; } }
+          const dx = b.tgt[0] - b.x, dy = b.tgt[1] - b.y, d = Math.hypot(dx, dy);
+          if (!near && d < 6) { b.wait = 40 + Math.random() * 60; b.tgt = null; }
+          b.vx += (dx / (d + 1)) * 0.2 + (Math.random() - 0.5) * 0.35; b.vy += (dy / (d + 1)) * 0.2 + (Math.random() - 0.5) * 0.35 + Math.sin(t * 9 + i) * 0.05;
+          const sp = Math.hypot(b.vx, b.vy), mx = near ? 3.4 : 2.6; if (sp > mx) { b.vx *= mx / sp; b.vy *= mx / sp; } b.vx *= 0.96; b.vy *= 0.96;
+          b.x += b.vx; b.y += b.vy; b.tr.push([b.x, b.y]); if (b.tr.length > 26) b.tr.shift();
+          x.fillStyle = C.bee; b.tr.forEach((q, k) => { if (k % 3) return; x.globalAlpha = (k / b.tr.length) * 0.35; x.fillRect(q[0], q[1], 1.6, 1.6); }); x.globalAlpha = 1;
+          x.save(); x.translate(b.x, b.y); x.rotate(Math.atan2(b.vy, b.vx));
+          x.fillStyle = "rgba(255,255,255,.8)"; x.beginPath(); x.ellipse(-1, -3 - Math.abs(Math.sin(t * 40 + i)) * 1.5, 2.8, 1.7, -0.4, 0, 6.283); x.fill();
+          x.fillStyle = C.bee; x.beginPath(); x.ellipse(0, 0, 4.4, 2.9, 0, 0, 6.283); x.fill(); x.fillStyle = "#1B1C19"; x.fillRect(-1.2, -2.7, 1.4, 5.4); x.fillRect(1.6, -2.3, 1.1, 4.6); x.restore();
+        });
+      }
+    });
+  })();
+
+  // ================= Paper reports (3D) =================
+  (() => {
+    if (!window.THREE) return; const T = THREE;
+    const sec = $("#reports"), cv = $("#reports canvas"), cap = $("#reports .rp-cap"), dots = $("#reports .rp-dots");
+    const INK = "#1B1C19", PAL = ["#5E6B45", "#C8643B", "#E0A33A", "#2F6F73", "#5B2A45", "#E8B4A0", "#87A96B"];
+    const COVERS = {
+      rings(x, L, T0, W, H, r, n) { const cx = L + W * 0.5, cy = T0 + H * 0.52; for (let k = 0; k < 30; k++) { const R0 = 10 + k * 8.2; x.beginPath(); for (let a = 0; a <= 6.3; a += 0.03) { const rr = R0 + n(Math.cos(a) * 1.3 + k * 0.08, Math.sin(a) * 1.3) * R0 * 0.2; const X = cx + Math.cos(a) * rr * 1.25, Y = cy + Math.sin(a) * rr; a ? x.lineTo(X, Y) : x.moveTo(X, Y); } x.closePath(); x.strokeStyle = k % 5 === 4 ? PAL[(k / 5) % PAL.length | 0] : INK; x.lineWidth = k % 5 === 4 ? 4 : 1.3; x.stroke(); } },
+      flow(x, L, T0, W, H, r, n) { x.lineCap = "round"; for (let i = 0; i < 520; i++) { let px = L + r() * W, py = T0 + r() * H; x.beginPath(); x.moveTo(px, py); const len = 30 + r() * 90; for (let s = 0; s < len; s++) { const a = n(px * 0.004, py * 0.004) * 6.28 * 1.4; px += Math.cos(a) * 2.2; py += Math.sin(a) * 2.2; x.lineTo(px, py); } x.strokeStyle = r() < 0.25 ? INK : PAL[Math.floor(r() * PAL.length)]; x.lineWidth = r() < 0.12 ? 5 + r() * 5 : 0.8 + r() * 2; x.stroke(); } },
+      truchet(x, L, T0, W, H, r) { const c = 38; x.lineWidth = 3.2; x.lineCap = "round"; for (let yy = T0; yy < T0 + H; yy += c) for (let xx = L; xx < L + W; xx += c) { if (r() < 0.16) { x.fillStyle = PAL[Math.floor(r() * PAL.length)]; x.globalAlpha = 0.55; x.fillRect(xx, yy, c, c); x.globalAlpha = 1; } x.strokeStyle = r() < 0.25 ? "#5E6B45" : INK; x.beginPath(); if (r() < 0.5) { x.arc(xx, yy, c / 2, 0, Math.PI / 2); x.moveTo(xx + c, yy + c / 2); x.arc(xx + c, yy + c, c / 2, -Math.PI / 2, Math.PI, true); } else { x.arc(xx + c, yy, c / 2, Math.PI / 2, Math.PI); x.moveTo(xx + c / 2, yy + c); x.arc(xx, yy + c, c / 2, -Math.PI / 2, 0); } x.stroke(); } },
+      stipple(x, L, T0, W, H, r, n) { let k = 0, tries = 0; while (k < 9000 && tries < 90000) { tries++; const px = L + r() * W, py = T0 + r() * H, d = Math.pow((n(px * 0.006, py * 0.006) + 1) / 2, 2.2); if (r() < d * 1.6) { k++; x.fillStyle = r() < 0.12 ? PAL[Math.floor(r() * 4)] : INK; x.fillRect(px, py, 2, 2); } } },
+      hatch(x, L, T0, W, H, r, n) { x.lineWidth = 1.6; for (let i = 0; i < 64; i++) { const y0 = T0 + (i / 63) * H; x.beginPath(); for (let px = L; px <= L + W; px += 6) { const u = (px - L) / W, cyv = T0 + H * 0.5, yy = lerp(y0, cyv + (y0 - cyv) * 0.12, u * u) + n(px * 0.006, i * 0.12) * 26 * (1 - u); px === L ? x.moveTo(px, yy) : x.lineTo(px, yy); } x.strokeStyle = i % 8 === 3 ? PAL[(i / 8) % PAL.length | 0] : INK; x.stroke(); } },
+      ribbons(x, L, T0, W, H, r, n) { x.lineCap = "round"; for (let i = 0; i < 140; i++) { let px = L + r() * W, py = T0 + r() * H; const w = [3, 6, 10, 16][Math.floor(r() * 4)]; x.strokeStyle = PAL[Math.floor(r() * PAL.length)]; x.lineWidth = w; x.beginPath(); x.moveTo(px, py); for (let s = 0; s < 40; s++) { const a = n(px * 0.003, py * 0.003) * 7; px += Math.cos(a) * 4; py += Math.sin(a) * 4; x.lineTo(px, py); } x.stroke(); } },
+    };
+    const DOCS = [
+      { kind: "FINDINGS REPORT · CLIENT", title: "Pollination in urban orchards", sub: "SEED St. Louis · next steps for 15 orchards", art: "rings", seed: 15, href: "files/insect-distribution-usda.pdf" },
+      { kind: "CONFERENCE POSTER · ESA 2025", title: "Urban bee foraging", sub: "How city density shapes which pollinators show up", art: "flow", seed: 2025, href: "files/Slide1.jpg" },
+      { kind: "OPEN SOURCE · PYTHON", title: "synthkit", sub: "Realistic test data · 316 tests passing", art: "truchet", seed: 316, href: "https://github.com/grizz6/synthkit" },
+      { kind: "REPORT · MODELING", title: "Orchard microclimate modeling", sub: "Rebuilding missing orchard weather", art: "hatch", seed: 60, href: "files/weather-regression.pdf" },
+      { kind: "SIDE PROJECT · AI", title: "AI Data Analyst Agent", sub: "Python does the math, TypeScript the interface", art: "stipple", seed: 10000, href: "https://github.com/grizz6/AI-Data-Analyst-Agent" },
+      { kind: "TALK · RAD CONFERENCE", title: "What the bees told us", sub: "Webster University · Research Across Disciplines", art: "ribbons", seed: 7, href: "files/rad.pdf" },
+    ];
+    DOCS.forEach(() => dots.appendChild(document.createElement("i")));
+    const r = new T.WebGLRenderer({ canvas: cv, antialias: true, alpha: true }); r.setPixelRatio(Math.min(devicePixelRatio || 1, 2)); r.setClearColor(0, 0);
+    r.outputEncoding = T.sRGBEncoding; r.toneMapping = T.ACESFilmicToneMapping; r.toneMappingExposure = 1.02; r.shadowMap.enabled = true; r.shadowMap.type = T.PCFSoftShadowMap;
+    const scene = new T.Scene(), cam = new T.PerspectiveCamera(30, 1, 0.1, 100); cam.position.set(0, 0.5, 11.5);
+    scene.add(new T.HemisphereLight(0xffffff, 0xc9c3b6, 0.75));
+    const sun = new T.DirectionalLight(0xfff5e6, 1.35); sun.position.set(-3, 6, 7); sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048);
+    Object.assign(sun.shadow.camera, { left: -8, right: 8, top: 6, bottom: -6, near: 1, far: 30 }); sun.shadow.bias = -0.0006; scene.add(sun);
+    const catcher = new T.Mesh(new T.PlaneGeometry(40, 40), new T.ShadowMaterial({ opacity: 0.14 })); catcher.position.z = -1.6; catcher.receiveShadow = true; scene.add(catcher);
+    function paper(d, i) {
+      const c = document.createElement("canvas"); c.width = 900; c.height = 1164; const x = c.getContext("2d");
+      x.fillStyle = "#F7F5EF"; x.fillRect(0, 0, 900, 1164);
+      const L = 60, T0 = 60, W = 780, H = 640;
+      x.save(); x.beginPath(); x.rect(L, T0, W, H); x.clip(); x.fillStyle = "#EFE9DC"; x.fillRect(L, T0, W, H); COVERS[d.art](x, L, T0, W, H, RNG(d.seed * 7 + 3), Noise(d.seed)); x.restore();
+      x.strokeStyle = "#1B1C1930"; x.lineWidth = 2; x.strokeRect(L, T0, W, H);
+      x.fillStyle = "#5E6B45"; x.fillRect(L, 750, 60, 6);
+      x.fillStyle = "#65665E"; x.font = "600 22px 'Inter Tight', sans-serif"; x.fillText(d.kind, L, 796);
+      x.fillStyle = "#1B1C19"; x.font = "400 60px Fraunces, Georgia, serif";
+      let line = "", y = 870; d.title.split(" ").forEach((w) => { const tt = line ? line + " " + w : w; if (x.measureText(tt).width > 780) { x.fillText(line, L, y); line = w; y += 66; } else line = tt; }); x.fillText(line, L, y);
+      x.fillStyle = "#65665E"; x.font = "italic 400 26px Fraunces, Georgia, serif"; x.fillText(d.sub, L, y + 50);
+      x.font = "500 20px 'Inter Tight', sans-serif"; x.fillText("Grishma Gajurel", L, 1120); x.fillText(String(i + 1).padStart(2, "0") + " / 06", 760, 1120);
+      const tx = new T.CanvasTexture(c); tx.encoding = T.sRGBEncoding; tx.anisotropy = r.capabilities.getMaxAnisotropy(); return tx;
+    }
+    const pages = [], geo = new T.PlaneGeometry(2.1, 2.716, 24, 2), pa = geo.attributes.position;
+    for (let k = 0; k < pa.count; k++) { const X = pa.getX(k), Y = pa.getY(k); pa.setZ(k, 0.05 * X * X + 0.02 * Math.sin(Y * 1.4)); } geo.computeVertexNormals();
+    (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => DOCS.forEach((d, i) => { const m = new T.Mesh(geo, new T.MeshStandardMaterial({ map: paper(d, i), roughness: 0.92, metalness: 0, side: T.DoubleSide })); m.castShadow = m.receiveShadow = true; scene.add(m); pages.push({ m, lift: 0, i }); }));
+    const ray = new T.Raycaster(), v2 = new T.Vector2(); let hover = -1;
+    cv.style.pointerEvents = "auto";
+    cv.addEventListener("click", () => { if (hover >= 0) window.open(DOCS[hover].href, "_blank", "noopener"); });
+    loops.push((t) => {
+      const b = sec.getBoundingClientRect(); if (b.bottom < 0 || b.top > innerHeight || !pages.length) return;
+      const W = cv.clientWidth, H = cv.clientHeight;
+      if (cv.width !== Math.round(W * r.getPixelRatio())) { r.setSize(W, H, false); cam.aspect = W / H; cam.updateProjectionMatrix(); }
+      if (W / H > 1.1) cam.setViewOffset(W, H, -W * 0.16, 0, W, H); else cam.setViewOffset(W, H, 0, -H * 0.1, W, H);
+      const p = clamp(-b.top / Math.max(1, b.height - innerHeight), 0, 1);
+      const fan = reduce ? 1 : sstep(0.02, 0.24, p), act = sstep(0.24, 0.96, p) * (pages.length - 1);
+      v2.set(M.nx, M.ny); ray.setFromCamera(v2, cam); const hits = ray.intersectObjects(pages.map((q) => q.m)); hover = hits.length ? pages.findIndex((q) => q.m === hits[0].object) : -1;
+      cv.style.cursor = hover >= 0 ? "pointer" : "";
+      pages.forEach((q) => {
+        const i = q.i, o = i - act, ao = Math.abs(o), so = Math.sign(o);
+        const fx = o * 1.05 + so * Math.min(1, ao) * 0.85, fz = -ao * 0.85 + (ao < 0.5 ? 0.9 * (1 - ao * 2) : 0), fry = -clamp(o, -1, 1) * 0.95;
+        q.lift = lerp(q.lift, hover === i ? 1 : 0, 0.12);
+        q.m.position.set(lerp(0.03 * i, fx, fan), lerp(-0.02 * i, 0, fan) + (reduce ? 0 : Math.sin(t * 0.9 + i) * 0.04) + q.lift * 0.15, lerp(-i * 0.035, fz, fan) + q.lift * 0.35);
+        q.m.rotation.set(-0.08 + M.ny * 0.05, lerp(-0.2, fry, fan) + M.nx * 0.08, lerp((i - 2.5) * 0.05, 0, fan));
+      });
+      const ai = clamp(Math.round(act), 0, DOCS.length - 1);
+      if (cap._i !== ai && fan > 0.5) { cap._i = ai; cap.innerHTML = `<b>${DOCS[ai].title}</b><span>${DOCS[ai].kind.toLowerCase()} · click the page to open</span>`; $$("i", dots).forEach((d, j) => d.classList.toggle("on", j === ai)); }
+      r.render(scene, cam);
+    });
+  })();
+
+  requestAnimationFrame(tick);
+})();
+</script>
+
 </body>
 </html>
