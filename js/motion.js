@@ -2,10 +2,7 @@
  * Motion core for the orchard hero and the selected reports.
  *
  * One requestAnimationFrame loop drives every scene, and a scene only runs while its section is on screen.
- * Variants are picked with URL parameters, so they can be compared side by side:
- *   ?hero=paper   the 2D canvas orchard (default)        ?reports=gl   the WebGL paper pages (default)
- *   ?hero=diorama the 3D three.js orchard                ?reports=css  the CSS 3D curved wall (no WebGL)
- *   ?lab          shows a small switcher and an FPS meter
+ * The reports use WebGL paper pages; browsers without WebGL get the same pages as a CSS 3D wall.
  */
 window.MO = (function () {
   "use strict";
@@ -37,41 +34,20 @@ window.MO = (function () {
   const io = new IntersectionObserver((es) => es.forEach((e) => scenes.forEach((s) => { if (s.el === e.target) s.on = e.isIntersecting; })), { rootMargin: "10% 0px" });
   function scene(el, fn) { const s = { el, fn, on: false }; scenes.push(s); io.observe(el); return s; }
   let last = performance.now();
-  const meter = { frames: 0, t: last, fps: 0, worst: 0 };
   function tick(now) {
-    const dt = Math.min(0.05, (now - last) / 1000); meter.worst = Math.max(meter.worst, now - last); last = now;
+    const dt = Math.min(0.05, (now - last) / 1000); last = now;
     const t = now / 1000;
     for (const s of scenes) if (s.on) s.fn(t, dt);
     M.vx *= 0.9; M.vy *= 0.9; M.moved = false;
-    meter.frames++; if (now - meter.t > 500) { meter.fps = (meter.frames * 1000) / (now - meter.t); meter.frames = 0; meter.t = now; if (lab) lab(meter); meter.worst = 0; }
     requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
 
-  // Variants
-  const q = new URLSearchParams(location.search);
-  const pick = (k, ok, d) => (ok.includes(q.get(k)) ? q.get(k) : d);
-  const V = { hero: pick("hero", ["paper", "diorama"], "paper"), reports: pick("reports", ["gl", "css"], "gl") };
   const glOK = (() => { try { const c = document.createElement("canvas"); return !!(c.getContext("webgl2") || c.getContext("webgl")); } catch (e) { return false; } })();
-  if (!glOK) { if (V.hero === "diorama") V.hero = "paper"; if (V.reports === "gl") V.reports = "css"; }
-
   const load = (src) => new Promise((res, rej) => { const s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = rej; document.body.appendChild(s); });
-  const THREE_SRC = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
-  let threeP = null;
-  const three = () => (threeP ||= window.THREE ? Promise.resolve() : load(THREE_SRC));
+  const three = () => (window.THREE ? Promise.resolve() : load("https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"));
 
-  // Lab: a switcher and FPS meter, only with ?lab
-  let lab = null;
-  if (q.has("lab")) {
-    const d = document.createElement("div"); d.className = "lab"; d.setAttribute("role", "region"); d.setAttribute("aria-label", "Variant switcher");
-    const opt = (k, v, label) => { const u = new URLSearchParams(q); u.set(k, v); return `<a href="?${u}${location.hash}" class="${V[k] === v ? "on" : ""}">${label}</a>`; };
-    d.innerHTML = `<b>Lab</b><span class="lab-fps">— fps</span><div><i>Hero</i>${opt("hero", "paper", "2D paper")}${opt("hero", "diorama", "3D diorama")}</div><div><i>Reports</i>${opt("reports", "gl", "WebGL pages")}${opt("reports", "css", "CSS 3D wall")}</div>`;
-    document.body.appendChild(d);
-    const f = $(".lab-fps", d);
-    lab = (m) => { f.textContent = `${Math.round(m.fps)} fps · worst ${Math.round(m.worst)} ms`; f.classList.toggle("bad", m.fps < 45); };
-  }
-
-  // The reports, shared by both report variants (content lives in js/content.js)
+  // The reports, shared by the WebGL pages and the CSS fallback (content lives in js/content.js)
   const INK = "#1B1C19", PAL = ["#5E6B45", "#C8643B", "#E0A33A", "#2F6F73", "#5B2A45", "#E8B4A0", "#87A96B"];
   const COVERS = {
     rings(x, L, T0, W, H, r, n) { const cx = L + W * 0.5, cy = T0 + H * 0.52; for (let k = 0; k < 30; k++) { const R0 = 10 + k * 8.2; x.beginPath(); for (let a = 0; a <= 6.3; a += 0.03) { const rr = R0 + n(Math.cos(a) * 1.3 + k * 0.08, Math.sin(a) * 1.3) * R0 * 0.2; const X = cx + Math.cos(a) * rr * 1.25, Y = cy + Math.sin(a) * rr; a ? x.lineTo(X, Y) : x.moveTo(X, Y); } x.closePath(); x.strokeStyle = k % 5 === 4 ? PAL[(k / 5) % PAL.length | 0] : INK; x.lineWidth = k % 5 === 4 ? 4 : 1.3; x.stroke(); } },
@@ -115,16 +91,14 @@ window.MO = (function () {
   // Report dots become buttons that deal straight to a page
   function dots(el, n, go) { el.innerHTML = ""; for (let i = 0; i < n; i++) { const b = document.createElement("button"); b.type = "button"; b.setAttribute("aria-label", `Show ${DOCS[i].title}`); b.addEventListener("click", () => go(i)); el.appendChild(b); } return [...el.children]; }
 
-  const api = { $, $$, clamp, lerp, sstep, damp, reduce, RNG, Noise, M, scene, V, three, load, DOCS, COVERS, coverArt, pageCanvas, idle, fontsReady, progress, dots };
+  const api = { $, $$, clamp, lerp, sstep, damp, reduce, RNG, Noise, M, scene, three, load, DOCS, COVERS, coverArt, pageCanvas, idle, fontsReady, progress, dots };
 
-  // Boot the chosen variants. The 3D pieces only download three.js when they are actually used.
-  const v = "?v=9";
+  // Boot: the orchard now, the reports (and three.js) only once they are about a screen away
+  const v = "?v=10";
   const boot = async () => {
-    if (V.hero === "diorama") { try { await three(); await load("js/orchard-diorama.js" + v); } catch (e) { V.hero = "paper"; await load("js/orchard-paper.js" + v); } }
-    else await load("js/orchard-paper.js" + v);
+    await load("js/orchard-paper.js" + v);
     const rp = $("#reports"); if (!rp) return;
-    // Reports wait until they are about a screen away, then load
-    const go = async () => { if (V.reports === "gl") { try { await three(); await load("js/reports-gl.js" + v); return; } catch (e) { V.reports = "css"; } } await load("js/reports-css.js" + v); };
+    const go = async () => { if (glOK) { try { await three(); await load("js/reports-gl.js" + v); return; } catch (e) {} } await load("js/reports-css.js" + v); };
     const o = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { o.disconnect(); go(); } }, { rootMargin: "150% 0px" }); o.observe(rp);
   };
   boot();
