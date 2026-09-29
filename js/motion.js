@@ -1,8 +1,7 @@
 /**
- * Motion core for the orchard hero and the selected reports.
+ * Motion core for the orchard hero, the foraging drawing and the project document covers.
  *
  * One requestAnimationFrame loop drives every scene, and a scene only runs while its section is on screen.
- * The reports use WebGL paper pages; browsers without WebGL get the same pages as a CSS 3D wall.
  */
 window.MO = (function () {
   "use strict";
@@ -41,11 +40,9 @@ window.MO = (function () {
   }
   requestAnimationFrame(tick);
 
-  const glOK = (() => { try { const c = document.createElement("canvas"); return !!(c.getContext("webgl2") || c.getContext("webgl")); } catch (e) { return false; } })();
   const load = (src) => new Promise((res, rej) => { const s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = rej; document.body.appendChild(s); });
-  const three = () => (window.THREE ? Promise.resolve() : load("https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"));
 
-  // The reports, shared by the WebGL pages and the CSS fallback (content lives in js/content.js)
+  // Generative cover art for project documents (reports, posters, slides listed in js/content.js)
   const INK = "#1B1C19", PAL = ["#5E6B45", "#C8643B", "#E0A33A", "#2F6F73", "#5B2A45", "#E8B4A0", "#87A96B"];
   const COVERS = {
     rings(x, L, T0, W, H, r, n) { const cx = L + W * 0.5, cy = T0 + H * 0.52; for (let k = 0; k < 30; k++) { const R0 = 10 + k * 8.2; x.beginPath(); for (let a = 0; a <= 6.3; a += 0.03) { const rr = R0 + n(Math.cos(a) * 1.3 + k * 0.08, Math.sin(a) * 1.3) * R0 * 0.2; const X = cx + Math.cos(a) * rr * 1.25, Y = cy + Math.sin(a) * rr; a ? x.lineTo(X, Y) : x.moveTo(X, Y); } x.closePath(); x.strokeStyle = k % 5 === 4 ? PAL[(k / 5) % PAL.length | 0] : INK; x.lineWidth = k % 5 === 4 ? 4 : 1.3; x.stroke(); } },
@@ -55,64 +52,16 @@ window.MO = (function () {
     hatch(x, L, T0, W, H, r, n) { x.lineWidth = 1.6; for (let i = 0; i < 64; i++) { const y0 = T0 + (i / 63) * H; x.beginPath(); for (let px = L; px <= L + W; px += 6) { const u = (px - L) / W, cyv = T0 + H * 0.5, yy = lerp(y0, cyv + (y0 - cyv) * 0.12, u * u) + n(px * 0.006, i * 0.12) * 26 * (1 - u); px === L ? x.moveTo(px, yy) : x.lineTo(px, yy); } x.strokeStyle = i % 8 === 3 ? PAL[(i / 8) % PAL.length | 0] : INK; x.stroke(); } },
     ribbons(x, L, T0, W, H, r, n) { x.lineCap = "round"; for (let i = 0; i < 140; i++) { let px = L + r() * W, py = T0 + r() * H; const w = [3, 6, 10, 16][Math.floor(r() * 4)]; x.strokeStyle = PAL[Math.floor(r() * PAL.length)]; x.lineWidth = w; x.beginPath(); x.moveTo(px, py); for (let s = 0; s < 40; s++) { const a = n(px * 0.003, py * 0.003) * 7; px += Math.cos(a) * 4; py += Math.sin(a) * 4; x.lineTo(px, py); } x.stroke(); } },
   };
-  const DOCS = window.PORTFOLIO.reports;
-  // Just the generative art, square-ish, for the CSS variant (text stays real HTML there)
+  // One document cover as a canvas; `seed` fixes the artwork so it is the same on every visit
   function coverArt(d, w = 780, h = 640) { const c = document.createElement("canvas"); c.width = w; c.height = h; const x = c.getContext("2d"); x.fillStyle = "#EFE9DC"; x.fillRect(0, 0, w, h); COVERS[d.art](x, 0, 0, w, h, RNG(d.seed * 7 + 3), Noise(d.seed)); return c; }
-  // The full page as one texture, for the WebGL variant
-  function pageCanvas(d, i) {
-    const c = document.createElement("canvas"); c.width = 900; c.height = 1164; const x = c.getContext("2d");
-    x.fillStyle = "#F7F5EF"; x.fillRect(0, 0, 900, 1164);
-    const L = 60, T0 = 60, W = 780, H = 640;
-    x.drawImage(coverArt(d, W, H), L, T0);
-    x.strokeStyle = "#1B1C1930"; x.lineWidth = 2; x.strokeRect(L, T0, W, H);
-    x.fillStyle = "#5E6B45"; x.fillRect(L, 750, 60, 6);
-    x.fillStyle = "#65665E"; x.font = "600 22px 'Inter Tight', sans-serif"; x.fillText(d.kind, L, 796);
-    x.fillStyle = "#1B1C19"; x.font = "400 60px Fraunces, Georgia, serif";
-    let line = "", y = 870; d.title.split(" ").forEach((w) => { const tt = line ? line + " " + w : w; if (x.measureText(tt).width > 780) { x.fillText(line, L, y); line = w; y += 66; } else line = tt; }); x.fillText(line, L, y);
-    x.fillStyle = "#65665E"; x.font = "italic 400 26px Fraunces, Georgia, serif"; x.fillText(d.sub, L, y + 50);
-    x.font = "500 20px 'Inter Tight', sans-serif"; x.fillText("Grishma Gajurel", L, 1120); x.fillText(String(i + 1).padStart(2, "0") + " / " + String(DOCS.length).padStart(2, "0"), 760, 1120);
-    return c;
-  }
-  // Spread heavy work over idle time so scrolling never stalls
-  const idle = (fn) => (window.requestIdleCallback ? requestIdleCallback(fn, { timeout: 300 }) : setTimeout(fn, 16));
-  const fontsReady = () => (document.fonts ? document.fonts.ready : Promise.resolve());
 
-  // Smooth scroll progress through a tall sticky section, eased so wheel steps glide instead of jump
-  function progress(sec) {
-    const st = { target: 0, p: 0, v: 0, top: 0, span: 1 };
-    const measure = () => { const b = sec.getBoundingClientRect(); st.top = b.top + scrollY; st.span = Math.max(1, sec.offsetHeight - innerHeight); };
-    measure(); addEventListener("resize", measure); addEventListener("load", measure); new ResizeObserver(measure).observe(document.body);
-    st.update = (dt) => { st.target = clamp((scrollY - st.top) / st.span, 0, 1); const np = reduce ? st.target : damp(st.p, st.target, 0.12, dt); st.v = (np - st.p) / Math.max(dt, 1e-3); st.p = np; return st.p; };
-    st.scrollTo = (p) => scrollTo({ top: st.top + p * st.span, behavior: reduce ? "auto" : "smooth" });
-    return st;
-  }
-  // Dealing through the reports, shared by the WebGL pages and the CSS fallback: eased scroll progress, dots that
-  // jump to a page, and horizontal drags that scroll the section. `pagePx()` is how far a drag moves one page.
-  function deal(sec, grab, pagePx) {
-    const N = DOCS.length, st = progress(sec);
-    const at = (i) => { const s = i / (N - 1); let a = 0, b = 1; for (let k = 0; k < 24; k++) { const m = (a + b) / 2; (m * m * (3 - 2 * m) < s ? (a = m) : (b = m)); } return 0.24 + ((a + b) / 2) * 0.72; };
-    const go = (i) => st.scrollTo(at(i));
-    const box = $(".rp-dots", sec); box.innerHTML = "";
-    const dots = DOCS.map((d, i) => { const b = document.createElement("button"); b.type = "button"; b.setAttribute("aria-label", `Show ${d.title}`); b.addEventListener("click", () => go(i)); box.appendChild(b); return b; });
-    const drag = { on: false, x: 0, y0: 0, moved: 0, get active() { return this.on && this.moved > 6; } };
-    grab.addEventListener("pointerdown", (e) => Object.assign(drag, { on: true, x: e.clientX, y0: scrollY, moved: 0 }));
-    addEventListener("pointermove", (e) => { if (!drag.on) return; const dx = e.clientX - drag.x; drag.moved = Math.max(drag.moved, Math.abs(dx)); if (drag.moved > 6) { grab.classList.add("is-drag"); scrollTo(0, drag.y0 - (dx / pagePx()) * st.span * (0.72 / (N - 1))); } }, { passive: true });
-    addEventListener("pointerup", () => { setTimeout(() => (drag.on = false), 0); grab.classList.remove("is-drag"); });
-    const cap = $(".rp-cap", sec); let shown = -1;
-    const caption = (i) => { if (i === shown) return; shown = i; cap.innerHTML = `<b>${DOCS[i].title}</b><span>${DOCS[i].kind.toLowerCase()} · drag, or click the page to open</span>`; dots.forEach((b, j) => b.classList.toggle("on", j === i)); };
-    return { st, go, drag, caption };
-  }
+  const api = { $, $$, clamp, lerp, sstep, damp, reduce, RNG, Noise, M, scene, load, COVERS, coverArt };
 
-  const api = { $, $$, clamp, lerp, sstep, damp, reduce, RNG, Noise, M, scene, three, load, DOCS, COVERS, coverArt, pageCanvas, idle, fontsReady, deal };
-
-  // Boot: the orchard now, the reports (and three.js) only once they are about a screen away
-  const v = "?v=15";
+  // Boot: the orchard first, then the seasons and the foraging drawing
+  const v = "?v=16";
   const boot = async () => {
     await load("js/orchard-paper.js" + v);
     load("js/seasons.js" + v); load("js/forage.js" + v);
-    const rp = $("#reports"); if (!rp) return;
-    const go = async () => { if (glOK) { try { await three(); await load("js/reports-gl.js" + v); return; } catch (e) {} } await load("js/reports-css.js" + v); };
-    const o = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { o.disconnect(); go(); } }, { rootMargin: "150% 0px" }); o.observe(rp);
   };
   boot();
   return api;

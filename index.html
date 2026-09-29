@@ -65,30 +65,7 @@
   .forage .f-hint { position: absolute; right: .9rem; top: .8rem; padding: .3rem .7rem; border-radius: 999px; background: rgba(247,245,239,.88); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); pointer-events: none; }
 
   /* Reports: real work as paper */
-  .reports { position: relative; height: 300vh; }
-  .rp-s { position: sticky; top: 0; height: 100vh; overflow: hidden; }
-  .rp-s canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .rp-h { position: absolute; left: var(--pad); top: 18vh; z-index: 2; margin: 0; font-family: var(--serif); font-weight: 400; font-size: clamp(2.6rem, 6vw, 6rem); line-height: .95; letter-spacing: -.03em; font-variation-settings: "opsz" 144; pointer-events: none; }
-  .rp-h em { color: var(--acc); font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1; }
-  .rp-k { display: block; margin-bottom: 1.2rem; font-family: "Inter Tight", sans-serif; font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-  .rp-cap { position: absolute; left: var(--pad); bottom: 14vh; z-index: 2; max-width: 22rem; line-height: 1.5; }
-  .rp-cap b { display: block; font-family: var(--serif); font-weight: 400; font-size: 1.6rem; line-height: 1.1; }
-  .rp-cap span { color: var(--muted); font-size: .85rem; }
-  .rp-dots { position: absolute; left: var(--pad); bottom: 9vh; z-index: 2; display: flex; gap: .15rem; } .rp-dots button { width: 22px; height: 22px; display: grid; place-items: center; } .rp-dots button::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--line); transition: background 300ms, transform 300ms; } .rp-dots button.on::before { background: var(--acc); transform: scale(1.3); }
-  .rp-s canvas.is-drag, .rp-wall.is-drag { cursor: grabbing; }
   /* Reports without WebGL: the same pages as real HTML on a CSS 3D wall */
-  .rp-wall { position: absolute; inset: 0; perspective: 1400px; perspective-origin: 62% 45%; touch-action: pan-y; }
-  .rp-ring { position: absolute; left: 64%; top: 52%; transform-style: preserve-3d; }
-  .rp-page { --pw: clamp(12rem, 17vw, 16rem); position: absolute; left: 0; top: 0; width: var(--pw); aspect-ratio: 900 / 1164; margin: calc(var(--pw) * -0.647) 0 0 calc(var(--pw) * -.5); padding: calc(var(--pw) * .066); display: flex; flex-direction: column; background: #F7F5EF; color: var(--ink); border-radius: 2px; box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 30px 60px -28px rgba(40,36,28,.45); backface-visibility: hidden; will-change: transform; transform-origin: 50% 50%; transition: box-shadow 400ms; }
-  .rp-page:hover, .rp-page:focus-visible { box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 44px 70px -26px rgba(40,36,28,.55); }
-  .rp-page canvas { position: static; width: 100%; height: auto; aspect-ratio: 780 / 640; outline: 1px solid #1B1C1920; }
-  .rp-page::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(0,0,0,var(--shade, 0)), transparent 70%); transition: none; }
-  .rp-page .k { margin-top: calc(var(--pw) * .09); font-size: .6rem; font-weight: 600; letter-spacing: .06em; color: var(--muted); } .rp-page .k::before { content: ""; display: block; width: 1.4rem; height: 2px; margin-bottom: .6rem; background: var(--acc); }
-  .rp-page h3 { margin: .35rem 0 .2rem; font-family: var(--serif); font-weight: 400; font-size: clamp(1.1rem, 1.6vw, 1.45rem); line-height: 1.05; }
-  .rp-page .s { margin: 0; font-family: var(--serif); font-style: italic; font-size: .72rem; color: var(--muted); }
-  .rp-page .f { margin-top: auto; display: flex; justify-content: space-between; font-size: .55rem; color: var(--muted); }
-  @media (max-width: 760px) { .rp-wall { perspective-origin: 50% 45%; } .rp-ring { left: 50%; top: 46%; } .rp-page { --pw: 10rem; } .rp-page h3 { font-size: .95rem; } .rp-page .k { font-size: .5rem; } .rp-page .s { font-size: .62rem; } }
-  @media (max-width: 760px) { .rp-h { top: 11vh; } .rp-cap { bottom: 18vh; } .rp-dots { bottom: 14vh; } }
   .top { display: flex; gap: 1rem; align-items: center; margin: 0 0 1.6rem; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.14em; }
   .top::before { content: ""; width: 2.5rem; height: 1px; background: currentColor; }
   .prox { margin: 0; max-width: 16ch; font-family: var(--serif); font-weight: 400; font-size: clamp(2.8rem, 7.2vw, 7.4rem); line-height: 0.98; letter-spacing: -0.03em; }
@@ -146,6 +123,13 @@
   .w-tag { font-size: 0.8rem; border: 1px solid var(--line); border-radius: 999px; padding: 0.3rem 0.8rem; color: var(--muted); }
   .w-link { font-size: 0.9rem; background: var(--ink); color: var(--bg); border-radius: 999px; padding: 0.45rem 1.1rem; transition: background 300ms; }
   .w-link:hover { background: var(--acc); color: var(--accink); }
+  .w-docs { display: flex; flex-wrap: wrap; gap: 1.2rem; margin: 0 0 1.8rem; perspective: 900px; }
+  .w-doc { display: grid; width: min(15rem, 100%); padding: .6rem .6rem .8rem; background: #FBFAF6; border-radius: 4px; box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 18px 30px -18px rgba(27,28,25,.45); transform: rotate(-1deg); transition: transform 600ms var(--ease), box-shadow 600ms var(--ease); }
+  .w-doc:nth-child(2n) { transform: rotate(1.2deg); }
+  .w-doc:hover { transform: translateY(-6px) rotateX(6deg) rotate(0deg); box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 30px 40px -20px rgba(27,28,25,.5); }
+  .w-doc canvas { width: 100%; height: auto; aspect-ratio: 3 / 2; background: #EFE9DC; border: 1px solid var(--line); }
+  .w-doc-k { margin-top: .7rem; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .w-doc-t { margin-top: .2rem; font-family: var(--serif); font-size: 1.05rem; line-height: 1.2; }
   .pill { position: relative; overflow: hidden; border: 1px solid rgba(18,17,16,.3); border-radius: 999px; padding: 1.4rem 2.8rem; font-family: var(--serif); font-size: 1.2rem; transition: color 300ms, border-color 300ms; }
   .pill::before { content: ""; position: absolute; inset: 0; background: var(--acc); border-radius: 50%; transform: translateY(101%) scale(1.5); transition: transform 600ms var(--ease), border-radius 600ms; }
   .pill:hover { color: var(--accink); border-color: var(--acc); }
@@ -226,7 +210,7 @@
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="inkf"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="3" seed="4" /><feDisplacementMap id="inkd" in="SourceGraphic" scale="0" xChannelSelector="R" yChannelSelector="G" /></filter></svg>
 <div class="grain" aria-hidden="true"></div>
 
-<header class="nav"><a class="magnetic" href="#top" data-name></a><ul><li><a class="magnetic" href="#background">Experience</a></li><li><a class="magnetic" href="#work">Projects</a></li><li><a class="magnetic" href="#reports">Reports</a></li><li><a class="magnetic" href="#contact">Contact</a></li></ul></header>
+<header class="nav"><a class="magnetic" href="#top" data-name></a><ul><li><a class="magnetic" href="#background">Experience</a></li><li><a class="magnetic" href="#work">Projects</a></li><li><a class="magnetic" href="#skills">Skills</a></li><li><a class="magnetic" href="#contact">Contact</a></li></ul></header>
 
 <main id="top">
   <section class="hero" id="hero" aria-labelledby="hh">
@@ -248,15 +232,6 @@
       <p class="proj-cap"><b>Foraging paths</b>Every blossom is one of my projects. Hover a project and the bees fly to it; click a blossom to open it.</p>
       <ol class="work" id="work-list"></ol>
       <div class="center"><button class="pill magnetic" id="more" type="button"><span data-more-label></span></button></div>
-    </div>
-  </section>
-
-  <section class="reports" id="reports" aria-labelledby="rp-h">
-    <div class="rp-s">
-      <canvas aria-hidden="true"></canvas>
-      <h2 class="rp-h" id="rp-h"><span class="rp-k">Documents</span>Reports <em>and posters</em></h2>
-      <div class="rp-cap" aria-live="polite"><b>Scroll</b><span>to move through the documents. Click one to open it.</span></div>
-      <div class="rp-dots"></div>
     </div>
   </section>
 
@@ -284,8 +259,8 @@
 </footer>
 
 
-<script src="js/content.js?v=15"></script>
-<script src="js/kit.js?v=15"></script>
+<script src="js/content.js?v=16"></script>
+<script src="js/kit.js?v=16"></script>
 <script>
 (function () {
   const { P, fill, work, reveal, magnetic, clamp, reduce, el, $, $$ } = KIT;
@@ -310,7 +285,8 @@
   // Every project has a blossom in the foraging drawing above; rows and blossoms light each other up
   const PC = (window.PROJ_COLORS = ["#D98A7A", "#C8643B", "#E0A33A", "#A5677A", "#87A96B", "#2F6F73", "#E8B4A0"]);
   const wl = $("#work-list"), more = $("#more"), focusProj = (i) => document.dispatchEvent(new CustomEvent("proj:focus", { detail: i }));
-  work(wl, more, { decorate(li, p, i) { li.dataset.i = i; li.style.setProperty("--bc", PC[i % PC.length]); li.addEventListener("pointerenter", () => focusProj(i)); li.addEventListener("pointerleave", () => focusProj(-1)); li.querySelector(".w-row").addEventListener("focus", () => focusProj(i)); } });
+  const paintDocs = (li) => $$(".w-doc canvas", li).forEach((c) => { if (c._done || !window.MO) return; c._done = true; c.getContext("2d").drawImage(MO.coverArt(c._doc, 780, 520), 0, 0, 390, 260); });
+  work(wl, more, { onToggle(li, open) { if (open) paintDocs(li); }, decorate(li, p, i) { li.dataset.i = i; li.style.setProperty("--bc", PC[i % PC.length]); li.addEventListener("pointerenter", () => focusProj(i)); li.addEventListener("pointerleave", () => focusProj(-1)); li.querySelector(".w-row").addEventListener("focus", () => focusProj(i)); } });
   document.addEventListener("forage:hover", (e) => $$(".w-item", wl).forEach((li) => li.classList.toggle("is-lit", +li.dataset.i === e.detail)));
   document.addEventListener("forage:open", (e) => {
     const li = $(`.w-item[data-i="${e.detail}"]`, wl); if (!li) return;
@@ -396,8 +372,8 @@
   reveal();
 })();
 </script>
-<!-- Orchard hero + selected reports (see js/motion.js) -->
-<script src="js/motion.js?v=15"></script>
+<!-- Orchard hero, foraging drawing and document covers (see js/motion.js) -->
+<script src="js/motion.js?v=16"></script>
 
 </body>
 </html>

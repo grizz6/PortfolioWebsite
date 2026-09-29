@@ -6,7 +6,7 @@ My personal portfolio site, live at **[www.grishmagajurel.com](https://www.grish
 
 It's a hand-built, single-page static site: plain HTML, CSS, and vanilla JavaScript, with no framework, build step, backend, or npm dependencies. All content lives in one JavaScript file, so adding a project means adding one object.
 
-**Sections:** Hero (a generative orchard) · Experience · Projects · Reports and posters · Skills · Contact. Each fact appears once.
+**Sections:** Hero (a generative orchard) · Experience · Projects · Skills · Contact. Each fact appears once: a project's reports, posters and slides sit inside that project.
 
 ---
 
@@ -35,22 +35,20 @@ Code for most of these is in my other repos: [ESA](https://github.com/grizz6/ESA
 index.html          the whole site: layout, styles, and the motion code
 js/content.js       window.PORTFOLIO: every piece of text, project, and link
 js/kit.js           shared helpers that render content into the page
-js/motion.js        one animation loop, script loader, shared report covers and dealing
+js/motion.js        one animation loop, script loader, generative document covers
 js/orchard-paper.js the generative orchard hero (canvas 2D)
-js/reports-gl.js    selected reports as WebGL paper pages (three.js)
-js/reports-css.js   the same pages on a CSS 3D wall, for browsers without WebGL
 js/seasons.js       seasons on scroll: the page colour shifts from spring to winter
-js/forage.js        foraging paths: a live bee-flight drawing at the top of the projects
+js/forage.js        foraging paths: bees fly between blossoms, one per project, at the top of the projects
 files/              reports, posters, and slides linked from projects
 ```
 
-1. **Content as data.** `js/content.js` holds the headline, experience, education, skills, projects and the documents shelf. Change the words there and the page updates.
-2. **Rendering.** `js/kit.js` fills `data-*` hooks (email, name, headline) and builds the expandable project list, where the first three are full case studies and the rest appear behind "Show more".
-3. **Motion.** A generative orchard in the hero: trees grow branch by branch and blossom, the mouse makes wind, and a click grows a new orchard. The reports and posters are shown as 3D paper pages with generative covers; scroll or drag through them and click one to open it. Browsers without WebGL get the same pages on a CSS 3D wall.
+1. **Content as data.** `js/content.js` holds the headline, experience, education, skills and projects, including each project's documents (`docs`). Change the words there and the page updates.
+2. **Rendering.** `js/kit.js` fills `data-*` hooks (email, name, headline) and builds the expandable project list, where the first three are full case studies and the rest appear behind "Show more". A project's reports, posters and slides open inside it as paper covers with generative art.
+3. **Motion.** A generative orchard in the hero: trees grow branch by branch and blossom, the mouse makes wind, and a click grows a new orchard.
 
-   The page colour shifts through a year as you scroll, from spring at the top to winter at the contact. The projects open with foraging paths, a live drawing of bees flying between 10 blossoms (one per orchard in the bee study); the cursor lures them and a click plants a flower.
+   The page colour shifts through a year as you scroll, from spring at the top to winter at the contact. The projects open with foraging paths, a live drawing where every blossom is a project: hovering a project sends the bees to its blossom, hovering a blossom lights up its row, and clicking a blossom opens it.
 
-   One `requestAnimationFrame` loop runs only the sections on screen, three.js loads only when the reports are near, and layout is measured once instead of every frame. There are also headline letters that change weight near the cursor, ink-bleed chapter headings, and a git-style experience graph that draws as you scroll. All motion respects `prefers-reduced-motion`.
+   One `requestAnimationFrame` loop runs only the sections on screen, and layout is measured once instead of every frame. There are also headline letters that change weight near the cursor, ink-bleed chapter headings, and a git-style experience graph that draws as you scroll. All motion respects `prefers-reduced-motion`.
 4. **Old links still work.** `about/`, `projects/`, `project/`, and `contact/` (and their `.html` versions) now redirect to the matching section of the single page, and `404.html` does the same for any other old path.
 5. **Palette.** Stone and moss neutrals set as CSS custom properties at the top of `index.html`, with warm orchard colours (blossom, terracotta, mustard) in the art.
 

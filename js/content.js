@@ -1,6 +1,7 @@
 /**
  * Portfolio content. Sources: Grishma_Gajurel_Resume_MASTER.pdf (Sept 2026), github.com/grizz6, and the documents
- * in files/ (the ESA 2025 poster, the SEED St. Louis report and the RAD slides). Each fact appears once on the page.
+ * in files/ (the ESA 2025 poster, the SEED St. Louis report and the RAD slides). Each fact appears once on the page:
+ * a project's reports, posters and slides live in its `docs` and show as paper covers inside that project.
  * The resume itself is not published. No phone number, GPA, or location on the site.
  */
 window.PORTFOLIO = {
@@ -98,10 +99,8 @@ window.PORTFOLIO = {
         result: "Species differed in three behaviours, including one that may transfer pollen. Effects of urbanization were small and varied by year. Co-authored poster at the Ecological Society of America meeting in Baltimore, August 2025.",
       },
       tags: ["r", "glm", "ecology"],
-      links: [
-        { label: "Poster", href: "files/Slide1.jpg" },
-        { label: "GitHub", href: "https://github.com/grizz6/ESA" },
-      ],
+      links: [{ label: "GitHub", href: "https://github.com/grizz6/ESA" }],
+      docs: [{ kind: "Poster · ESA 2025", title: "Beeing Urban", art: "flow", seed: 2025, href: "files/Slide1.jpg" }],
     },
     {
       title: "Pollination report for SEED St. Louis",
@@ -109,7 +108,8 @@ window.PORTFOLIO = {
       year: "2025",
       summary: "Preliminary findings for SEED St. Louis from a USDA-funded study of 18 community and commercial orchards: which insects pollinate the trees, how they forage, whether the trees get enough pollen, and which bees produce fruit. December 2025.",
       tags: ["r", "research"],
-      links: [{ label: "Report", href: "files/insect-distribution-usda.pdf" }, { label: "GitHub", href: "https://github.com/grizz6/R-Projects" }],
+      links: [{ label: "GitHub", href: "https://github.com/grizz6/R-Projects" }],
+      docs: [{ kind: "Report · SEED St. Louis", title: "Maximizing pollination in urban orchards", art: "rings", seed: 18, href: "files/insect-distribution-usda.pdf" }],
     },
     {
       title: "Orchard weather regression",
@@ -117,7 +117,8 @@ window.PORTFOLIO = {
       year: "2025",
       summary: "Some orchards had no weather station. Calibrated per-site regressions for temperature, humidity and wind against nearby stations, then modelled growing degree hours and days against urbanization with a random effect for year. Presented at Research Across Disciplines, Webster University, December 2025.",
       tags: ["r", "regression", "mixed models"],
-      links: [{ label: "Report", href: "files/weather-regression.pdf" }, { label: "Slides", href: "files/rad.pdf" }, { label: "GitHub", href: "https://github.com/grizz6/R-Projects" }],
+      links: [{ label: "GitHub", href: "https://github.com/grizz6/R-Projects" }],
+      docs: [{ kind: "R report", title: "Orchard weather regression", art: "hatch", seed: 60, href: "files/weather-regression.pdf" }, { kind: "Slides · RAD 2025", title: "Climate along an urbanization gradient", art: "ribbons", seed: 7, href: "files/rad.pdf" }],
     },
     {
       title: "Mortgage default & payoff",
@@ -125,7 +126,8 @@ window.PORTFOLIO = {
       year: "2025",
       summary: "Predicted which loans default. Compared logistic and mixed-effects regression, random forest and gradient boosting, balanced the rare default class, and set the classification threshold using ROC/AUC.",
       tags: ["r", "machine learning"],
-      links: [{ label: "Report", href: "files/mortgage-payback.pdf" }, { label: "GitHub", href: "https://github.com/grizz6/Academic-Project---Webster-University" }],
+      links: [{ label: "GitHub", href: "https://github.com/grizz6/Academic-Project---Webster-University" }],
+      docs: [{ kind: "ML report", title: "Mortgage default & payoff", art: "stipple", seed: 41, href: "files/mortgage-payback.pdf" }],
     },
     {
       title: "Mailing campaign targeting",
@@ -133,7 +135,8 @@ window.PORTFOLIO = {
       year: "2025",
       summary: "Segmented a 5-million-name mailing list with k-means and hierarchical clustering, then predicted purchases with logistic regression and a neural network to decide who to mail.",
       tags: ["r", "machine learning"],
-      links: [{ label: "Report", href: "files/software-mailing.pdf" }, { label: "GitHub", href: "https://github.com/grizz6/Academic-Project---Webster-University" }],
+      links: [{ label: "GitHub", href: "https://github.com/grizz6/Academic-Project---Webster-University" }],
+      docs: [{ kind: "ML report", title: "Mailing campaign targeting", art: "truchet", seed: 5, href: "files/software-mailing.pdf" }],
     },
     {
       title: "Used smartphone pricing",
@@ -141,7 +144,8 @@ window.PORTFOLIO = {
       year: "2025",
       summary: "Predicted used phone prices. Compared linear regression, cross-validated ridge regression and k-nearest neighbours after imputing missing specs and handling outliers.",
       tags: ["r", "machine learning"],
-      links: [{ label: "Report", href: "files/used-smartphone.pdf" }, { label: "GitHub", href: "https://github.com/grizz6/Academic-Project---Webster-University" }],
+      links: [{ label: "GitHub", href: "https://github.com/grizz6/Academic-Project---Webster-University" }],
+      docs: [{ kind: "ML report", title: "Used smartphone pricing", art: "rings", seed: 3, href: "files/used-smartphone.pdf" }],
     },
     {
       title: "911 call patterns",
@@ -161,14 +165,4 @@ window.PORTFOLIO = {
     },
   ],
 
-  // The documents shelf: each is a real file, shown as a 3D paper page. `art` picks the generative cover, `seed` fixes it.
-  reports: [
-    { kind: "REPORT · SEED ST. LOUIS", title: "Maximizing pollination in urban orchards", sub: "Preliminary findings, December 2025", art: "rings", seed: 18, href: "files/insect-distribution-usda.pdf" },
-    { kind: "POSTER · ESA 2025", title: "Beeing Urban", sub: "How city life is changing pollination behaviors", art: "flow", seed: 2025, href: "files/Slide1.jpg" },
-    { kind: "SLIDES · RAD 2025", title: "Weather regression", sub: "Climate along an urbanization gradient", art: "ribbons", seed: 7, href: "files/rad.pdf" },
-    { kind: "R REPORT", title: "Orchard weather regression", sub: "Site weather calibrated against nearby stations", art: "hatch", seed: 60, href: "files/weather-regression.pdf" },
-    { kind: "ML REPORT", title: "Mortgage default & payoff", sub: "Classification and threshold tuning", art: "stipple", seed: 41, href: "files/mortgage-payback.pdf" },
-    { kind: "ML REPORT", title: "Mailing campaign targeting", sub: "Segmentation and purchase prediction", art: "truchet", seed: 5, href: "files/software-mailing.pdf" },
-    { kind: "ML REPORT", title: "Used smartphone pricing", sub: "Regression and model comparison", art: "rings", seed: 3, href: "files/used-smartphone.pdf" },
-  ],
 };

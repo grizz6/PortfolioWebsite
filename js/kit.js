@@ -54,6 +54,11 @@ window.KIT = (function () {
         });
         body.appendChild(cs);
       }
+      if (p.docs && p.docs.length) {
+        const docs = el("div", "w-docs");
+        p.docs.forEach((d) => { const a = link("", d.href, "w-doc"); const c = el("canvas"); c.width = 390; c.height = 260; c.setAttribute("aria-hidden", "true"); c._doc = d; a.append(c, el("span", "w-doc-k", d.kind), el("span", "w-doc-t", d.title + " ↗")); docs.appendChild(a); });
+        body.appendChild(docs);
+      }
       const links = el("div", "w-links");
       p.tags.forEach((t) => links.appendChild(el("span", "w-tag", t)));
       p.links.forEach((l) => links.appendChild(link(l.label + " ↗", l.href, "w-link")));
