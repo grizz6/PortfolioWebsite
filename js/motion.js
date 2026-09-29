@@ -58,7 +58,7 @@ window.MO = (function () {
   const api = { $, $$, clamp, lerp, sstep, damp, reduce, RNG, Noise, M, scene, load, COVERS, coverArt };
 
   // Boot: the orchard first, then the seasons and the foraging drawing
-  const v = "?v=17";
+  const v = "?v=18";
   const boot = async () => {
     await load("js/orchard-paper.js" + v);
     load("js/seasons.js" + v); load("js/forage.js" + v);

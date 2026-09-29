@@ -16,12 +16,6 @@ window.PORTFOLIO = {
     { label: "Instagram", href: "https://www.instagram.com/grizzz.ma" },
   ],
 
-  headline: "I clean, combine and model messy data, then report what it shows.",
-
-  currently: [
-    { label: "Building", text: "synthkit, an open-source library for realistic test data", href: "https://github.com/grizz6/synthkit" },
-    { label: "Open to", text: "new opportunities" },
-  ],
 
   experience: [
     {
