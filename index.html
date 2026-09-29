@@ -50,7 +50,6 @@
   #orchard { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
   .o-sun { position: absolute; left: 80%; top: 24%; width: calc(var(--r, 60px) * 2); aspect-ratio: 1; border-radius: 50%; background: #F2CC8F; transform: translate3d(-50%, -50%, 0); will-change: transform; pointer-events: none; }
   .o-sun::before { content: ""; position: absolute; inset: -150%; border-radius: 50%; background: radial-gradient(closest-side, rgba(242,204,143,.45) 12%, rgba(242,204,143,0)); }
-  .hero.is-diorama .o-sun { opacity: .9; }
   .hero__copy { position: absolute; left: var(--pad); right: var(--pad); top: clamp(6.5rem, 16vh, 10rem); color: var(--ink); z-index: 2; pointer-events: none; }
   .hero__copy a { pointer-events: auto; }
   .hero .prox { font-size: clamp(2.6rem, 5.6vw, 6rem); max-width: 17ch; }
@@ -70,7 +69,7 @@
   .rp-cap span { color: var(--muted); font-size: .85rem; }
   .rp-dots { position: absolute; left: var(--pad); bottom: 9vh; z-index: 2; display: flex; gap: .15rem; } .rp-dots button { width: 22px; height: 22px; display: grid; place-items: center; } .rp-dots button::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--line); transition: background 300ms, transform 300ms; } .rp-dots button.on::before { background: var(--acc); transform: scale(1.3); }
   .rp-s canvas.is-drag, .rp-wall.is-drag { cursor: grabbing; }
-  /* Reports, CSS 3D variant: real HTML pages on a curved wall, no WebGL */
+  /* Reports without WebGL: the same pages as real HTML on a CSS 3D wall */
   .rp-wall { position: absolute; inset: 0; perspective: 1400px; perspective-origin: 62% 45%; touch-action: pan-y; }
   .rp-ring { position: absolute; left: 64%; top: 52%; transform-style: preserve-3d; }
   .rp-page { --pw: clamp(12rem, 17vw, 16rem); position: absolute; left: 0; top: 0; width: var(--pw); aspect-ratio: 900 / 1164; margin: calc(var(--pw) * -0.647) 0 0 calc(var(--pw) * -.5); padding: calc(var(--pw) * .066); display: flex; flex-direction: column; background: #F7F5EF; color: var(--ink); border-radius: 2px; box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 30px 60px -28px rgba(40,36,28,.45); backface-visibility: hidden; will-change: transform; transform-origin: 50% 50%; transition: box-shadow 400ms; }
@@ -82,11 +81,6 @@
   .rp-page .s { margin: 0; font-family: var(--serif); font-style: italic; font-size: .72rem; color: var(--muted); }
   .rp-page .f { margin-top: auto; display: flex; justify-content: space-between; font-size: .55rem; color: var(--muted); }
   @media (max-width: 760px) { .rp-wall { perspective-origin: 50% 45%; } .rp-ring { left: 50%; top: 46%; } .rp-page { --pw: 10rem; } .rp-page h3 { font-size: .95rem; } .rp-page .k { font-size: .5rem; } .rp-page .s { font-size: .62rem; } }
-  /* Lab: variant switcher, only with ?lab */
-  .lab { position: fixed; right: 1rem; bottom: 1rem; z-index: 400; display: grid; gap: .45rem; padding: .8rem .9rem; border-radius: 14px; background: rgba(27,28,25,.9); color: #F3EBDD; font: 500 .78rem/1.2 "Inter Tight", system-ui, sans-serif; backdrop-filter: blur(8px); box-shadow: 0 20px 40px -20px rgba(0,0,0,.6); }
-  .lab b { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 1rem; } .lab-fps { position: absolute; right: .9rem; top: .95rem; font-variant-numeric: tabular-nums; color: #B7C79A; } .lab-fps.bad { color: #E8B4A0; }
-  .lab div { display: flex; gap: .3rem; align-items: center; } .lab i { width: 3.8rem; font-style: normal; opacity: .6; }
-  .lab a { padding: .35rem .6rem; border-radius: 999px; border: 1px solid rgba(243,235,221,.25); } .lab a.on { background: #F3EBDD; color: #1B1C19; } .lab a:hover { border-color: #F3EBDD; }
   @media (max-width: 760px) { .rp-h { top: 11vh; } .rp-cap { bottom: 18vh; } .rp-dots { bottom: 14vh; } }
   .top { display: flex; gap: 1rem; align-items: center; margin: 0 0 1.6rem; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.14em; }
   .top::before { content: ""; width: 2.5rem; height: 1px; background: currentColor; }
@@ -493,8 +487,8 @@
 
 <div class="preview" id="preview" aria-hidden="true"><canvas id="pv" width="480" height="320"></canvas></div>
 
-<script src="js/content.js?v=9"></script>
-<script src="js/kit.js?v=9"></script>
+<script src="js/content.js?v=10"></script>
+<script src="js/kit.js?v=10"></script>
 <script>
 (function () {
   const { P, fill, work, reveal, split, magnetic, scramble, lerp, clamp, reduce, el, $, $$ } = KIT;
@@ -680,8 +674,8 @@
   reveal();
 })();
 </script>
-<!-- Orchard hero + selected reports: variants load on demand (see js/motion.js) -->
-<script src="js/motion.js?v=9"></script>
+<!-- Orchard hero + selected reports (see js/motion.js) -->
+<script src="js/motion.js?v=10"></script>
 
 </body>
 </html>

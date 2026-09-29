@@ -36,21 +36,18 @@ Code for most of these is in my other repos: [ESA](https://github.com/grizz6/ESA
 index.html          the whole site: layout, styles, and the motion code
 js/content.js       window.PORTFOLIO: every piece of text, project, and link
 js/kit.js           shared helpers that render content into the page
-js/motion.js        one animation loop, variant switcher, shared report covers
-js/orchard-*.js     hero variants: paper (2D canvas) and diorama (3D, three.js)
-js/reports-*.js     selected reports variants: gl (WebGL pages) and css (CSS 3D wall)
+js/motion.js        one animation loop, loader, shared report covers
+js/orchard-paper.js the generative orchard hero (canvas 2D)
+js/reports-gl.js    selected reports as WebGL paper pages (three.js)
+js/reports-css.js   the same pages on a CSS 3D wall, for browsers without WebGL
 files/              reports, posters, and slides linked from projects
 ```
 
 1. **Content as data.** `js/content.js` holds the headline, receipts, impact, stats, services, experience, education, talks, tools, and projects. Change the words there and the page updates.
 2. **Rendering.** `js/kit.js` fills `data-*` hooks (email, name, stats, services, experience, and more) and builds the expandable project list, where the first three are full case studies and the rest appear behind "Show more".
-3. **Motion.** A generative orchard in the hero: trees grow branch by branch and blossom, the mouse makes wind, petals drift, bees fly between flowers and gather around the cursor, and a click grows a new orchard. A selected reports section deals my real reports past as 3D paper pages with generative cover art, and clicking a page opens it. Both come in two variants, picked with URL parameters (add `?lab` for a switcher and an FPS meter):
-   - `?hero=paper` (default): canvas 2D. The sky and sun are CSS, the hills are drawn once, and blossoms are stamped from a sprite atlas.
-   - `?hero=diorama`: three.js. A 3D landscape with rows of trees. Wind, cursor gusts and falling petals run on the GPU, the camera drifts with the mouse and cranes up on scroll, and the blossoms turn summer green as you leave.
-   - `?reports=gl` (default): WebGL paper pages that bend as they move, with eased scroll, drag to deal, and clickable dots.
-   - `?reports=css`: the same deal as real HTML links on a CSS 3D wall, with no WebGL and no three.js download.
+3. **Motion.** A generative orchard in the hero: trees grow branch by branch and blossom, the mouse makes wind, petals drift, bees fly between flowers and gather around the cursor, and a click grows a new orchard. A selected reports section deals my real reports past as 3D paper pages with generative cover art, and clicking a page opens it. The sky and sun are CSS, the hills are drawn once, and blossoms are stamped from a sprite atlas. The report pages bend as they move, ease with the scroll, can be dragged, and have clickable dots; browsers without WebGL get them as real HTML links on a CSS 3D wall.
 
-   One `requestAnimationFrame` loop runs only the sections on screen, three.js loads only when a variant needs it, and layout is measured once instead of every frame. There are also headline letters that change weight near the cursor (Fraunces variable font), ink-bleed chapter headings, odometer chapter numbers, a circle reveal into the numbers, stacking service cards that draw themselves, project previews with an RGB split, a live terminal that types out synthkit's test run, and a git-style career graph that draws as you scroll. All motion respects `prefers-reduced-motion`.
+   One `requestAnimationFrame` loop runs only the sections on screen, three.js loads only when the reports are near, and layout is measured once instead of every frame. There are also headline letters that change weight near the cursor (Fraunces variable font), ink-bleed chapter headings, odometer chapter numbers, a circle reveal into the numbers, stacking service cards that draw themselves, project previews with an RGB split, a live terminal that types out synthkit's test run, and a git-style career graph that draws as you scroll. All motion respects `prefers-reduced-motion`.
 4. **Old links still work.** `about/`, `projects/`, `project/`, and `contact/` (and their `.html` versions) now redirect to the matching section of the single page, and `404.html` does the same for any other old path.
 5. **Palette.** Stone and moss neutrals set as CSS custom properties at the top of `index.html`, with warm orchard colours (blossom, terracotta, mustard) in the art.
 
