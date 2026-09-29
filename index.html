@@ -25,7 +25,7 @@
   a { color: inherit; text-decoration: none; }
   button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; }
   :focus-visible { outline: 2px solid var(--acct); outline-offset: 3px; }
-  .grain { position: fixed; inset: -50%; z-index: 90; pointer-events: none; opacity: var(--grain, .06); mix-blend-mode: multiply; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); animation: grain 1s steps(4) infinite; }
+  .grain { position: fixed; inset: -50%; z-index: 90; pointer-events: none; opacity: var(--grain, .06); mix-blend-mode: multiply; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
   .magnetic { display: inline-grid; transition: translate 450ms cubic-bezier(.2,.8,.2,1); }
   @property --w { syntax: "<number>"; inherits: true; initial-value: 300; }
   @property --sw { syntax: "<number>"; inherits: true; initial-value: 200; }
@@ -57,10 +57,8 @@
   .hero.is-in .o-hint { opacity: 1; }
   @media (max-width: 760px) { .o-hint { display: none; } }
 
-  /* Seasons on scroll: falling layer and a small season marker */
+  /* Seasons on scroll: a light falling layer */
   .season-fx { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 30; pointer-events: none; }
-  .season-tag { position: fixed; left: var(--pad); bottom: 1.4rem; z-index: 60; padding: .35rem .85rem; border-radius: 999px; background: rgba(27,28,25,.82); color: #F3EBDD; font-family: var(--serif); font-style: italic; font-size: .95rem; opacity: 0; translate: 0 8px; transition: opacity 500ms, translate 500ms var(--ease); pointer-events: none; }
-  .season-tag.on { opacity: 1; translate: 0 0; }
   /* Foraging paths plate at the top of the work section */
   .forage { position: relative; margin: 0 0 3rem; border-radius: 1.4rem; overflow: hidden; background: #F7F5EF; box-shadow: inset 0 0 0 1px var(--line); }
   .forage canvas { display: block; width: 100%; height: clamp(15rem, 34vw, 26rem); cursor: crosshair; touch-action: pan-y; }
@@ -570,7 +568,7 @@
   const pv = $("#pv"), px = pv.getContext("2d"), prev = $("#preview");
   const off = document.createElement("canvas"); off.width = 480; off.height = 320; const ox = off.getContext("2d");
   const cols = ["#5E6B45", "#C8643B", "#2F6F73", "#5B2A45", "#B07A1F", "#3D5A40", "#8C3B2A"];
-  let cur = -1, hot = 0, vx = 0, lastX = 0;
+  let cur = -1, vx = 0, lastX = 0;
   function paint(i) {
     const p = P.projects[i]; ox.fillStyle = cols[i % cols.length]; ox.fillRect(0, 0, 480, 320);
     let s = i * 97 + 13; const r = () => ((s = (s * 16807) % 2147483647) / 2147483647);
@@ -585,7 +583,7 @@
     decorate(li, p, i) {
       const row = li.querySelector(".w-row");
       if (CLIENT[p.title]) li.querySelector(".w-title").appendChild(el("span", "w-client", CLIENT[p.title]));
-      row.addEventListener("mouseenter", () => { if (li.classList.contains("is-open")) return; cur = i; paint(i); hot = 1; prev.classList.add("is-on"); });
+      row.addEventListener("mouseenter", () => { if (li.classList.contains("is-open")) return; cur = i; paint(i); px.clearRect(0, 0, 480, 320); px.drawImage(off, 0, 0); prev.classList.add("is-on"); });
       row.addEventListener("mouseleave", () => prev.classList.remove("is-on"));
     },
     onToggle() { prev.classList.remove("is-on"); },
@@ -657,15 +655,8 @@
       }
     }
     lastPX = prev._x; lastPY = prev._y;
-    pX = lerp(pX, prev._x || 0, 0.14); pY = lerp(pY, prev._y || 0, 0.14); rot = lerp(rot, clamp(vx * 0.4, -12, 12), 0.1); vx *= 0.9;
+    pX = lerp(pX, prev._x || 0, 0.14); pY = lerp(pY, prev._y || 0, 0.14); rot = lerp(rot, clamp(vx * 0.2, -5, 5), 0.1); vx *= 0.9;
     if (prev.classList.contains("is-on")) { prev.style.translate = `calc(${pX.toFixed(1)}px - 50%) calc(${pY.toFixed(1)}px - 50%)`; prev.style.rotate = rot.toFixed(2) + "deg"; }
-    if (cur >= 0 && prev.classList.contains("is-on")) {
-      hot = Math.max(0, hot * 0.93); const amp = 6 + hot * 18 + Math.abs(vx) * 0.4;
-      px.clearRect(0, 0, 480, 320); px.drawImage(off, 0, 0);
-      px.globalCompositeOperation = "screen"; px.globalAlpha = 0.5;
-      for (let y = 0; y < 320; y += 8) { const dx = Math.sin(y * 0.05 + t * 8) * amp * 0.3; px.drawImage(off, 0, y, 480, 8, dx + amp * 0.15, y, 480, 8); }
-      px.globalAlpha = 1; px.globalCompositeOperation = "source-over";
-    }
     if (vis.get(reveal2) || reduce) {
       const rp = clamp((sy - L.reveal.y) / (L.reveal.h - innerHeight), 0, 1);
       if (rp !== lastRp || moved) { lastRp = rp; rdark.style.setProperty("--r", reduce ? "150%" : rp * 150 + "%"); rdark.style.setProperty("--cx", ((prev._x || innerWidth / 2) / innerWidth) * 100 + "%"); rdark.style.setProperty("--cy", ((prev._y || innerHeight / 2) / innerHeight) * 100 + "%"); }
@@ -684,12 +675,11 @@
   addEventListener("resize", () => { lastGp = -1; rows.forEach((r) => (r._on = null)); });
 
   magnetic(".magnetic", 0.3);
-  $$(".nav a").forEach((a) => a.addEventListener("pointerenter", () => scramble(a, "abcdefghijklmnopqrstuvwxyz")));
   reveal();
 })();
 </script>
 <!-- Orchard hero + selected reports (see js/motion.js) -->
-<script src="js/motion.js?v=11"></script>
+<script src="js/motion.js?v=12"></script>
 
 </body>
 </html>
