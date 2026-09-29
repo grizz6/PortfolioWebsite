@@ -15,7 +15,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,100..900,0..100,0..1;1,9..144,100..900,0..100,0..1&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,100..900,0..100,0..1;1,9..144,100..900,0..100,0..1&family=Inter+Tight:wght@400;500;600&family=Caveat:wght@500&display=swap" rel="stylesheet" />
 <style>
   :root { --bg: #E1DFD8; --ink: #1B1C19; --muted: #65665E; --line: #1B1C1933; --blob: #7a1f35; --card: #F2F1EC; --acc: #5E6B45; --accink: #FFFFFF; --acct: #4A5536; --accd: #B7C79A; --hl: #D6DCC5; --grain: .11; --blue: #2f45ff; --green: #1d5a43; --serif: "Fraunces", Georgia, serif; --ease: cubic-bezier(.76,0,.24,1); --pad: clamp(1.25rem, 4vw, 3.5rem); }
   * { box-sizing: border-box; }
@@ -51,6 +51,25 @@
   .tag nav { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; font-size: .92rem; }
   .tag nav a { border-bottom: 1px solid currentColor; } .tag nav a:hover { color: var(--acct); }
   .stake { width: 7px; height: 13vh; margin: 0 auto; background: #6b4f3a; border-radius: 0 0 3px 3px; }
+  /* Hand-tied: paper texture, a twine string through the hole, and the name in handwriting */
+  .tag { border-radius: 2px 14px 14px 2px; background: #F4EEDF url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8'/%3E%3CfeColorMatrix values='0 0 0 0 .4 0 0 0 0 .35 0 0 0 0 .25 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .tag::after { content: ""; position: absolute; left: 1.28rem; top: -2.6rem; width: 2px; height: 3.9rem; background: #b99567; transform: rotate(12deg); transform-origin: bottom; border-radius: 2px; }
+  .tag small { font-family: "Caveat", "Bradley Hand", cursive; font-size: 1.35rem; letter-spacing: 0; text-transform: none; color: #3B2A22; }
+  .gtag { animation-duration: 3.6s; }
+
+  /* Time of day: the sky follows the visitor's clock (set on <html data-tod> in the head) */
+  html[data-tod="morning"] .hero { background: linear-gradient(#DCEBE6, #F1EEDF); } html[data-tod="morning"] .o-sun { background: #F7DDA8; }
+  html[data-tod="golden"] .hero { background: linear-gradient(#F4C9A2, #F3E4CC); } html[data-tod="golden"] .o-sun { background: #EDA35E; }
+  html[data-tod="dusk"] .hero { background: linear-gradient(#6B5B7B, #E8B4A0); } html[data-tod="dusk"] .o-sun { background: #F2CC8F; }
+  html[data-tod="night"] .hero { background: linear-gradient(#1D2433, #3B4A5A); }
+  html[data-tod="night"] .o-sun { background: #F3EBDD; box-shadow: inset -18px -6px 0 0 #D9D2C0; }
+  html[data-tod="night"] .o-sun::before { background: radial-gradient(closest-side, rgba(243,235,221,.18) 12%, rgba(243,235,221,0)); }
+  html[data-tod="night"] .o-hint { background: rgba(243,235,221,.85); }
+  .fireflies { display: none; position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+  html[data-tod="night"] .fireflies { display: block; }
+  .fireflies i { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #F7E27A; box-shadow: 0 0 10px 3px rgba(247,226,122,.6); animation: fly 6s ease-in-out infinite alternate, blink 2.4s ease-in-out infinite; }
+  @keyframes fly { to { transform: translate(40px, -30px); } } @keyframes blink { 50% { opacity: .15; } }
+  @media (prefers-reduced-motion: reduce) { .fireflies i { animation: none; } }
   @media (prefers-reduced-motion: reduce) { .gtag { animation: none; } .tag { opacity: 1; transform: none; } }
   .o-hint { position: absolute; right: var(--pad); top: 5.2rem; z-index: 3; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; padding: .45rem .85rem; border-radius: 999px; background: rgba(243,235,221,.8); backdrop-filter: blur(6px); opacity: 0; transition: opacity 1s 2.5s; }
   .hero.is-in .o-hint { opacity: 1; }
@@ -214,6 +233,10 @@
   }
   @media (prefers-reduced-motion: reduce) { .grain { display: none; } *, *::before { transition: none !important; animation: none !important; } .prox .ch { opacity: 1; transform: none; } .ill .draw { stroke-dashoffset: 0; } .ill .pop { scale: 1; } .ink { filter: none; } }
 </style>
+<script>
+  // Morning, golden hour, dusk or night, from the visitor's own clock
+  (() => { const h = new Date().getHours(); document.documentElement.dataset.tod = h < 5 || h >= 20 ? "night" : h < 10 ? "morning" : h < 17 ? "golden" : "dusk"; })();
+</script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="inkf"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="3" seed="4" /><feDisplacementMap id="inkd" in="SourceGraphic" scale="0" xChannelSelector="R" yChannelSelector="G" /></filter></svg>
@@ -223,7 +246,7 @@
 
 <main id="top">
   <section class="hero" id="hero" aria-labelledby="hh">
-    <span class="o-sun" aria-hidden="true"></span><canvas id="orchard" aria-label="A generative orchard growing and blossoming"></canvas><span class="o-hint" aria-hidden="true">Move for wind · click to regrow</span>
+    <span class="o-sun" aria-hidden="true"></span><canvas id="orchard" aria-label="A generative orchard growing and blossoming"></canvas><span class="o-hint" aria-hidden="true">Move for wind · click to regrow</span><div class="fireflies" aria-hidden="true"><i style="left:2%;top:45%;animation-delay:0.0s,0.0s"></i><i style="left:39%;top:68%;animation-delay:0.6s,0.4s"></i><i style="left:76%;top:51%;animation-delay:1.2s,0.8s"></i><i style="left:18%;top:74%;animation-delay:1.7999999999999998s,1.2000000000000002s"></i><i style="left:55%;top:57%;animation-delay:2.4s,1.6s"></i><i style="left:92%;top:80%;animation-delay:3.0s,0.0s"></i><i style="left:34%;top:63%;animation-delay:3.5999999999999996s,0.4s"></i><i style="left:71%;top:46%;animation-delay:0.0s,0.8s"></i><i style="left:13%;top:69%;animation-delay:0.6s,1.2000000000000002s"></i><i style="left:50%;top:52%;animation-delay:1.2s,1.6s"></i><i style="left:87%;top:75%;animation-delay:1.7999999999999998s,0.0s"></i><i style="left:29%;top:58%;animation-delay:2.4s,0.4s"></i><i style="left:66%;top:81%;animation-delay:3.0s,0.8s"></i><i style="left:8%;top:64%;animation-delay:3.5999999999999996s,1.2000000000000002s"></i><i style="left:45%;top:47%;animation-delay:0.0s,1.6s"></i><i style="left:82%;top:70%;animation-delay:0.6s,0.0s"></i><i style="left:24%;top:53%;animation-delay:1.2s,0.4s"></i><i style="left:61%;top:76%;animation-delay:1.7999999999999998s,0.8s"></i></div>
     <div class="gtag"><div class="tag"><small data-name></small><h1 class="prox" id="hh" data-title></h1><nav><a href="#work">Projects ↓</a><a href="#background">Experience ↓</a><a href="#contact">Say hello</a></nav></div><div class="stake" aria-hidden="true"></div></div>
     <a class="badge" href="#background" aria-label="Scroll down"><span aria-hidden="true"></span></a>
   </section>
