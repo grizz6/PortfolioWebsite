@@ -29,7 +29,7 @@ window.PORTFOLIO = {
       org: "Webster University",
       dates: "Feb 2024 – Dec 2025",
       points: [
-        "Data analyst on a USDA-funded study of pollination in St. Louis community orchards.",
+        "Data analyst on a four-year, USDA-funded study of pollination across 18 St. Louis community and commercial orchards.",
         "Merged 10,000+ records from seven partner institutions into one validated dataset, standardising site names, dates and units.",
         "Found and corrected a bias caused by zero counts that had never been recorded.",
         "Turned questions from 50+ non-technical stakeholders into datasets and recommendations.",
@@ -95,7 +95,7 @@ window.PORTFOLIO = {
       summary: "Do bee species forage differently, and does urbanization change their behaviour?",
       case: {
         problem: "Whether urban bee species show distinct foraging behaviours, and whether bee activity and behaviour change with urbanization.",
-        approach: "Insect behaviour was video-recorded at 10 orchards along an urbanization gradient in St. Louis in spring 2022, 2023 and 2024 and scored in BORIS. Urbanization was measured as impervious surface within 500 m of each orchard, and effects were tested with generalized linear models in R.",
+        approach: "Insect behaviour was video-recorded at the study's 18 community and commercial orchards along an urbanization gradient in St. Louis and scored in BORIS. Urbanization was measured as impervious surface within 500 m of each orchard, and effects were tested with generalized linear models in R.",
         result: "Species differed in three behaviours, including one that may transfer pollen. Effects of urbanization were small and varied by year. Co-authored poster at the Ecological Society of America meeting in Baltimore, August 2025.",
       },
       tags: ["r", "glm", "ecology"],
