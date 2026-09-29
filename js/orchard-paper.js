@@ -35,8 +35,8 @@
     for (let i = 0; i < nFront; i++) trees.push(makeTree(W * ((i + 0.5) / nFront) + (r() - 0.5) * 80, gy + 6, (1 + r() * 0.25) * k, r, 7));
     split = nBack;
     buildAtlas();
-    bees = Array.from({ length: W < 700 ? 10 : 22 }, () => ({ x: r() * W, y: H * (0.3 + r() * 0.4), vx: 0, vy: 0, tr: [], tgt: null, wait: 0 }));
-    petals = Array.from({ length: W < 700 ? 24 : 46 }, () => ({ x: r() * W, y: r() * H, v: 0.3 + r() * 0.7, s: 2 + r() * 3, a: r() * 6, c: Math.floor(r() * 3) }));
+    bees = Array.from({ length: W < 700 ? 6 : 12 }, () => ({ x: r() * W, y: H * (0.3 + r() * 0.4), vx: 0, vy: 0, tr: [], tgt: null, wait: 0 }));
+    petals = Array.from({ length: W < 700 ? 14 : 26 }, () => ({ x: r() * W, y: r() * H, v: 0.3 + r() * 0.7, s: 2 + r() * 3, a: r() * 6, c: Math.floor(r() * 3) }));
     // Static layers, drawn once
     const hill = (g, col, base, amp, fq, ph, top) => { g.fillStyle = col; g.beginPath(); g.moveTo(0, H - top); for (let xx = 0; xx <= W + 20; xx += 10) g.lineTo(xx, base - top + Math.sin(xx * fq + ph) * amp + Math.sin(xx * fq * 2.3 + ph * 2) * amp * 0.4); g.lineTo(W, H - top); g.fill(); };
     const hTop = Math.floor(gy - H * 0.15 - 40), gTop = Math.floor(gy - 20), fTop = Math.floor(H * 0.9);

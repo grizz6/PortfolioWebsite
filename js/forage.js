@@ -18,7 +18,7 @@
     x.setTransform(D, 0, 0, D, 0, 0); tx.setTransform(D, 0, 0, D, 0, 0);
     const r = RNG(15);
     flowers = Array.from({ length: 15 }, () => ({ x: W * (0.06 + r() * 0.88), y: H * (0.14 + r() * 0.72), r: 5 + r() * 3, c: C.petal[Math.floor(r() * 3)] }));
-    bees = Array.from({ length: W < 600 ? 10 : 18 }, (_, i) => ({ x: flowers[i % 15].x, y: flowers[i % 15].y, vx: 0, vy: 0, tgt: (i * 7) % 15, wait: 0, c: C.line[i % 4] }));
+    bees = Array.from({ length: W < 600 ? 6 : 10 }, (_, i) => ({ x: flowers[i % 15].x, y: flowers[i % 15].y, vx: 0, vy: 0, tgt: (i * 7) % 15, wait: 0, c: C.line[i % 4] }));
     if (reduce) { for (let k = 0; k < 900; k++) step(k / 60, false, 0, 0); paint(0); }
   }
   let pending = false;
@@ -33,9 +33,9 @@
       if (!lure && d < 8 && b.wait <= 0) b.wait = 30 + Math.random() * 50;
       if (b.wait > 0 && --b.wait <= 0) b.tgt = Math.floor(Math.random() * flowers.length);
       b.vx += (dx / (d + 1)) * 0.22 + (Math.random() - 0.5) * 0.4; b.vy += (dy / (d + 1)) * 0.22 + (Math.random() - 0.5) * 0.4;
-      const sp = Math.hypot(b.vx, b.vy); if (sp > 2.6) { b.vx *= 2.6 / sp; b.vy *= 2.6 / sp; } b.vx *= 0.96; b.vy *= 0.96;
+      const sp = Math.hypot(b.vx, b.vy); if (sp > 1.9) { b.vx *= 1.9 / sp; b.vy *= 1.9 / sp; } b.vx *= 0.96; b.vy *= 0.96;
       const px = b.x, py = b.y; b.x += b.vx; b.y += b.vy;
-      tx.strokeStyle = b.c; tx.globalAlpha = 0.32; tx.lineWidth = 1; tx.beginPath(); tx.moveTo(px, py); tx.lineTo(b.x, b.y); tx.stroke(); tx.globalAlpha = 1;
+      tx.strokeStyle = b.c; tx.globalAlpha = 0.22; tx.lineWidth = 1; tx.beginPath(); tx.moveTo(px, py); tx.lineTo(b.x, b.y); tx.stroke(); tx.globalAlpha = 1;
     });
   }
   const flower = (fx, fy, r, col) => { x.fillStyle = col; for (let k = 0; k < 5; k++) { const a = k * 1.2566; x.beginPath(); x.ellipse(fx + Math.cos(a) * r, fy + Math.sin(a) * r, r * 0.9, r * 0.6, a, 0, 6.283); x.fill(); } x.fillStyle = C.honey; x.beginPath(); x.arc(fx, fy, r * 0.55, 0, 6.283); x.fill(); };
