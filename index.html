@@ -188,8 +188,11 @@
   .c-br.m { background: var(--ink); color: var(--bg); border-color: transparent; }
   .commit h3 { margin: 0; font-family: var(--serif); font-weight: 400; font-size: clamp(1.6rem, 2.8vw, 2.4rem); line-height: 1.05; font-variation-settings: "wght" 450, "opsz" 144; }
   .c-org { margin: 0.3rem 0 0.8rem; font-family: var(--serif); font-style: italic; color: var(--muted); }
-  .c-points { margin: 0.2rem 0 0; padding-left: 1.1rem; max-width: 50rem; display: grid; gap: 0.35rem; }
-  .c-points li::marker { color: var(--muted); }
+  .c-cdc { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; max-width: 60rem; margin-top: .4rem; }
+  .c-cdc div { padding-top: .8rem; border-top: 2px solid var(--acc); } .c-cdc div:nth-child(2) { border-color: #E0A33A; } .c-cdc div:nth-child(3) { border-color: #D98A7A; }
+  .c-cdc h4 { margin: 0 0 .4rem; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .c-cdc p { margin: 0; line-height: 1.55; }
+  @media (max-width: 760px) { .c-cdc { grid-template-columns: 1fr; } }
   .commit a { font-family: var(--serif); font-style: italic; border-bottom: 1px solid currentColor; }
 
   @keyframes grain { 0% { transform: translate(0,0); } 25% { transform: translate(-5%,3%); } 50% { transform: translate(4%,-6%); } 75% { transform: translate(-3%,5%); } }
@@ -259,8 +262,8 @@
 </footer>
 
 
-<script src="js/content.js?v=16"></script>
-<script src="js/kit.js?v=16"></script>
+<script src="js/content.js?v=17"></script>
+<script src="js/kit.js?v=17"></script>
 <script>
 (function () {
   const { P, fill, work, reveal, magnetic, clamp, reduce, el, $, $$ } = KIT;
@@ -299,11 +302,11 @@
   const gl = $("#gitlog"), E = P.experience, ED = P.education;
   const rows = [
     { lane: "m", br: "data + software", date: ED[0].year, title: ED[0].degree, org: ED[0].school },
-    { lane: "b", br: "data", date: E[0].dates, title: E[0].role, org: E[0].org, points: E[0].points, fork: true },
-    { lane: "a", br: "software", date: E[1].dates, title: E[1].role, org: E[1].org, points: E[1].points },
+    { lane: "b", br: "data", date: E[0].dates, title: E[0].role, org: E[0].org, cdc: E[0].cdc, fork: true },
+    { lane: "a", br: "software", date: E[1].dates, title: E[1].role, org: E[1].org, cdc: E[1].cdc },
     { lane: "a", br: "software", date: ED[1].year, title: ED[1].degree, org: ED[1].school },
   ];
-  rows.forEach((r) => { const c = el("article", "commit"); const top = el("div", "c-top"); top.append(el("span", "c-date", r.date), el("span", "c-br " + r.lane, r.br)); c.appendChild(top); c.appendChild(el("h3", null, r.title)); c.appendChild(el("p", "c-org", r.org)); if (r.points) { const ul = el("ul", "c-points"); r.points.forEach((x) => ul.appendChild(el("li", null, x))); c.appendChild(ul); } r.el = c; gl.appendChild(c); });
+  rows.forEach((r) => { const c = el("article", "commit"); const top = el("div", "c-top"); top.append(el("span", "c-date", r.date), el("span", "c-br " + r.lane, r.br)); c.appendChild(top); c.appendChild(el("h3", null, r.title)); c.appendChild(el("p", "c-org", r.org)); if (r.cdc) { const g = el("div", "c-cdc"); r.cdc.forEach(([h, t]) => { const d = el("div"); d.append(el("h4", null, h), el("p", null, t)); g.appendChild(d); }); c.appendChild(g); } r.el = c; gl.appendChild(c); });
   const gsvg = $("#gitsvg"), XA = 22, XB = 58;
   function drawGit() {
     const ys = rows.map((r) => r.el.offsetTop + 30), yNow = ys[0], iFork = rows.findIndex((r) => r.fork), yFork = ys[iFork], yEnd = ys[ys.length - 1];
@@ -373,7 +376,7 @@
 })();
 </script>
 <!-- Orchard hero, foraging drawing and document covers (see js/motion.js) -->
-<script src="js/motion.js?v=16"></script>
+<script src="js/motion.js?v=17"></script>
 
 </body>
 </html>

@@ -28,24 +28,13 @@ window.PORTFOLIO = {
       role: "Research Assistant, Data Analysis",
       org: "Webster University",
       dates: "Feb 2024 – Dec 2025",
-      points: [
-        "Data analyst on a four-year, USDA-funded study of pollination across 18 St. Louis community and commercial orchards.",
-        "Merged 10,000+ records from seven partner institutions into one validated dataset, standardising site names, dates and units.",
-        "Found and corrected a bias caused by zero counts that had never been recorded.",
-        "Turned questions from 50+ non-technical stakeholders into datasets and recommendations.",
-        "Set up automated checks that run the R analysis code on every push.",
-      ],
+      cdc: [["The challenge", "A four-year, USDA-funded pollination study across 18 St. Louis orchards, with data from seven partner institutions and no two recording sites, dates or units the same way."], ["What I did", "Built one validated R dataset from 10,000+ records, fixed a hidden zero-count bias, modelled bee behaviour against urbanization, and put the code under automated checks."], ["What changed", "SEED St. Louis got site-level recommendations for its orchards, 50+ non-technical stakeholders got answers they could use, and the findings were presented at ESA and RAD."]],
     },
     {
       role: "Software Engineer",
       org: "Aaran Tech Private Limited",
       dates: "Feb 2021 – Jun 2023",
-      points: [
-        "Rewrote production SQL and PySpark transformations so they ran 60% faster.",
-        "Designed database schemas and wrote pandas ETLs that produced reporting tables.",
-        "Built Laravel APIs with React and TypeScript front ends.",
-        "Fixed 17+ defects in scheduled jobs and documented the systems I worked on.",
-      ],
+      cdc: [["The challenge", "Slow production transformations and fragile scheduled jobs feeding the reporting tables."], ["What I did", "Rewrote SQL and PySpark transformations, designed schemas, wrote pandas ETLs and built Laravel APIs with React and TypeScript front ends."], ["What changed", "Jobs ran 60% faster, 17+ defects were fixed, and the systems were documented for the team."]],
     },
   ],
 
