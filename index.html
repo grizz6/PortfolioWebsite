@@ -48,11 +48,20 @@
   @media (max-width: 760px) { .o-hint { display: none; } }
 
   /* Foraging paths plate at the top of the projects */
-  .forage { position: relative; margin: 0 0 3rem; border-radius: 1.4rem; overflow: hidden; background: #F7F5EF; box-shadow: inset 0 0 0 1px var(--line); }
+  /* Projects: the foraging drawing and the list are one card; every blossom is a project */
+  .proj { border-radius: 1.4rem; overflow: hidden; background: #F7F5EF; box-shadow: inset 0 0 0 1px var(--line); }
+  .forage { position: relative; margin: 0; }
+  .proj-cap { display: flex; flex-wrap: wrap; align-items: baseline; gap: .4rem 1rem; margin: 0; padding: 1.1rem clamp(1rem, 3vw, 2rem) 1.2rem; border-top: 1px solid var(--line); border-bottom: 1px solid var(--ink); color: var(--muted); font-size: .95rem; }
+  .proj-cap b { font-family: var(--serif); font-weight: 400; font-size: 1.25rem; color: var(--ink); }
+  .proj .work { padding: 0 clamp(.5rem, 2.4vw, 1.6rem); }
+  .proj .w-item:last-child { border-bottom: 0; }
+  .proj .w-num { display: inline-flex; align-items: center; gap: .55rem; }
+  .proj .w-num::before { content: ""; width: .62em; height: .62em; border-radius: 50%; background: var(--bc, #D98A7A); box-shadow: 0 0 0 3px #F7F5EF, 0 0 0 4px var(--bc, #D98A7A); transform: scale(.85); transition: transform 500ms var(--ease); }
+  .proj .w-item:hover .w-num::before, .proj .w-item.is-lit .w-num::before, .proj .w-item.is-open .w-num::before { transform: scale(1.25); }
+  .work .w-item.is-lit .w-row { opacity: 1; }
+  .w-item.is-lit .w-title { font-variation-settings: "wght" 700, "SOFT" 100, "WONK" 1, "opsz" 144; font-style: italic; color: var(--acct); transform: translateX(1.2rem); }
+  .proj .center { padding: 1.4rem 0 2rem; border-top: 1px solid var(--line); }
   .forage canvas { display: block; width: 100%; height: clamp(15rem, 34vw, 26rem); cursor: crosshair; touch-action: pan-y; }
-  .forage figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .6rem 2rem; align-items: baseline; padding: 1rem 1.4rem 1.2rem; border-top: 1px solid var(--line); }
-  .forage figcaption p { margin: 0; max-width: 60ch; color: var(--muted); font-size: .95rem; } .forage figcaption b { font-family: var(--serif); font-weight: 400; font-size: 1.2rem; color: var(--ink); margin-right: .5rem; }
-  .forage figcaption a { font-size: .9rem; border-bottom: 1px solid currentColor; white-space: nowrap; }
   .forage .f-hint { position: absolute; right: .9rem; top: .8rem; padding: .3rem .7rem; border-radius: 999px; background: rgba(247,245,239,.88); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); pointer-events: none; }
 
   /* Reports: real work as paper */
@@ -234,10 +243,12 @@
 
   <section class="sec" id="work" aria-labelledby="w-h" style="padding-top:2rem">
     <div class="chap"><h2 class="ink" id="w-h">Projects</h2></div>
-    <figure class="forage" id="forage"><canvas aria-label="A live drawing of bees flying between 10 blossoms, leaving a line for every flight"></canvas><span class="f-hint" aria-hidden="true">Move to lure bees · click to plant</span>
-      <figcaption><p><b>Foraging paths</b>Ten blossoms for the ten orchards in the bee foraging study. Each flight leaves a line.</p></figcaption></figure>
-    <ol class="work" id="work-list"></ol>
-    <div class="center"><button class="pill magnetic" id="more" type="button"><span data-more-label></span></button></div>
+    <div class="proj">
+      <figure class="forage" id="forage" style="margin:0"><canvas aria-label="A live drawing of bees flying between blossoms, one blossom per project, leaving a line for every flight"></canvas><span class="f-hint" aria-hidden="true">Hover a blossom · click to open</span></figure>
+      <p class="proj-cap"><b>Foraging paths</b>Every blossom is one of my projects. Hover a project and the bees fly to it; click a blossom to open it.</p>
+      <ol class="work" id="work-list"></ol>
+      <div class="center"><button class="pill magnetic" id="more" type="button"><span data-more-label></span></button></div>
+    </div>
   </section>
 
   <section class="reports" id="reports" aria-labelledby="rp-h">
@@ -273,8 +284,8 @@
 </footer>
 
 
-<script src="js/content.js?v=14"></script>
-<script src="js/kit.js?v=14"></script>
+<script src="js/content.js?v=15"></script>
+<script src="js/kit.js?v=15"></script>
 <script>
 (function () {
   const { P, fill, work, reveal, magnetic, clamp, reduce, el, $, $$ } = KIT;
@@ -296,7 +307,17 @@
 
 
   // Work
-  work($("#work-list"), $("#more"));
+  // Every project has a blossom in the foraging drawing above; rows and blossoms light each other up
+  const PC = (window.PROJ_COLORS = ["#D98A7A", "#C8643B", "#E0A33A", "#A5677A", "#87A96B", "#2F6F73", "#E8B4A0"]);
+  const wl = $("#work-list"), more = $("#more"), focusProj = (i) => document.dispatchEvent(new CustomEvent("proj:focus", { detail: i }));
+  work(wl, more, { decorate(li, p, i) { li.dataset.i = i; li.style.setProperty("--bc", PC[i % PC.length]); li.addEventListener("pointerenter", () => focusProj(i)); li.addEventListener("pointerleave", () => focusProj(-1)); li.querySelector(".w-row").addEventListener("focus", () => focusProj(i)); } });
+  document.addEventListener("forage:hover", (e) => $$(".w-item", wl).forEach((li) => li.classList.toggle("is-lit", +li.dataset.i === e.detail)));
+  document.addEventListener("forage:open", (e) => {
+    const li = $(`.w-item[data-i="${e.detail}"]`, wl); if (!li) return;
+    if (li.classList.contains("is-extra") && !wl.classList.contains("show-all")) more.click();
+    if (!li.classList.contains("is-open")) li.querySelector(".w-row").click();
+    li.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+  });
 
   // Experience: a git-style graph (the software branch merges into data)
   const gl = $("#gitlog"), E = P.experience, ED = P.education;
@@ -376,7 +397,7 @@
 })();
 </script>
 <!-- Orchard hero + selected reports (see js/motion.js) -->
-<script src="js/motion.js?v=14"></script>
+<script src="js/motion.js?v=15"></script>
 
 </body>
 </html>

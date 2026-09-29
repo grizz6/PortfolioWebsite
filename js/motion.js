@@ -106,7 +106,7 @@ window.MO = (function () {
   const api = { $, $$, clamp, lerp, sstep, damp, reduce, RNG, Noise, M, scene, three, load, DOCS, COVERS, coverArt, pageCanvas, idle, fontsReady, deal };
 
   // Boot: the orchard now, the reports (and three.js) only once they are about a screen away
-  const v = "?v=14";
+  const v = "?v=15";
   const boot = async () => {
     await load("js/orchard-paper.js" + v);
     load("js/seasons.js" + v); load("js/forage.js" + v);
