@@ -235,4 +235,13 @@ window.PORTFOLIO = {
       links: [{ label: "Notebook", href: "https://github.com/grizz6/Python-mini-projects/blob/main/brain%20tumor%20project/Grishma_Gajurel_project.ipynb" }],
     },
   ],
+  // Selected reports: shown as 3D paper pages with generative covers. `art` picks the cover, `seed` fixes it.
+  reports: [
+    { kind: "FINDINGS REPORT · CLIENT", title: "Pollination in urban orchards", sub: "SEED St. Louis · next steps for 15 orchards", art: "rings", seed: 15, href: "files/insect-distribution-usda.pdf" },
+    { kind: "CONFERENCE POSTER · ESA 2025", title: "Urban bee foraging", sub: "How city density shapes which pollinators show up", art: "flow", seed: 2025, href: "files/Slide1.jpg" },
+    { kind: "OPEN SOURCE · PYTHON", title: "synthkit", sub: "Realistic test data · 316 tests passing", art: "truchet", seed: 316, href: "https://github.com/grizz6/synthkit" },
+    { kind: "REPORT · MODELING", title: "Orchard microclimate modeling", sub: "Rebuilding missing orchard weather", art: "hatch", seed: 60, href: "files/weather-regression.pdf" },
+    { kind: "SIDE PROJECT · AI", title: "AI Data Analyst Agent", sub: "Python does the math, TypeScript the interface", art: "stipple", seed: 10000, href: "https://github.com/grizz6/AI-Data-Analyst-Agent" },
+    { kind: "TALK · RAD CONFERENCE", title: "What the bees told us", sub: "Webster University · Research Across Disciplines", art: "ribbons", seed: 7, href: "files/rad.pdf" },
+  ],
 };
