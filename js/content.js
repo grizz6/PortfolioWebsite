@@ -37,5 +37,9 @@ window.PORTFOLIO = {
     { dates: "2022", role: "B.S. Computing", org: "London Metropolitan University" },
   ],
 
+  // Photographs for the film strip. Put the files in photos/ and add one entry each; the section stays hidden while this is empty.
+  // Example: { src: "photos/forest-park.jpg", title: "Forest Park, St. Louis", settings: "35mm · ƒ/2 · 1/500 · ISO 100", year: "2026" }
+  photos: [],
+
   skills: ["SQL", "Python", "R", "pandas", "scikit-learn", "dbt", "BigQuery", "PostgreSQL", "Tableau", "Power BI", "FastAPI", "React", "GitHub Actions"],
 };
