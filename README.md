@@ -6,7 +6,7 @@ My personal portfolio site, live at **[www.grishmagajurel.com](https://www.grish
 
 It's a hand-built, single-page static site: plain HTML, CSS, and vanilla JavaScript, with no framework, build step, backend, or npm dependencies. All content lives in one JavaScript file, so adding a project means adding one object.
 
-**Sections:** Signal / noise · Experiments · Photographs · Experience · Contact.
+**Sections:** Intro · Experience · Projects · Photographs · Contact.
 
 ---
 
@@ -39,8 +39,8 @@ photos/         photographs for the film strip
 files/          reports, posters and slides linked from projects
 ```
 
-1. **Content as data.** `js/content.js` holds the motto, eight projects (written from each repo's README), experience, education, tools and photos. Change it there and the page updates.
-2. **The idea.** Signal and noise, from the line on my GitHub profile. The name starts as scattered grain and fits into shape; the cursor pulls nearby noise into signal and a click reseeds it, with a live fit readout. The line itself lights up word by word as you read. Each experiment draws a small live figure of what it does: Filings Q&A citing passages, synthkit's real correlations (0.230 real, 0.000 Faker-style, 0.183 synthkit, from its README), the analyst flagging outliers outside the IQR fences, the automation run replaying without the model, bees, a flowering calendar, an ROC curve and a 911 heatmap. Figures whose shape isn't real data are labelled illustrative. Photographs sit on a film strip that develops each frame as it reaches the middle.
+1. **Content as data.** `js/content.js` holds the headline, the two roles, eight projects (written from each repo's README; four show and the rest sit behind Load more), tools and photos.
+2. **Design.** Colours follow the 2026 picks: Pantone's Cloud Dancer as the ground, teal (WGSN and Coloro) as the accent and Behr's smoky jade as the second accent. Slow tree-ring contours drift behind the intro. Each project draws a small live figure of what it does, from the repo's own numbers where it has any (synthkit's 0.230, 0.000 and 0.183 correlations) and labelled illustrative where it doesn't. Photographs sit on a film strip that develops each frame as it reaches the middle.
 3. **Adding photos.** Put files in `photos/` and add an entry for each to `photos` in `js/content.js` (see `photos/README.md`). The section appears as soon as there is one.
 4. **Motion.** Everything runs from pointer and scroll events with one requestAnimationFrame at a time, and `prefers-reduced-motion` gets a still page.
 5. **Old links still work.** `about/`, `projects/`, `project/` and `contact/` (and their `.html` versions) redirect to the matching section, and `404.html` does the same for any other old path.

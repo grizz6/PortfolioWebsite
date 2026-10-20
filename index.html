@@ -6,7 +6,7 @@
 <title>Grishma Gajurel — Data Analyst &amp; Software Engineer</title>
 <meta name="description" content="Grishma Gajurel, data analyst, software engineer and photographer. Retrieval with citations, synthetic test data, exploratory analysis, ecology research." />
 <meta name="author" content="Grishma Gajurel" />
-<meta name="theme-color" content="#0A0B09" />
+<meta name="theme-color" content="#F0EEE9" />
 <link rel="canonical" href="https://www.grishmagajurel.com/" />
 <meta property="og:title" content="Grishma Gajurel — Data Analyst &amp; Software Engineer" />
 <meta property="og:description" content="Data analyst, software engineer and photographer. Retrieval with citations, synthetic test data, exploratory analysis, ecology research." />
@@ -17,162 +17,174 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
 <style>
-  /* Signal and noise. The name starts as grain and fits into shape; each experiment draws what it does.
-     Mono for readouts, sans for reading, an italic serif for the voice. */
+  /* Palette from the 2026 colour picks: Pantone's Cloud Dancer (a soft warm white) as the ground,
+     WGSN and Coloro's teal as the one accent, and Behr's smoky jade (Hidden Gem) as the second. */
   :root {
-    --bg: #0A0B09; --surface: #121410; --fg: #ECEDE6; --muted: #8B9085; --faint: #2B2F27; --line: #1D201A;
-    --signal: #C6E07F; --warm: #E8B26B; --cite: #7FB7E0;
+    --bg: #F0EEE9;        /* Cloud Dancer */
+    --surface: #E7E4DD;
+    --ink: #1A1F1E;
+    --muted: #5E6662;
+    --line: #D6D2C9;
+    --teal: #0F5F5C;      /* accent */
+    --jade: #5E7B72;      /* smoky jade, second accent */
     --sans: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif; --mono: "Geist Mono", ui-monospace, "SFMono-Regular", Menlo, monospace; --serif: "Instrument Serif", Georgia, serif;
-    --pad: clamp(1.25rem, 5vw, 4rem); --col: 74rem; --ease: cubic-bezier(.2, .8, .2, 1);
+    --pad: clamp(1.25rem, 5vw, 4rem); --col: 72rem; --ease: cubic-bezier(.2, .8, .2, 1);
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body { margin: 0; background: var(--bg); color: var(--fg); font: 400 1rem/1.6 var(--sans); -webkit-font-smoothing: antialiased; overflow-x: clip; }
-  body::after { content: ""; position: fixed; inset: 0; z-index: 50; pointer-events: none; opacity: .06; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 400 1rem/1.6 var(--sans); -webkit-font-smoothing: antialiased; overflow-x: clip; }
   a { color: inherit; text-decoration: none; }
-  ::selection { background: var(--signal); color: var(--bg); }
-  :focus-visible { outline: 1px solid var(--signal); outline-offset: 4px; }
+  ::selection { background: var(--teal); color: var(--bg); }
+  :focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
   [hidden] { display: none !important; }
-  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .mono { font-family: var(--mono); font-size: .74rem; letter-spacing: .06em; color: var(--muted); text-transform: uppercase; }
   .wrap { max-width: var(--col); margin: 0 auto; padding-inline: var(--pad); }
-  em, .serif { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: 0; }
+  em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: 0; color: var(--teal); }
 
-  header { position: fixed; inset: 0 0 auto; z-index: 40; mix-blend-mode: difference; }
+  header { position: sticky; top: 0; z-index: 40; background: color-mix(in srgb, var(--bg) 86%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid transparent; transition: border-color 300ms; }
+  header.scrolled { border-color: var(--line); }
   header .wrap { display: flex; justify-content: space-between; align-items: center; height: 3.6rem; gap: 1rem; }
+  header .name { color: var(--ink); }
   header nav { display: flex; gap: clamp(.9rem, 3vw, 2rem); }
-  header nav a { color: #9aa093; transition: color 200ms; } header nav a:hover, header nav a.on { color: #fff; }
-  .fit-read { color: #fff; min-width: 6rem; text-align: right; }
-  .progress { position: fixed; left: 0; top: 0; z-index: 41; height: 1px; width: 100%; background: var(--signal); transform-origin: left; transform: scaleX(0); }
+  header nav a { transition: color 200ms; } header nav a:hover, header nav a.on { color: var(--teal); }
+  .progress { position: fixed; left: 0; top: 0; z-index: 41; height: 2px; width: 100%; background: var(--teal); transform-origin: left; transform: scaleX(0); }
 
-  /* Signal / noise */
-  .sn { position: relative; height: 100svh; min-height: 34rem; overflow: hidden; cursor: crosshair; }
-  .sn canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-  .sn-read { position: absolute; left: var(--pad); right: var(--pad); bottom: clamp(1.2rem, 4vh, 2.4rem); display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; pointer-events: none; }
-  .sn-read b { color: var(--signal); font-weight: 500; }
-  .sn-tag { position: absolute; left: var(--pad); right: var(--pad); top: 5.2rem; pointer-events: none; }
+  /* Hero: name and one line, with slow tree-ring contours on the right */
+  .hero { position: relative; overflow: hidden; }
+  .hero .wrap { position: relative; min-height: min(78svh, 44rem); display: grid; align-content: center; padding-block: 5rem; }
+  .rings { position: absolute; right: max(-12rem, calc(var(--pad) - 14rem)); top: 50%; width: min(70vw, 46rem); aspect-ratio: 1; translate: 0 -50%; pointer-events: none; }
+  .hero h1 { position: relative; margin: 1rem 0 1.4rem; font-weight: 300; font-size: clamp(2.8rem, 7.4vw, 6.4rem); line-height: .95; letter-spacing: -.05em; animation: rise 1.1s var(--ease) both; }
+  .hero p { position: relative; margin: 0; max-width: 30rem; font-size: clamp(1.05rem, 1.7vw, 1.3rem); color: var(--muted); animation: rise 1.1s var(--ease) both .12s; }
+  .hero .cta { position: relative; display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 2.2rem; animation: rise 1.1s var(--ease) both .24s; }
+  .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .7rem 1.15rem; border: 1px solid var(--ink); border-radius: 999px; font-family: var(--mono); font-size: .76rem; letter-spacing: .05em; text-transform: uppercase; transition: background 250ms, color 250ms, border-color 250ms; }
+  .btn.solid { background: var(--teal); border-color: var(--teal); color: var(--bg); }
+  .btn:hover { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+  .hero .tag { position: relative; animation: rise 1.1s var(--ease) both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(1rem); } to { opacity: 1; transform: none; } }
 
-  /* The voice: words light up as you read */
-  .motto { padding-block: clamp(5rem, 14vw, 10rem); }
-  .motto p { margin: 0; max-width: 22ch; font-family: var(--serif); font-style: italic; font-size: clamp(2.1rem, 6.2vw, 5.4rem); line-height: 1.02; letter-spacing: -.01em; }
-  .motto .w { color: var(--faint); transition: color 500ms; } .motto .w.lit { color: var(--fg); } .motto .w.key.lit { color: var(--signal); }
-  .motto .by { display: block; margin-top: 2rem; }
-
-  section { position: relative; padding-block: clamp(4.5rem, 10vw, 7.5rem); border-top: 1px solid var(--line); }
-  .head { display: flex; justify-content: space-between; align-items: end; gap: 1rem; margin-bottom: 2.4rem; }
-  h2 { margin: 0; font-weight: 300; font-size: clamp(2.2rem, 5.4vw, 4rem); line-height: 1; letter-spacing: -.045em; }
-  .reveal { opacity: 0; transform: translateY(1.4rem); transition: opacity 900ms var(--ease), transform 900ms var(--ease); transition-delay: calc(var(--i, 0) * 80ms); }
+  section { position: relative; padding-block: clamp(4rem, 9vw, 7rem); border-top: 1px solid var(--line); }
+  .head { display: flex; justify-content: space-between; align-items: end; gap: 1rem; margin-bottom: 2.2rem; }
+  h2 { margin: 0; font-weight: 300; font-size: clamp(2rem, 5vw, 3.6rem); line-height: 1; letter-spacing: -.045em; }
+  .reveal { opacity: 0; transform: translateY(1.2rem); transition: opacity 800ms var(--ease), transform 800ms var(--ease); transition-delay: calc(var(--i, 0) * 80ms); }
   .reveal.in { opacity: 1; transform: none; }
 
-  /* Experiments */
-  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
-  .exp { position: relative; display: flex; flex-direction: column; background: var(--bg); min-width: 0; transition: background 400ms; }
-  .exp:hover { background: var(--surface); }
-  .exp canvas { display: block; width: 100%; aspect-ratio: 16 / 9; border-bottom: 1px solid var(--line); }
-  .exp .body { display: flex; flex-direction: column; gap: .8rem; padding: 1.5rem 1.6rem 1.7rem; flex: 1; }
+  /* Experience */
+  .cv { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+  .cv li { padding: 1.6rem; background: var(--surface); border-radius: 1rem; min-width: 0; }
+  .cv .top { display: flex; justify-content: space-between; gap: 1rem; }
+  .cv h3 { margin: 1rem 0 .2rem; font-weight: 400; font-size: 1.3rem; letter-spacing: -.02em; }
+  .cv .org { color: var(--teal); }
+  .cv p { margin: .9rem 0 0; color: var(--muted); }
+  .skills { display: flex; flex-wrap: wrap; gap: .45rem; margin: 2rem 0 0; padding: 0; list-style: none; }
+  .skills li { padding: .32rem .75rem; border: 1px solid var(--line); border-radius: 999px; font-family: var(--mono); font-size: .72rem; transition: border-color 250ms, color 250ms; }
+  .skills li:hover { border-color: var(--teal); color: var(--teal); }
+
+  /* Projects */
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+  .exp { display: flex; flex-direction: column; min-width: 0; background: var(--surface); border-radius: 1rem; overflow: hidden; transition: transform 400ms var(--ease), box-shadow 400ms; }
+  .exp:hover { transform: translateY(-3px); box-shadow: 0 18px 40px -26px rgba(15, 95, 92, .45); }
+  .exp canvas { display: block; width: 100%; aspect-ratio: 16 / 9; background: #F6F4F0; }
+  .exp .body { display: flex; flex-direction: column; gap: .75rem; padding: 1.4rem 1.5rem 1.6rem; flex: 1; }
   .exp .meta { display: flex; justify-content: space-between; gap: 1rem; }
-  .exp .meta span:first-child { color: var(--warm); }
-  .exp h3 { margin: 0; font-weight: 400; font-size: clamp(1.35rem, 2.4vw, 1.75rem); letter-spacing: -.03em; line-height: 1.1; }
-  .exp p { margin: 0; color: var(--muted); font-size: .97rem; max-width: 36rem; }
+  .exp h3 { margin: 0; font-weight: 400; font-size: clamp(1.3rem, 2.2vw, 1.6rem); letter-spacing: -.03em; line-height: 1.1; }
+  .exp p { margin: 0; color: var(--muted); font-size: .96rem; }
   .facts { display: flex; flex-wrap: wrap; gap: .4rem; }
-  .facts span { padding: .25rem .6rem; border: 1px solid var(--faint); border-radius: 999px; color: var(--signal); font-family: var(--mono); font-size: .7rem; letter-spacing: .03em; }
+  .facts span { padding: .25rem .6rem; border-radius: 999px; background: rgba(15, 95, 92, .09); color: var(--teal); font-family: var(--mono); font-size: .7rem; }
   .exp .tags { display: flex; flex-wrap: wrap; gap: .2rem .9rem; }
-  .exp .links { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; margin-top: auto; padding-top: .6rem; }
-  .exp .links a { color: var(--fg); border-bottom: 1px solid var(--faint); transition: border-color 250ms, color 250ms; } .exp .links a:hover { color: var(--signal); border-color: var(--signal); }
-  .latest { margin-top: 3.4rem; }
+  .exp .links { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; margin-top: auto; padding-top: .5rem; }
+  .exp .links a { color: var(--ink); border-bottom: 1px solid var(--line); transition: border-color 250ms, color 250ms; } .exp .links a:hover { color: var(--teal); border-color: var(--teal); }
+  .exp.extra[hidden] { display: none !important; }
+  .loadmore { display: flex; justify-content: center; margin-top: 2rem; }
+  .latest { margin-top: 3.2rem; }
   .latest ul { list-style: none; margin: 1rem 0 0; padding: 0; border-top: 1px solid var(--line); }
-  .latest a { display: grid; grid-template-columns: 5rem 1fr auto; gap: .2rem 1.6rem; align-items: baseline; padding: .95rem 0; border-bottom: 1px solid var(--line); transition: padding 300ms var(--ease), background 300ms; }
-  .latest a:hover { padding-left: .6rem; background: linear-gradient(90deg, var(--surface), transparent 80%); }
+  .latest a { display: grid; grid-template-columns: 5rem 1fr auto; gap: .2rem 1.6rem; align-items: baseline; padding: .9rem 0; border-bottom: 1px solid var(--line); transition: padding 300ms var(--ease), color 300ms; }
+  .latest a:hover { padding-left: .5rem; color: var(--teal); }
   .latest p { grid-column: 2; margin: 0; color: var(--muted); font-size: .92rem; }
-  .more { display: inline-block; margin-top: 1.6rem; } .more:hover { color: var(--signal); }
+  .more { display: inline-block; margin-top: 1.4rem; } .more:hover { color: var(--teal); }
 
   /* Film strip */
   .film { padding-bottom: 0; }
   .strip-stage { position: sticky; top: 0; height: 100svh; display: flex; align-items: center; overflow: hidden; }
-  .strip { display: flex; gap: 1.4rem; padding: 2.6rem var(--pad); background-color: #070806; will-change: transform;
-    background-image: repeating-linear-gradient(90deg, transparent 0 14px, #1e211b 14px 30px), repeating-linear-gradient(90deg, transparent 0 14px, #1e211b 14px 30px);
+  .strip { display: flex; gap: 1.4rem; padding: 2.6rem var(--pad); background-color: #161A19; will-change: transform;
+    background-image: repeating-linear-gradient(90deg, transparent 0 14px, #2A302E 14px 30px), repeating-linear-gradient(90deg, transparent 0 14px, #2A302E 14px 30px);
     background-size: 100% 12px, 100% 12px; background-repeat: no-repeat; background-position: 0 12px, 0 calc(100% - 12px); }
   .shot { flex: none; margin: 0; width: clamp(16rem, 34vw, 30rem); }
   .shot button { display: block; width: 100%; padding: 0; border: 0; background: #000; cursor: zoom-in; overflow: hidden; aspect-ratio: 3 / 2; }
-  .shot img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1) brightness(.35) contrast(1.2); transform: scale(1.06); transition: filter 1.4s var(--ease), transform 1.4s var(--ease); }
+  .shot img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1) brightness(.4) contrast(1.15); transform: scale(1.06); transition: filter 1.4s var(--ease), transform 1.4s var(--ease); }
   .shot.dev img { filter: none; transform: none; }
-  .shot figcaption { display: flex; justify-content: space-between; gap: 1rem; margin-top: .7rem; }
-  .shot figcaption .t { color: var(--fg); text-transform: none; letter-spacing: 0; font-family: var(--sans); font-size: .9rem; }
-  dialog.lightbox { max-width: min(92vw, 110rem); max-height: 94vh; padding: 0; border: 0; background: transparent; color: var(--fg); }
-  dialog.lightbox::backdrop { background: rgba(5, 6, 4, .95); }
+  .shot figcaption { display: flex; justify-content: space-between; gap: 1rem; margin-top: .7rem; color: #A8B0AC; }
+  .shot figcaption .t { color: #F0EEE9; text-transform: none; letter-spacing: 0; font-family: var(--sans); font-size: .9rem; }
+  dialog.lightbox { max-width: min(92vw, 110rem); max-height: 94vh; padding: 0; border: 0; background: transparent; color: #F0EEE9; }
+  dialog.lightbox::backdrop { background: rgba(20, 24, 23, .95); }
   dialog.lightbox img { display: block; max-width: 100%; max-height: 84vh; margin: auto; }
-  dialog.lightbox p { display: flex; justify-content: space-between; gap: 1rem; margin: .8rem 0 0; }
-  dialog.lightbox .t { color: var(--fg); }
-  dialog.lightbox button { position: fixed; right: 1.4rem; top: 1.2rem; color: var(--fg); background: none; border: 0; cursor: pointer; }
-
-  /* Experience */
-  .cv { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
-  .cv li { display: grid; grid-template-columns: 8rem 1fr auto; gap: .2rem 2rem; align-items: baseline; padding: 1.2rem 0; border-bottom: 1px solid var(--line); }
-  .cv h3 { margin: 0; font-weight: 400; font-size: 1.15rem; letter-spacing: -.02em; }
-  .cv .org { color: var(--signal); }
-  .cv p { grid-column: 2; margin: 0; color: var(--muted); font-size: .95rem; max-width: 40rem; }
-  .skills { display: flex; flex-wrap: wrap; gap: .5rem; margin: 2.6rem 0 0; padding: 0; list-style: none; }
-  .skills li { padding: .35rem .8rem; border: 1px solid var(--faint); border-radius: 999px; font-family: var(--mono); font-size: .72rem; color: var(--fg); transition: border-color 250ms, color 250ms; }
-  .skills li:hover { border-color: var(--signal); color: var(--signal); }
+  dialog.lightbox p { display: flex; justify-content: space-between; gap: 1rem; margin: .8rem 0 0; color: #A8B0AC; }
+  dialog.lightbox .t { color: #F0EEE9; }
+  dialog.lightbox button { position: fixed; right: 1.4rem; top: 1.2rem; color: #F0EEE9; background: none; border: 0; cursor: pointer; }
 
   /* Contact */
-  .contact { padding-block: clamp(6rem, 16vw, 11rem); }
-  .contact .big { display: inline-block; margin-top: 1.6rem; font-weight: 300; font-size: clamp(1.8rem, 6vw, 4.6rem); letter-spacing: -.045em; line-height: 1.05; overflow-wrap: anywhere; background: linear-gradient(var(--signal), var(--signal)) 0 100% / 0 1px no-repeat; transition: background-size 600ms var(--ease); }
+  .contact { background: var(--teal); color: var(--bg); border-top: 0; padding-block: clamp(5rem, 13vw, 9rem); }
+  .contact .mono { color: rgba(240, 238, 233, .7); }
+  .contact h2 { color: var(--bg); }
+  .contact .big { display: inline-block; margin-top: 1.6rem; font-weight: 300; font-size: clamp(1.8rem, 6vw, 4.4rem); letter-spacing: -.045em; line-height: 1.05; overflow-wrap: anywhere; background: linear-gradient(var(--bg), var(--bg)) 0 100% / 0 1px no-repeat; transition: background-size 600ms var(--ease); }
   .contact .big:hover { background-size: 100% 1px; }
   .contact .links { display: flex; flex-wrap: wrap; gap: .6rem 1.8rem; margin-top: 2rem; align-items: center; }
   .contact button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-transform: inherit; letter-spacing: inherit; }
-  .contact .links a:hover, .contact button:hover { color: var(--fg); }
-  footer { padding-block: 2rem; border-top: 1px solid var(--line); }
+  .contact .links a:hover, .contact button:hover { color: var(--bg); }
+  footer { padding-block: 1.6rem; background: var(--teal); border-top: 1px solid rgba(240, 238, 233, .2); }
+  footer .mono { color: rgba(240, 238, 233, .7); }
   footer .wrap { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  footer a:hover { color: var(--bg); }
 
   @media (max-width: 820px) {
     header nav { display: none; }
-    .grid { grid-template-columns: 1fr; }
-    .cv li { grid-template-columns: 1fr auto; } .cv li .mono:first-child { grid-column: 1 / -1; } .cv p { grid-column: 1 / -1; }
+    .cv, .grid { grid-template-columns: 1fr; }
+    .rings { width: 110vw; right: -45vw; opacity: .55; }
     .latest a { grid-template-columns: 1fr auto; } .latest a .mono:first-child { grid-column: 1 / -1; } .latest p { grid-column: 1 / -1; }
     .strip-stage { position: static; height: auto; overflow-x: auto; scroll-snap-type: x mandatory; } .strip { transform: none !important; } .shot { scroll-snap-align: center; width: 78vw; }
   }
   @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; } .reveal { opacity: 1; transform: none; transition: none; }
-    .motto .w { color: var(--fg); transition: none; } .shot img { filter: none; transform: none; transition: none; }
+    html { scroll-behavior: auto; } .hero h1, .hero p, .hero .cta, .hero .tag { animation: none; } .reveal { opacity: 1; transform: none; transition: none; }
+    .exp:hover { transform: none; } .shot img { filter: none; transform: none; transition: none; }
     .strip-stage { position: static; height: auto; overflow-x: auto; } .strip { transform: none !important; }
   }
 </style>
 </head>
 <body>
 <div class="progress" aria-hidden="true"></div>
-<header><div class="wrap"><a href="#top" class="mono" style="color:#fff" data-name></a><nav class="mono" aria-label="Sections"><a href="#work">Experiments</a><a href="#photos" data-photos-link hidden>Photographs</a><a href="#experience">Experience</a><a href="#contact">Contact</a></nav><span class="fit-read mono" aria-hidden="true">fit <span data-fit>0.00</span></span></div></header>
+<header><div class="wrap"><a href="#top" class="mono name" data-name></a><nav class="mono" aria-label="Sections"><a href="#experience">Experience</a><a href="#work">Projects</a><a href="#photos" data-photos-link hidden>Photographs</a><a href="#contact">Contact</a></nav></div></header>
 
 <main id="top">
-  <div class="sn">
-    <h1 class="sr" data-name></h1>
-    <canvas aria-hidden="true"></canvas>
-    <span class="sn-tag mono" data-title></span>
-    <div class="sn-read mono" aria-hidden="true"><span>n = <b data-n>0</b> · noise σ <span data-sigma>1.00</span></span><span class="hint">move to fit · click to reseed</span><span>seed <span data-seed>42</span></span></div>
-  </div>
-
-  <div class="motto wrap"><p data-motto></p><span class="by mono">— from my GitHub profile</span></div>
-
-  <section id="work" aria-labelledby="w-h"><div class="wrap">
-    <div class="head"><h2 id="w-h">Experi<em>ments</em></h2><span class="mono" data-count></span></div>
-    <div class="grid" data-projects></div>
-    <div class="latest" data-latest hidden>
-      <div class="head" style="margin:0"><span class="mono" style="color:var(--fg)">Latest on GitHub</span><span class="mono" data-synced></span></div>
-      <ul data-repos></ul>
+  <div class="hero">
+    <canvas class="rings" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <span class="tag mono" data-title></span>
+      <h1>Grishma <em>Gajurel</em></h1>
+      <p data-headline></p>
+      <div class="cta"><a class="btn solid" href="#work">See projects ↓</a><a class="btn" data-github target="_blank" rel="noopener noreferrer">GitHub ↗</a></div>
     </div>
-    <a class="more mono" data-github target="_blank" rel="noopener noreferrer">All repositories on GitHub ↗</a>
-  </div></section>
-
-  <section id="photos" class="film" aria-labelledby="p-h" hidden>
-    <div class="wrap"><div class="head"><h2 id="p-h">Photo<em>graphs</em></h2><span class="mono" data-photo-count></span></div></div>
-    <div class="strip-pin"><div class="strip-stage"><div class="strip" data-strip></div></div></div>
-  </section>
+  </div>
 
   <section id="experience" aria-labelledby="e-h"><div class="wrap">
     <div class="head"><h2 id="e-h">Experience</h2></div>
     <ul class="cv" data-cv></ul>
     <ul class="skills" data-skills></ul>
   </div></section>
+
+  <section id="work" aria-labelledby="w-h"><div class="wrap">
+    <div class="head"><h2 id="w-h">Projects</h2><span class="mono" data-count></span></div>
+    <div class="grid" data-projects></div>
+    <div class="loadmore"><button type="button" class="btn" data-loadmore>Load more</button></div>
+    <div class="latest" data-latest hidden>
+      <div class="head" style="margin:0"><span class="mono" style="color:var(--ink)">Latest on GitHub</span><span class="mono" data-synced></span></div>
+      <ul data-repos></ul>
+    </div>
+    <a class="more mono" data-github target="_blank" rel="noopener noreferrer">All repositories on GitHub ↗</a>
+  </div></section>
+
+  <section id="photos" class="film" aria-labelledby="p-h" hidden>
+    <div class="wrap"><div class="head"><h2 id="p-h">Photographs</h2><span class="mono" data-photo-count></span></div></div>
+    <div class="strip-pin"><div class="strip-stage"><div class="strip" data-strip></div></div></div>
+  </section>
 
   <section id="contact" class="contact" aria-labelledby="c-h"><div class="wrap">
     <h2 id="c-h">Contact</h2>
@@ -185,7 +197,7 @@
 
 <footer><div class="wrap mono"><span>© <span data-year></span> <span data-name></span></span><a href="#top">Back to top ↑</a></div></footer>
 
-<script src="js/content.js?v=40"></script>
-<script src="js/site.js?v=40"></script>
+<script src="js/content.js?v=50"></script>
+<script src="js/site.js?v=50"></script>
 </body>
 </html>

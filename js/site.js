@@ -1,11 +1,7 @@
 /**
- * Renders js/content.js and runs the page:
- *  - Signal / noise: the name starts as scattered grain and fits into shape; the cursor pulls the noise into
- *    signal nearby, and a click reseeds the fit.
- *  - The motto lights up word by word as you read it.
- *  - Each experiment draws a small live figure of what it does.
- *  - A film strip for photographs that develops each frame as it reaches the middle.
- * Only what is on screen animates, and prefers-reduced-motion gets still drawings.
+ * Renders js/content.js and runs the page: slow tree-ring contours behind the hero, scroll reveals, a small live
+ * figure for each project (four show, the rest behind Load more), the daily GitHub list, and a film strip whose
+ * photographs develop as they reach the middle. Only what is on screen animates; reduced motion gets stills.
  */
 (() => {
   "use strict";
@@ -19,11 +15,13 @@
   const gauss = (r) => { let u = 0, v = 0; while (!u) u = r(); while (!v) v = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(6.2832 * v); };
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const wide = () => innerWidth > 820;
-  const C = { bg: "#0A0B09", fg: "#ECEDE6", muted: "#8B9085", faint: "#2B2F27", line: "#1D201A", signal: "#C6E07F", warm: "#E8B26B", cite: "#7FB7E0" };
+  // Cloud Dancer ground, ink, teal accent, smoky jade second accent (see the palette note in index.html)
+  const C = { bg: "#F6F4F0", fg: "#1A1F1E", muted: "#5E6662", faint: "#C9C5BB", line: "#DCD8CF", signal: "#0F5F5C", warm: "#0F5F5C", cite: "#0F5F5C", jade: "#5E7B72" };
+  const TEAL = (a) => `rgba(15,95,92,${a})`, INK = (a) => `rgba(26,31,30,${a})`;
   const MONO = '"Geist Mono", ui-monospace, Menlo, monospace';
 
   // ---------- Content ----------
-  const text = { name: P.name, title: P.title, year: new Date().getFullYear(), count: `${pad(P.projects.length)} experiments` };
+  const text = { name: P.name, title: P.title, headline: P.headline, year: new Date().getFullYear(), count: `${pad(P.projects.length)} projects` };
   Object.entries(text).forEach(([k, v]) => $$(`[data-${k}]`).forEach((n) => (n.textContent = v)));
   $$("[data-github]").forEach((a) => (a.href = P.github));
   $$("[data-email]").forEach((a) => { a.href = "mailto:" + P.email; a.textContent = P.email; });
@@ -37,66 +35,22 @@
   const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
   const watch = (n) => { n.classList.add("reveal"); if (reduce) n.classList.add("in"); else io.observe(n); };
 
-  // Motto, one span per word; the key words light up in the signal colour
-  const motto = $("[data-motto]"), KEY = /underfitted|signal|variance/i;
-  P.motto.split(" ").forEach((w, i, a) => { motto.appendChild(el("span", "w" + (KEY.test(w) ? " key" : ""), w)); if (i < a.length - 1) motto.append(" "); });
-  const words = $$(".w", motto);
-
-  // ---------- Signal / noise ----------
-  const sn = $(".sn"), cv = $("canvas", sn), x = cv.getContext("2d");
-  const out = { fit: $("[data-fit]"), n: $("[data-n]"), sigma: $("[data-sigma]"), seed: $("[data-seed]") };
-  let W = 0, H = 0, D = 1, parts = [], seed = 42, t0 = performance.now(), mx = -9999, my = -9999, snOn = true;
-  function buildField() {
-    D = Math.min(devicePixelRatio || 1, 1.5); W = cv.clientWidth; H = cv.clientHeight; if (!W || !H) return;
-    cv.width = Math.round(W * D); cv.height = Math.round(H * D);
-    const o = document.createElement("canvas"); o.width = Math.round(W); o.height = Math.round(H); const g = o.getContext("2d");
-    const lines = W < 700 ? P.name.split(" ") : [P.name];
-    let size = Math.min(W * (lines.length > 1 ? 0.28 : 0.15), H * 0.32);
-    g.font = `600 ${size}px Geist, system-ui, sans-serif`;
-    const widest = Math.max(...lines.map((l) => g.measureText(l).width)); if (widest > W * 0.9) { size *= (W * 0.9) / widest; g.font = `600 ${size}px Geist, system-ui, sans-serif`; }
-    g.fillStyle = "#fff"; g.textBaseline = "middle";
-    const lh = size * 0.98, top = H * 0.46 - ((lines.length - 1) * lh) / 2;
-    lines.forEach((l, i) => g.fillText(l, Math.max(W * 0.05, (W - g.measureText(l).width) / 2), top + i * lh));
-    const data = g.getImageData(0, 0, o.width, o.height).data, step = W < 700 ? 2 : 3, targets = [];
-    for (let yy = 0; yy < o.height; yy += step) for (let xx = 0; xx < o.width; xx += step) if (data[(yy * o.width + xx) * 4 + 3] > 120) targets.push([xx, yy]);
-    const r = RNG(seed), cap = W < 700 ? 4200 : 9000;
-    while (targets.length > cap) targets.splice(Math.floor(r() * targets.length), 1);
-    // Most particles are signal; about one in eight stays loose as grain unless the cursor pulls it in
-    parts = targets.map(([tx, ty]) => ({ tx, ty, nx: r() * W, ny: r() * H, vx: (r() - 0.5) * 0.6, vy: (r() - 0.5) * 0.6, f: 0, p: r() * 6.28, k: r() < 0.12 ? 0.18 : 1 }));
-    out.n.textContent = parts.length.toLocaleString("en-US");
-    if (reduce) { parts.forEach((p) => (p.f = p.k)); drawField(0); }
-  }
-  function drawField(t) {
-    const age = (performance.now() - t0) / 1000, G = reduce ? 1 : 0.92 * (1 - Math.exp(-age / 1.4));
-    x.setTransform(D, 0, 0, D, 0, 0); x.clearRect(0, 0, W, H);
-    const noise = new Path2D(), mid = new Path2D(), sig = new Path2D(), near = new Path2D(); let sum = 0;
-    for (const p of parts) {
-      if (!reduce) {
-        p.vx += (Math.random() - 0.5) * 0.08; p.vy += (Math.random() - 0.5) * 0.08; p.vx *= 0.98; p.vy *= 0.98;
-        p.nx += p.vx; p.ny += p.vy; if (p.nx < 0 || p.nx > W) p.vx *= -1; if (p.ny < 0 || p.ny > H) p.vy *= -1;
-        const d = Math.hypot(p.tx - mx, p.ty - my), local = d < 150 ? 1 - d / 150 : 0;
-        p.f += (Math.max(G * p.k, local * 1.05) - p.f) * (local > p.f ? 0.12 : 0.03);
-      }
-      const f = clamp(p.f, 0, 1), e = clamp(f / 0.88, 0, 1), s = e * e * (3 - 2 * e), jit = (1 - e) * 2.4; // fully on the letter by f = 0.88
-      const px = lerp(p.nx, p.tx, s) + Math.sin(t * 2 + p.p) * jit, py = lerp(p.ny, p.ty, s) + Math.cos(t * 1.7 + p.p) * jit;
-      sum += f;
-      const path = Math.hypot(p.tx - mx, p.ty - my) < 150 && f > 0.8 ? near : f > 0.85 ? sig : f > 0.4 ? mid : noise;
-      path.rect(px, py, 1.5, 1.5);
+  // ---------- Hero rings: tree-ring contours that drift slowly ----------
+  const rc = $(".rings"), rx = rc.getContext("2d"); let RW = 0, ringsOn = true;
+  const ringNoise = (a, k, t) => Math.sin(a * 3 + k * 0.7 + t * 0.25) * 0.05 + Math.sin(a * 5 - k * 0.4 - t * 0.18) * 0.03 + Math.sin(a * 2 + t * 0.12 + k) * 0.04;
+  function sizeRings() { const d = Math.min(devicePixelRatio || 1, 2); RW = rc.clientWidth; rc.width = rc.height = Math.round(RW * d); rx.setTransform(d, 0, 0, d, 0, 0); drawRings(reduce ? 0 : performance.now() / 1000); }
+  function drawRings(t) {
+    if (!RW) return; const c = RW / 2; rx.clearRect(0, 0, RW, RW);
+    for (let k = 0; k < 22; k++) {
+      const R = c * (0.06 + k * 0.043); rx.beginPath();
+      for (let a = 0; a <= 6.3; a += 0.05) { const r = R * (1 + ringNoise(a, k, t) * (0.4 + k * 0.05)); a ? rx.lineTo(c + Math.cos(a) * r, c + Math.sin(a) * r) : rx.moveTo(c + Math.cos(a) * r, c + Math.sin(a) * r); }
+      rx.closePath(); rx.strokeStyle = k % 6 === 5 ? TEAL(0.55) : k % 3 === 2 ? "rgba(94,123,114,.35)" : INK(0.12); rx.lineWidth = k % 6 === 5 ? 1.6 : 1; rx.stroke();
     }
-    x.fillStyle = "rgba(139,144,133,.42)"; x.fill(noise); x.fillStyle = "rgba(236,237,230,.55)"; x.fill(mid); x.fillStyle = C.fg; x.fill(sig); x.fillStyle = C.signal; x.fill(near);
-    const fit = parts.length ? sum / parts.length : 0, s = fit.toFixed(2);
-    if (out.fit.textContent !== s) { out.fit.textContent = s; out.sigma.textContent = (1 - fit).toFixed(2); }
   }
-  new ResizeObserver(() => { const w = cv.clientWidth, h = cv.clientHeight; if (Math.abs(w - W) > 2 || Math.abs(h - H) > 40) buildField(); }).observe(cv);
-  if (document.fonts) document.fonts.ready.then(buildField);
-  new IntersectionObserver(([e]) => (snOn = e.isIntersecting)).observe(sn);
-  if (!reduce) {
-    sn.addEventListener("pointermove", (e) => { const b = cv.getBoundingClientRect(); mx = e.clientX - b.left; my = e.clientY - b.top; }, { passive: true });
-    sn.addEventListener("pointerleave", () => { mx = my = -9999; });
-    sn.addEventListener("click", () => { seed = Math.floor(Math.random() * 9000) + 100; out.seed.textContent = seed; const r = RNG(seed); parts.forEach((p) => { p.nx = r() * W; p.ny = r() * H; p.f = 0; }); t0 = performance.now(); });
-  }
+  new ResizeObserver(sizeRings).observe(rc);
+  new IntersectionObserver(([e]) => (ringsOn = e.isIntersecting)).observe(rc);
 
-  // ---------- Experiment figures ----------
+  // ---------- Project figures ----------
   // Each returns draw(x, w, h, t, hover). Text in the figures is either a label or a number from the repo's README.
   const label = (g, s, px, py, col = C.muted, align = "left") => { g.font = `500 10px ${MONO}`; g.fillStyle = col; g.textAlign = align; g.fillText(s.toUpperCase(), px, py); g.textAlign = "left"; };
   const VIZ = {
@@ -109,7 +63,7 @@
         g.strokeStyle = C.faint; g.lineWidth = 1; g.strokeRect(qx - 18, qy - 14, 36, 28); label(g, "Q", qx, qy + 4, C.fg, "center");
         for (let i = 0; i < n; i++) {
           const y = h * 0.15 + i * bh, on = cited.includes(i) && k > 0.25;
-          g.fillStyle = on ? "rgba(127,183,224,.22)" : "rgba(43,47,39,.55)"; g.fillRect(bx, y + 3, bw * (0.55 + ((i * 37) % 40) / 100), bh - 6);
+          g.fillStyle = on ? TEAL(0.16) : INK(0.07); g.fillRect(bx, y + 3, bw * (0.55 + ((i * 37) % 40) / 100), bh - 6);
           label(g, `[${i + 1}]`, bx - 8, y + bh / 2 + 3, on ? C.cite : C.faint, "right");
         }
         cited.forEach((i, j) => {
@@ -130,7 +84,7 @@
         sets.forEach((s, i) => {
           const ox = i * pw + pw * 0.12, oy = h * 0.14, sw = pw * 0.76, sh = h * 0.62;
           g.strokeStyle = C.line; g.lineWidth = 1; g.strokeRect(ox, oy, sw, sh);
-          const col = i === 1 ? C.muted : i === 2 ? C.signal : C.fg;
+          const col = i === 1 ? C.faint : i === 2 ? C.signal : C.fg;
           g.fillStyle = col;
           s.pts.forEach(([a, b, ph]) => { const wob = hover ? 0 : Math.sin(t * 1.4 + ph * 6.28) * 1.2; g.fillRect(ox + sw / 2 + clamp(a / 3, -1, 1) * sw * 0.45 + wob, oy + sh / 2 - clamp(b / 3, -1, 1) * sh * 0.45, 1.8, 1.8); });
           if (s.rho) { g.strokeStyle = col; g.globalAlpha = 0.6; g.beginPath(); g.moveTo(ox + 4, oy + sh / 2 + s.rho * sh * 0.42); g.lineTo(ox + sw - 4, oy + sh / 2 - s.rho * sh * 0.42); g.stroke(); g.globalAlpha = 1; }
@@ -146,10 +100,10 @@
       const bins = new Array(26).fill(0); vals.forEach((v) => bins[clamp(Math.floor(v / 4), 0, 25)]++); const top = Math.max(...bins);
       return (g, w, h, t) => {
         const ox = w * 0.06, sw = w * 0.88, base = h * 0.78, bwid = sw / 26, scan = ((t * 0.22) % 1.2) * sw;
-        bins.forEach((b, i) => { const bx = ox + i * bwid, v = i * 4; g.fillStyle = v < lo || v > hi ? "rgba(232,178,107,.8)" : "rgba(236,237,230,.32)"; g.fillRect(bx + 1, base - (b / top) * h * 0.58, bwid - 2, (b / top) * h * 0.58); });
+        bins.forEach((b, i) => { const bx = ox + i * bwid, v = i * 4; g.fillStyle = v < lo || v > hi ? TEAL(0.8) : INK(0.16); g.fillRect(bx + 1, base - (b / top) * h * 0.58, bwid - 2, (b / top) * h * 0.58); });
         g.setLineDash([3, 4]); g.strokeStyle = C.muted; [lo, hi].forEach((f) => { const fx = ox + (f / 104) * sw; g.beginPath(); g.moveTo(fx, h * 0.12); g.lineTo(fx, base); g.stroke(); }); g.setLineDash([]);
         vals.filter((v) => v < lo || v > hi).forEach((v, i) => { const px = ox + (v / 104) * sw, on = px < ox + scan; g.fillStyle = on ? C.warm : C.faint; g.beginPath(); g.arc(px, base + 12, on ? 3.2 + Math.sin(t * 5 + i) * 0.6 : 2.2, 0, 6.283); g.fill(); });
-        g.fillStyle = "rgba(198,224,127,.5)"; g.fillRect(ox + Math.min(scan, sw), h * 0.1, 1, base - h * 0.1);
+        g.fillStyle = TEAL(0.5); g.fillRect(ox + Math.min(scan, sw), h * 0.1, 1, base - h * 0.1);
         label(g, "1.5 × IQR", ox + (lo / 104) * sw + 6, h * 0.16); label(g, "flagged", w * 0.94, h - 10, C.warm, "right");
       };
     },
@@ -159,17 +113,17 @@
       return (g, w, h, t) => {
         const phase = Math.floor(t / 5) % 2, k = (t % 5) / 5, discover = phase === 0;
         g.strokeStyle = C.line; g.lineWidth = 1; g.strokeRect(w * 0.08, h * 0.12, w * 0.84, h * 0.72);
-        g.fillStyle = "rgba(43,47,39,.6)"; g.fillRect(w * 0.12, h * 0.17, w * 0.36, h * 0.1);
+        g.fillStyle = INK(0.07); g.fillRect(w * 0.12, h * 0.17, w * 0.36, h * 0.1);
         for (let i = 0; i < 4; i++) for (let j = 0; j < 3; j++) { g.strokeStyle = C.line; g.strokeRect(w * 0.12 + j * w * 0.26, h * 0.36 + i * h * 0.1, w * 0.26, h * 0.1); }
         const seg = (path.length - 1) * clamp(k * 1.15, 0, 1), i = Math.min(path.length - 2, Math.floor(seg)), u = seg - i;
         let [cx, cy] = [lerp(path[i][0], path[i + 1][0], u), lerp(path[i][1], path[i + 1][1], u)];
         if (discover) { cx += Math.sin(t * 7) * 0.012; cy += Math.cos(t * 5) * 0.012; }
-        if (seg > 4.6) { g.fillStyle = "rgba(198,224,127,.18)"; g.fillRect(w * 0.64, h * 0.46, w * 0.26 - 4, h * 0.1); label(g, "balance read", w * 0.66, h * 0.525, C.signal); }
+        if (seg > 4.6) { g.fillStyle = TEAL(0.14); g.fillRect(w * 0.64, h * 0.46, w * 0.26 - 4, h * 0.1); label(g, "balance read", w * 0.66, h * 0.525, C.signal); }
         if (seg > 1.2) label(g, "100001", w * 0.14, h * 0.235, C.fg);
-        const px = cx * w, py = cy * h; g.fillStyle = discover ? C.cite : C.signal;
+        const px = cx * w, py = cy * h; g.fillStyle = discover ? C.jade : C.signal;
         g.beginPath(); g.moveTo(px, py); g.lineTo(px + 9, py + 10); g.lineTo(px + 4, py + 10); g.lineTo(px + 1, py + 15); g.closePath(); g.fill();
         if (discover) { for (let d = 0; d < 3; d++) { g.globalAlpha = 0.3 + 0.7 * ((Math.floor(t * 3) + d) % 3 === 0); g.beginPath(); g.arc(px + 18 + d * 6, py - 6, 1.6, 0, 6.283); g.fill(); } g.globalAlpha = 1; }
-        label(g, discover ? "discover · model" : "replay · no model", w * 0.08, h - 8, discover ? C.cite : C.signal);
+        label(g, discover ? "discover · model" : "replay · no model", w * 0.08, h - 8, discover ? C.jade : C.signal);
         label(g, "member lookup", w * 0.92, h - 8, C.muted, "right");
       };
     },
@@ -184,17 +138,17 @@
           if (d < 6 && b.wait <= 0) b.wait = 30; if (b.wait > 0 && --b.wait <= 0) b.to = Math.floor(Math.random() * fl.length);
           b.vx = (b.vx + (dx / (d + 1)) * 0.18 + (Math.random() - 0.5) * 0.35) * 0.95; b.vy = (b.vy + (dy / (d + 1)) * 0.18 + (Math.random() - 0.5) * 0.35) * 0.95;
           const px = b.x, py = b.y; b.x += b.vx; b.y += b.vy;
-          tx.strokeStyle = [C.signal, C.warm, C.cite][i % 3]; tx.globalAlpha = 0.35; tx.beginPath(); tx.moveTo(px, py); tx.lineTo(b.x, b.y); tx.stroke(); tx.globalAlpha = 1;
+          tx.strokeStyle = [C.signal, C.jade, C.fg][i % 3]; tx.globalAlpha = 0.35; tx.beginPath(); tx.moveTo(px, py); tx.lineTo(b.x, b.y); tx.stroke(); tx.globalAlpha = 1;
         });
         g.drawImage(trail, 0, 0, w, h);
-        fl.forEach(([fx, fy]) => { g.fillStyle = "#E8B4A0"; for (let k = 0; k < 5; k++) { const a = k * 1.2566; g.beginPath(); g.arc(fx + Math.cos(a) * 4, fy + Math.sin(a) * 4, 3.2, 0, 6.283); g.fill(); } g.fillStyle = C.warm; g.beginPath(); g.arc(fx, fy, 2.4, 0, 6.283); g.fill(); });
-        bs.forEach((b) => { g.fillStyle = C.warm; g.beginPath(); g.ellipse(b.x, b.y, 3.6, 2.4, Math.atan2(b.vy, b.vx), 0, 6.283); g.fill(); });
+        fl.forEach(([fx, fy]) => { g.fillStyle = "#A9BDB5"; for (let k = 0; k < 5; k++) { const a = k * 1.2566; g.beginPath(); g.arc(fx + Math.cos(a) * 4, fy + Math.sin(a) * 4, 3.2, 0, 6.283); g.fill(); } g.fillStyle = C.signal; g.beginPath(); g.arc(fx, fy, 2.4, 0, 6.283); g.fill(); });
+        bs.forEach((b) => { g.fillStyle = C.fg; g.beginPath(); g.ellipse(b.x, b.y, 3.6, 2.4, Math.atan2(b.vy, b.vx), 0, 6.283); g.fill(); });
         label(g, "camcorder ethograms · 2022–2024", w * 0.04, h - 8);
       };
     },
     // Phenology: a year as a ring, flowering windows as arcs, a hand sweeping the days
     bloom() {
-      const arcs = [[60, 110, C.fg], [75, 125, "#E8B4A0"], [90, 140, C.warm], [100, 165, C.signal], [120, 200, C.cite], [70, 230, C.muted]];
+      const arcs = [[60, 110, C.fg], [75, 125, C.jade], [90, 140, "#8FA9A1"], [100, 165, C.signal], [120, 200, "#3E5651"], [70, 230, C.muted]];
       return (g, w, h, t) => {
         const cx = w * 0.5, cy = h * 0.52, R = Math.min(w, h) * 0.4, day = reduce ? 120 : (t * 18) % 365, ang = (d) => (d / 365) * 6.2832 - Math.PI / 2;
         g.strokeStyle = C.line; g.lineWidth = 1; g.beginPath(); g.arc(cx, cy, R, 0, 6.283); g.stroke();
@@ -212,7 +166,7 @@
         g.strokeStyle = C.line; g.strokeRect(ox, oy - s, s, s);
         g.setLineDash([3, 4]); g.strokeStyle = C.faint; g.beginPath(); g.moveTo(ox, oy); g.lineTo(ox + s, oy - s); g.stroke(); g.setLineDash([]);
         g.beginPath(); g.moveTo(ox, oy); for (let u = 0; u <= k; u += 0.01) g.lineTo(ox + u * s, oy - curve(u) * s);
-        g.strokeStyle = C.signal; g.lineWidth = 1.6; g.stroke(); g.lineTo(ox + k * s, oy); g.closePath(); g.fillStyle = "rgba(198,224,127,.08)"; g.fill(); g.lineWidth = 1;
+        g.strokeStyle = C.signal; g.lineWidth = 1.6; g.stroke(); g.lineTo(ox + k * s, oy); g.closePath(); g.fillStyle = TEAL(0.08); g.fill(); g.lineWidth = 1;
         if (k >= 1) { const px = ox + th * s, py = oy - curve(th) * s; g.fillStyle = C.warm; g.beginPath(); g.arc(px, py, 4, 0, 6.283); g.fill(); label(g, "threshold", px + 8, py + 3, C.warm); }
         label(g, "false positive rate", ox + s, oy + 14, C.muted, "right"); label(g, "illustrative", w * 0.96, h - 8, C.faint, "right"); label(g, "true positive rate", ox - 8, oy - s + 4, C.muted, "right");
       };
@@ -223,7 +177,7 @@
       const val = (d, hr) => clamp(0.15 + 0.7 * Math.exp(-Math.pow((hr - 16) / 5, 2)) * (d < 5 ? 1 : 0.7) + 0.08 * Math.sin(d * 3 + hr), 0, 1);
       return (g, w, h, t) => {
         const ox = w * 0.12, oy = h * 0.14, cw = (w * 0.82) / 24, ch = (h * 0.66) / 7, sweep = (t * 4) % 24;
-        for (let d = 0; d < 7; d++) { label(g, days[d], ox - 6, oy + d * ch + ch / 2 + 3, C.muted, "right"); for (let hr = 0; hr < 24; hr++) { const v = val(d, hr), boost = Math.max(0, 1 - Math.abs(hr - sweep) / 2) * 0.35; g.fillStyle = `rgba(232,178,107,${(0.08 + v * 0.75 + boost).toFixed(3)})`; g.fillRect(ox + hr * cw + 1, oy + d * ch + 1, cw - 2, ch - 2); } }
+        for (let d = 0; d < 7; d++) { label(g, days[d], ox - 6, oy + d * ch + ch / 2 + 3, C.muted, "right"); for (let hr = 0; hr < 24; hr++) { const v = val(d, hr), boost = Math.max(0, 1 - Math.abs(hr - sweep) / 2) * 0.35; g.fillStyle = TEAL((0.06 + v * 0.7 + boost).toFixed(3)); g.fillRect(ox + hr * cw + 1, oy + d * ch + 1, cw - 2, ch - 2); } }
         label(g, "0h", ox, oy + 7 * ch + 14); label(g, "23h", ox + 24 * cw, oy + 7 * ch + 14, C.muted, "right"); label(g, "calls by hour · illustrative", w * 0.96, h - 8, C.faint, "right");
       };
     },
@@ -231,7 +185,7 @@
 
   const figs = [];
   P.projects.forEach((p, i) => {
-    const card = el("article", "exp"); card.style.setProperty("--i", i % 2);
+    const card = el("article", "exp" + (i >= 4 ? " extra" : "")); card.style.setProperty("--i", i % 2); if (i >= 4) card.hidden = true;
     const cnv = el("canvas"); cnv.setAttribute("aria-hidden", "true");
     const body = el("div", "body"), meta = el("div", "meta mono"); meta.append(el("span", null, pad(i + 1)), el("span", null, p.year));
     const facts = el("div", "facts"); p.facts.forEach((f) => facts.appendChild(el("span", null, f)));
@@ -243,6 +197,9 @@
     card.addEventListener("pointerenter", () => (f.hover = true)); card.addEventListener("pointerleave", () => (f.hover = false));
     figs.push(f);
   });
+  const more = $("[data-loadmore]"), extras = $$(".exp.extra");
+  if (!extras.length) more.parentElement.remove();
+  else { more.textContent = `Load more (${extras.length})`; more.addEventListener("click", () => { extras.forEach((c) => { c.hidden = false; }); more.parentElement.remove(); }); }
   const fio = new IntersectionObserver((es) => es.forEach((e) => { const f = figs.find((q) => q.cnv === e.target); if (f) f.on = e.isIntersecting; }), { rootMargin: "60px" });
   const ro = new ResizeObserver((es) => es.forEach((e) => { const f = figs.find((q) => q.cnv === e.target); if (!f) return; const d = Math.min(devicePixelRatio || 1, 2); f.w = f.cnv.clientWidth; f.h = f.cnv.clientHeight; f.cnv.width = Math.round(f.w * d); f.cnv.height = Math.round(f.h * d); f.g.setTransform(d, 0, 0, d, 0, 0); if (reduce) paint(f, 3); }));
   figs.forEach((f) => { fio.observe(f.cnv); ro.observe(f.cnv); });
@@ -266,10 +223,10 @@
   }).catch(() => {});
 
   // ---------- Experience ----------
-  [...P.experience, ...P.education].forEach((x, i) => {
+  P.experience.forEach((x, i) => {
     const li = el("li"); li.style.setProperty("--i", i);
-    li.append(el("span", "mono", x.dates), el("h3", null, x.role), el("span", "org mono", x.org));
-    if (x.line) li.appendChild(el("p", null, x.line));
+    const top = el("div", "top mono"); top.append(el("span", null, x.dates), el("span", "org", x.org));
+    li.append(top, el("h3", null, x.role), el("p", null, x.line));
     $("[data-cv]").appendChild(li); watch(li);
   });
   P.skills.forEach((s) => $("[data-skills]").appendChild(el("li", null, s)));
@@ -302,8 +259,8 @@
   }
   addEventListener("resize", layoutStrip); addEventListener("load", layoutStrip); layoutStrip();
 
-  // ---------- Scroll: progress, nav, motto, strip ----------
-  const bar = $(".progress"), navs = $$("header nav a");
+  // ---------- Scroll: progress, nav, header, strip ----------
+  const bar = $(".progress"), navs = $$("header nav a"), hdr = $("header");
   const sio = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) navs.forEach((a) => a.classList.toggle("on", a.getAttribute("href") === "#" + e.target.id)); }), { rootMargin: "-45% 0px -50% 0px" });
   $$("section[id]").forEach((s) => sio.observe(s));
   let ticking = false;
@@ -311,7 +268,7 @@
     ticking = false;
     const max = document.documentElement.scrollHeight - innerHeight;
     bar.style.transform = `scaleX(${max > 0 ? (scrollY / max).toFixed(4) : 0})`;
-    if (!reduce) { const b = motto.getBoundingClientRect(), p = clamp((innerHeight * 0.85 - b.top) / (b.height + innerHeight * 0.35), 0, 1), lit = Math.round(p * words.length); words.forEach((w, i) => w.classList.toggle("lit", i < lit)); }
+    hdr.classList.toggle("scrolled", scrollY > 8);
     if (!photos.length) return;
     if (pinned()) { const r = pin.getBoundingClientRect(), p = clamp(-r.top / Math.max(1, r.height - innerHeight), 0, 1); strip.style.transform = `translate3d(${(-p * travel).toFixed(1)}px, 0, 0)`; }
     $$(".shot:not(.dev)", strip).forEach((s) => { const b = s.getBoundingClientRect(), cx = b.left + b.width / 2, cy = b.top + b.height / 2; if (reduce || (cy > 0 && cy < innerHeight && Math.abs(cx - innerWidth / 2) < innerWidth * (wide() ? 0.32 : 0.45))) s.classList.add("dev"); });
@@ -325,7 +282,7 @@
     let last = 0;
     (function loop(now) {
       const t = now / 1000;
-      if (snOn && parts.length) drawField(t);
+      if (ringsOn && RW && now - last > 32) drawRings(t);
       if (now - last > 32) { last = now; figs.forEach((f) => { if (f.on && f.w) paint(f, t); }); } // figures at ~30 fps
       requestAnimationFrame(loop);
     })(performance.now());
