@@ -43,6 +43,14 @@ files/          reports, posters and slides linked from projects
 3. **Motion.** One quiet effect: a dot field behind the intro that brightens near the cursor. It only draws while the intro is on screen and the cursor is moving, and stays still for `prefers-reduced-motion`.
 4. **Old links still work.** `about/`, `projects/`, `project/` and `contact/` (and their `.html` versions) redirect to the matching section, and `404.html` does the same for any other old path.
 
+## GitHub sync
+
+`.github/workflows/sync-github.yml` runs every day at 06:17 UTC (or by hand from the Actions tab). `scripts/sync-github.mjs` reads my public repositories and writes `data/github.json`, and the Work section lists the five most recently updated ones under "Latest on GitHub", skipping any already in the selected projects. The file is only committed when the list changes, so its git history is a record of how the projects changed. After each sync the Pages workflow redeploys the site.
+
+- Listed: public repositories that aren't forks or archived, except this one.
+- Add the topic `portfolio` to any repositories to list only those.
+- Add the topic `hide` to keep a repository off the site.
+
 ## Deployment
 
 GitHub Pages serves the `main` branch at the custom domain. `.github/workflows/static.yml` uploads the repository as-is on every push, since there's nothing to build.

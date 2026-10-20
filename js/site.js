@@ -33,6 +33,26 @@
     li.appendChild(a); $("[data-projects]").appendChild(li);
   });
 
+  // Latest on GitHub, from data/github.json (written daily by .github/workflows/sync-github.yml)
+  const month = (d) => new Date(d + "T00:00:00Z").toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
+  const day = (d) => new Date(d + "T00:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+  fetch("data/github.json", { cache: "no-cache" }).then((r) => (r.ok ? r.json() : null)).then((g) => {
+    if (!g || !g.repos || !g.repos.length) return;
+    const shown = new Set(P.projects.map((p) => p.href.toLowerCase().replace(/\/$/, "")));
+    const latest = g.repos.filter((r) => !shown.has(r.url.toLowerCase())).slice(0, 5);
+    if (!latest.length) return;
+    latest.forEach((r) => {
+      const li = el("li"), a = external(el("a", "row"), r.url);
+      const tags = el("div", "tags mono"); [r.language, ...r.topics.slice(0, 3)].filter(Boolean).forEach((t) => tags.appendChild(el("span", null, t)));
+      a.append(el("span", "mono", month(r.pushed)), el("h3", null, r.name), el("span", "go mono", "↗"));
+      if (r.description) a.appendChild(el("p", null, r.description));
+      if (tags.children.length) a.appendChild(tags);
+      li.appendChild(a); $("[data-repos]").appendChild(li);
+    });
+    $("[data-synced]").textContent = "Synced " + day(g.synced);
+    $("[data-latest]").hidden = false;
+  }).catch(() => {});
+
   // Experience and education
   const rows = (list, sel) => list.forEach((x) => {
     const li = el("li", "row"); li.append(el("span", "mono", x.dates), el("h3", null, x.role), el("span", "mono", x.org));
