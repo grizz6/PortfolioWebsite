@@ -6,7 +6,7 @@ My personal portfolio site, live at **[www.grishmagajurel.com](https://www.grish
 
 It's a hand-built, single-page static site: plain HTML, CSS, and vanilla JavaScript, with no framework, build step, backend, or npm dependencies. All content lives in one JavaScript file, so adding a project means adding one object.
 
-**Sections:** Intro · Selected work · Experience · Education · Tools · Contact.
+**Sections:** Viewfinder · Selected work · Photographs · Experience · Contact.
 
 ---
 
@@ -33,15 +33,17 @@ Code for most of these is in my other repos: [ESA](https://github.com/grizz6/ESA
 
 ```
 index.html      layout and styles
-js/content.js   window.PORTFOLIO: every piece of text, project and link
-js/site.js      renders the content and draws the intro's dot field
+js/content.js   window.PORTFOLIO: every piece of text, project, photo and link
+js/site.js      renders the content and runs the camera effects
+photos/         photographs for the film strip
 files/          reports, posters and slides linked from projects
 ```
 
-1. **Content as data.** `js/content.js` holds the headline, status, six selected projects, experience, education and tools. Change the words there and the page updates.
-2. **Design.** A dark single column on a faint grid, set in Geist and Geist Mono, with colours as CSS custom properties at the top of `index.html`.
-3. **Motion.** One quiet effect: a dot field behind the intro that brightens near the cursor. It only draws while the intro is on screen and the cursor is moving, and stays still for `prefers-reduced-motion`.
-4. **Old links still work.** `about/`, `projects/`, `project/` and `contact/` (and their `.html` versions) redirect to the matching section, and `404.html` does the same for any other old path.
+1. **Content as data.** `js/content.js` holds the headline, status, six selected projects, experience, education, tools and photos. Change it there and the page updates.
+2. **The idea.** The site is a camera. The intro is a viewfinder with a focus box that follows the cursor and locks when it rests, exposure readouts that change with its position, and a shutter flash on click. Work is a contact sheet numbered like frames on a roll. Photographs sit on a film strip that moves sideways as you scroll and develops each frame as it reaches the middle; click one to see it full screen.
+3. **Adding photos.** Put files in `photos/` and add an entry for each to `photos` in `js/content.js` (see `photos/README.md`). The section appears as soon as there is one.
+4. **Motion.** Everything runs from pointer and scroll events with one requestAnimationFrame at a time, and `prefers-reduced-motion` gets a still page.
+5. **Old links still work.** `about/`, `projects/`, `project/` and `contact/` (and their `.html` versions) redirect to the matching section, and `404.html` does the same for any other old path.
 
 ## GitHub sync
 
@@ -59,7 +61,7 @@ To preview locally, run `python3 -m http.server` in the repository and visit htt
 
 ## Built with
 
-HTML, CSS (custom properties), vanilla JavaScript, canvas, Google Fonts (Geist and Geist Mono), GitHub Pages and GitHub Actions.
+HTML, CSS (custom properties), vanilla JavaScript, canvas, Google Fonts (Geist, Geist Mono and Instrument Serif), GitHub Pages and GitHub Actions.
 
 ## License
 
