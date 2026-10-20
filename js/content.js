@@ -1,31 +1,78 @@
 /**
- * Portfolio content. Sources: Grishma_Gajurel_Resume_MASTER.pdf (Sept 2026), github.com/grizz6, and the documents
- * in files/ (the ESA 2025 poster, the SEED St. Louis report and the RAD slides).
- * Kept short on purpose: six selected projects, one line per role. Everything else lives on GitHub.
+ * Portfolio content, taken from the public repos at github.com/grizz6 (READMEs and code, Oct 2026), the resume
+ * (Sept 2026) and the documents in files/. Numbers come from the repos' own READMEs.
  * The resume itself is not published. No phone number, GPA, or location on the site.
  */
 window.PORTFOLIO = {
   name: "Grishma Gajurel",
-  title: "Data analyst · Software engineer",
-  headline: "I clean, combine and model messy data, then report what it shows.",
+  title: "Data analyst · Software engineer · Photographer",
+  // From her GitHub profile README
+  motto: "I approach the world as an underfitted model, persistently seeking the underlying signal amidst the inherent variance.",
   email: "gajurel.grizma@gmail.com",
   github: "https://github.com/grizz6",
   social: [
     { label: "GitHub", href: "https://github.com/grizz6" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/grishma-gajurel-54891a2b5/" },
   ],
-  status: [
-    { label: "Building", text: "synthkit", href: "https://github.com/grizz6/synthkit" },
-    { label: "Open to", text: "new opportunities" },
-  ],
 
+  // Each project draws a small live figure (`viz`) of what it does.
   projects: [
-    { title: "synthkit", year: "2026", summary: "Python library that generates realistic test data without using real records. 316 tests in CI.", tags: ["Python", "Gaussian copula", "CI"], href: "https://github.com/grizz6/synthkit" },
-    { title: "AI Data Analyst Agent", year: "2026", summary: "Spreadsheet in, verifiable report out. The model can only cite numbers the pandas pipeline computed.", tags: ["FastAPI", "pandas", "React"], href: "https://github.com/grizz6/AI-Data-Analyst-Agent" },
-    { title: "Urban bee foraging", year: "2025", summary: "Bee behaviour at 10 orchards along an urbanization gradient. Co-authored poster, ESA 2025.", tags: ["R", "GLM"], href: "files/Slide1.jpg" },
-    { title: "Pollination report", year: "2025", summary: "Preliminary findings for SEED St. Louis from a USDA-funded study of 18 orchards.", tags: ["R", "Reporting"], href: "files/insect-distribution-usda.pdf" },
-    { title: "Orchard weather regression", year: "2025", summary: "Rebuilt weather for orchards without stations and modelled heat against urbanization. RAD 2025.", tags: ["R", "Mixed models"], href: "files/weather-regression.pdf" },
-    { title: "Mortgage default", year: "2025", summary: "Compared regression, random forest and gradient boosting to predict which loans default.", tags: ["R", "ML"], href: "files/mortgage-payback.pdf" },
+    {
+      title: "Filings Q&A", year: "2026", viz: "cite",
+      line: "Ask what a US company says about its risks. Every sentence of the answer cites the 10-K passage it came from, and questions the filings don't cover get “Not found.”",
+      facts: ["90% right passage found", "10/10 unanswerable declined", "10 companies"],
+      tags: ["pgvector", "Gemini", "Streamlit", "MLflow"],
+      links: [{ label: "Live app", href: "https://filings.streamlit.app" }, { label: "Code", href: "https://github.com/grizz6/filings-qa" }],
+    },
+    {
+      title: "synthkit", year: "2026", viz: "copula",
+      line: "Test data with the shape of production and none of its rows. It learns how columns move together, so tests that depend on a correlation still pass.",
+      facts: ["385 tests", "~2M rows/s", "Python 3.10–3.13"],
+      tags: ["Gaussian copula", "pytest plugin", "CI"],
+      links: [{ label: "Code", href: "https://github.com/grizz6/synthkit" }],
+    },
+    {
+      title: "AI Data Analyst", year: "2026", viz: "outliers",
+      line: "Drop in a CSV and get the whole exploratory pass: gaps, outliers with likely causes, relationships and next steps. The language model may only quote numbers pandas computed.",
+      facts: ["CSV up to 200 MB", "every number checked"],
+      tags: ["FastAPI", "pandas", "statsmodels", "React"],
+      links: [{ label: "Live app", href: "https://ai-data-analyst-xz78.onrender.com" }, { label: "Code", href: "https://github.com/grizz6/ai-data-analyst" }],
+    },
+    {
+      title: "Computer-use automation", year: "2026", viz: "replay",
+      line: "A model works out a task in an old app with no API by clicking through it. The run is saved as a typed capability that replays without the model and hands over to a person when stuck.",
+      facts: ["learn once, replay free", "human handoff"],
+      tags: ["Playwright", "Pydantic", "Gemini"],
+      links: [{ label: "Code", href: "https://github.com/grizz6/interface-ai-takehome" }],
+    },
+    {
+      title: "Urban bee behaviour", year: "2025", viz: "bees",
+      line: "Does a bee's species, or the pavement around an orchard, change how it forages? Camcorder ethograms from St. Louis orchards, 2022–2024. Co-authored poster at ESA 2025.",
+      facts: ["10 behaviours", "binomial mixed models"],
+      tags: ["R", "lme4", "GIS"],
+      links: [{ label: "Poster", href: "files/Slide1.jpg" }, { label: "SEED report", href: "files/insect-distribution-usda.pdf" }, { label: "Code", href: "https://github.com/grizz6/ESA" }],
+    },
+    {
+      title: "Orchard phenology & weather", year: "2025", viz: "bloom",
+      line: "When the trees flower, when the insects fly, and how warm each orchard runs, with weather rebuilt for sites that had no station.",
+      facts: ["growing degree days", "RAD 2025 talk"],
+      tags: ["R", "mixed models"],
+      links: [{ label: "Report", href: "files/weather-regression.pdf" }, { label: "Slides", href: "files/rad.pdf" }, { label: "Code", href: "https://github.com/grizz6/R-Projects" }],
+    },
+    {
+      title: "Analytics practicum", year: "2025", viz: "roc",
+      line: "Three end-to-end models in R: which mortgages default, which catalogue customers buy, and what a used phone is worth.",
+      facts: ["random forest", "gradient boosting", "neural nets"],
+      tags: ["R", "caret", "glmnet"],
+      links: [{ label: "Mortgage", href: "files/mortgage-payback.pdf" }, { label: "Mailing", href: "files/software-mailing.pdf" }, { label: "Phones", href: "files/used-smartphone.pdf" }, { label: "Code", href: "https://github.com/grizz6/Academic-Project---Webster-University" }],
+    },
+    {
+      title: "Python notebooks", year: "2025", viz: "heat",
+      line: "When 911 calls peak across 99,492 emergency calls, and a survival model on 20,000 patient records.",
+      facts: ["99,492 calls", "20,000 records"],
+      tags: ["pandas", "seaborn", "scikit-learn"],
+      links: [{ label: "Code", href: "https://github.com/grizz6/Python-mini-projects" }],
+    },
   ],
 
   experience: [
@@ -41,5 +88,5 @@ window.PORTFOLIO = {
   // Example: { src: "photos/forest-park.jpg", title: "Forest Park, St. Louis", settings: "35mm · ƒ/2 · 1/500 · ISO 100", year: "2026" }
   photos: [],
 
-  skills: ["SQL", "Python", "R", "pandas", "scikit-learn", "dbt", "BigQuery", "PostgreSQL", "Tableau", "Power BI", "FastAPI", "React", "GitHub Actions"],
+  skills: ["SQL", "Python", "R", "pandas", "scikit-learn", "statsmodels", "dbt", "BigQuery", "PostgreSQL", "pgvector", "Tableau", "Power BI", "FastAPI", "React", "Playwright", "GitHub Actions"],
 };
