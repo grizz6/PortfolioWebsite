@@ -6,8 +6,7 @@
 window.PORTFOLIO = {
   name: "Grishma Gajurel",
   title: "Data analyst · Software engineer · Photographer",
-  // From her GitHub profile README
-  motto: "I approach the world as an underfitted model, persistently seeking the underlying signal amidst the inherent variance.",
+  headline: "I clean, combine and model messy data, then report what it shows.",
   email: "gajurel.grizma@gmail.com",
   github: "https://github.com/grizz6",
   social: [
@@ -15,7 +14,7 @@ window.PORTFOLIO = {
     { label: "LinkedIn", href: "https://www.linkedin.com/in/grishma-gajurel-54891a2b5/" },
   ],
 
-  // Each project draws a small live figure (`viz`) of what it does.
+  // Each project draws a small live figure (`viz`) of what it does. The first four show; the rest sit behind Load more.
   projects: [
     {
       title: "Filings Q&A", year: "2026", viz: "cite",
@@ -79,11 +78,6 @@ window.PORTFOLIO = {
     { dates: "2024 – 2025", role: "Research Assistant, Data Analysis", org: "Webster University", line: "Merged 10,000+ records from seven institutions into one validated dataset for a USDA-funded pollination study." },
     { dates: "2021 – 2023", role: "Software Engineer", org: "Aaran Tech", line: "Made production SQL and PySpark jobs 60% faster; built Laravel APIs with React front ends." },
   ],
-  education: [
-    { dates: "2026", role: "M.S. Data Analytics", org: "Webster University" },
-    { dates: "2022", role: "B.S. Computing", org: "London Metropolitan University" },
-  ],
-
   // Photographs for the film strip. Put the files in photos/ and add one entry each; the section stays hidden while this is empty.
   // Example: { src: "photos/forest-park.jpg", title: "Forest Park, St. Louis", settings: "35mm · ƒ/2 · 1/500 · ISO 100", year: "2026" }
   photos: [],
