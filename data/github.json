@@ -1,7 +1,94 @@
 {
   "user": "grizz6",
-  "synced": "2026-10-20",
+  "synced": "2026-10-23",
   "repos": [
+    {
+      "name": "Academic-Project---Webster-University",
+      "description": "Webster University Analytics Practicum in R: used-phone pricing, catalog purchase prediction, and mortgage default models (OLS, ridge, KNN, neural nets, random forest, GBM, clustering).",
+      "url": "https://github.com/grizz6/Academic-Project---Webster-University",
+      "homepage": "",
+      "language": "R",
+      "topics": [
+        "clustering",
+        "gbm",
+        "glmnet",
+        "machine-learning",
+        "predictive-analytics",
+        "r",
+        "random-forest"
+      ],
+      "stars": 0,
+      "created": "2026-03-16",
+      "pushed": "2026-10-22"
+    },
+    {
+      "name": "ESA",
+      "description": "R analysis of bee foraging behavior at 15 St. Louis urban orchards (2022-2024): logistic regression and binomial GLMMs of behavior vs. species and urbanization. Presented at ESA.",
+      "url": "https://github.com/grizz6/ESA",
+      "homepage": "",
+      "language": "R",
+      "topics": [
+        "ecology",
+        "ggplot2",
+        "glmm",
+        "lme4",
+        "pollinators",
+        "r",
+        "urban-ecology"
+      ],
+      "stars": 0,
+      "created": "2026-03-16",
+      "pushed": "2026-10-22"
+    },
+    {
+      "name": "interface-ai-takehome",
+      "description": "An LLM works out a task in a UI that has no API. The run is saved as a typed capability and replays deterministically with no model in the loop.",
+      "url": "https://github.com/grizz6/interface-ai-takehome",
+      "homepage": "",
+      "language": "Python",
+      "topics": [],
+      "stars": 0,
+      "created": "2026-09-11",
+      "pushed": "2026-10-22"
+    },
+    {
+      "name": "Python-mini-projects",
+      "description": "Jupyter notebooks: 911 call pattern EDA (99K calls) and brain tumor survival-rate regression with pandas, seaborn, and scikit-learn.",
+      "url": "https://github.com/grizz6/Python-mini-projects",
+      "homepage": "",
+      "language": "Jupyter Notebook",
+      "topics": [
+        "eda",
+        "jupyter-notebook",
+        "linear-regression",
+        "pandas",
+        "python",
+        "scikit-learn",
+        "seaborn"
+      ],
+      "stars": 0,
+      "created": "2026-03-23",
+      "pushed": "2026-10-22"
+    },
+    {
+      "name": "R-Projects",
+      "description": "R scripts for a USDA-funded urban orchard study: flowering phenology, pollinator activity density plots, and weather-station calibration to estimate growing degree days vs. urbanization.",
+      "url": "https://github.com/grizz6/R-Projects",
+      "homepage": "",
+      "language": "R",
+      "topics": [
+        "ecology",
+        "ggplot2",
+        "lme4",
+        "phenology",
+        "pollinators",
+        "r",
+        "urban-ecology"
+      ],
+      "stars": 0,
+      "created": "2026-03-03",
+      "pushed": "2026-10-22"
+    },
     {
       "name": "synthkit",
       "description": "pytest fixtures that look like your production data, without your production data.",
@@ -19,7 +106,7 @@
       ],
       "stars": 0,
       "created": "2026-08-26",
-      "pushed": "2026-10-18"
+      "pushed": "2026-10-22"
     },
     {
       "name": "ai-data-analyst",
@@ -68,44 +155,6 @@
       "pushed": "2026-10-05"
     },
     {
-      "name": "Academic-Project---Webster-University",
-      "description": "Webster University Analytics Practicum in R: used-phone pricing, catalog purchase prediction, and mortgage default models (OLS, ridge, KNN, neural nets, random forest, GBM, clustering).",
-      "url": "https://github.com/grizz6/Academic-Project---Webster-University",
-      "homepage": "",
-      "language": "R",
-      "topics": [
-        "clustering",
-        "gbm",
-        "glmnet",
-        "machine-learning",
-        "predictive-analytics",
-        "r",
-        "random-forest"
-      ],
-      "stars": 0,
-      "created": "2026-03-16",
-      "pushed": "2026-09-20"
-    },
-    {
-      "name": "ESA",
-      "description": "R analysis of bee foraging behavior at 15 St. Louis urban orchards (2022-2024): logistic regression and binomial GLMMs of behavior vs. species and urbanization. Presented at ESA.",
-      "url": "https://github.com/grizz6/ESA",
-      "homepage": "",
-      "language": "R",
-      "topics": [
-        "ecology",
-        "ggplot2",
-        "glmm",
-        "lme4",
-        "pollinators",
-        "r",
-        "urban-ecology"
-      ],
-      "stars": 0,
-      "created": "2026-03-16",
-      "pushed": "2026-09-20"
-    },
-    {
       "name": "GrishmaGajurel",
       "description": "Original profile README from before this account was renamed to grizz6.",
       "url": "https://github.com/grizz6/GrishmaGajurel",
@@ -137,44 +186,6 @@
       "pushed": "2026-09-20"
     },
     {
-      "name": "Python-mini-projects",
-      "description": "Jupyter notebooks: 911 call pattern EDA (99K calls) and brain tumor survival-rate regression with pandas, seaborn, and scikit-learn.",
-      "url": "https://github.com/grizz6/Python-mini-projects",
-      "homepage": "",
-      "language": "Jupyter Notebook",
-      "topics": [
-        "eda",
-        "jupyter-notebook",
-        "linear-regression",
-        "pandas",
-        "python",
-        "scikit-learn",
-        "seaborn"
-      ],
-      "stars": 0,
-      "created": "2026-03-23",
-      "pushed": "2026-09-20"
-    },
-    {
-      "name": "R-Projects",
-      "description": "R scripts for a USDA-funded urban orchard study: flowering phenology, pollinator activity density plots, and weather-station calibration to estimate growing degree days vs. urbanization.",
-      "url": "https://github.com/grizz6/R-Projects",
-      "homepage": "",
-      "language": "R",
-      "topics": [
-        "ecology",
-        "ggplot2",
-        "lme4",
-        "phenology",
-        "pollinators",
-        "r",
-        "urban-ecology"
-      ],
-      "stars": 0,
-      "created": "2026-03-03",
-      "pushed": "2026-09-20"
-    },
-    {
       "name": "websitedemo",
       "description": "Unmodified HTML5 UP Dimension template deployed to GitHub Pages as a practice static-site deploy. Not original work.",
       "url": "https://github.com/grizz6/websitedemo",
@@ -189,17 +200,6 @@
       "stars": 0,
       "created": "2026-04-01",
       "pushed": "2026-09-20"
-    },
-    {
-      "name": "interface-ai-takehome",
-      "description": "An LLM works out a task in a UI that has no API. The run is saved as a typed capability and replays deterministically with no model in the loop.",
-      "url": "https://github.com/grizz6/interface-ai-takehome",
-      "homepage": "",
-      "language": "Python",
-      "topics": [],
-      "stars": 0,
-      "created": "2026-09-11",
-      "pushed": "2026-09-15"
     }
   ]
 }
