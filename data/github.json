@@ -1,7 +1,61 @@
 {
   "user": "grizz6",
-  "synced": "2026-10-28",
+  "synced": "2026-10-30",
   "repos": [
+    {
+      "name": "ai-data-analyst",
+      "description": "Upload a CSV or Excel file and get data-quality checks, automatic cleaning, statistics, interactive charts, a custom chart builder, Q&A and a downloadable report. Every number is computed with Pandas; an optional language model only explains the results.",
+      "url": "https://github.com/grizz6/ai-data-analyst",
+      "homepage": "",
+      "language": "Python",
+      "topics": [
+        "csv",
+        "data-analysis",
+        "data-cleaning",
+        "data-visualization",
+        "excel",
+        "fastapi",
+        "llm",
+        "pandas",
+        "plotly",
+        "python",
+        "react",
+        "typescript"
+      ],
+      "stars": 0,
+      "created": "2026-10-11",
+      "pushed": "2026-10-30"
+    },
+    {
+      "name": "filings-qa",
+      "description": "Retrieval-augmented question answering over SEC 10-K Risk Factors. Cited answers from 10 major US companies, with a verified benchmark, CI evaluation gates and production monitoring.",
+      "url": "https://github.com/grizz6/filings-qa",
+      "homepage": "https://filings.streamlit.app",
+      "language": "Python",
+      "topics": [],
+      "stars": 0,
+      "created": "2026-10-06",
+      "pushed": "2026-10-30"
+    },
+    {
+      "name": "synthkit",
+      "description": "pytest fixtures that look like your production data, without your production data.",
+      "url": "https://github.com/grizz6/synthkit",
+      "homepage": "",
+      "language": "Python",
+      "topics": [
+        "gaussian-copula",
+        "privacy",
+        "pytest",
+        "python",
+        "synthetic-data",
+        "test-fixtures",
+        "testing"
+      ],
+      "stars": 0,
+      "created": "2026-08-26",
+      "pushed": "2026-10-30"
+    },
     {
       "name": "ESA",
       "description": "R analysis of bee foraging behavior at 15 St. Louis urban orchards (2022-2024): logistic regression and binomial GLMMs of behavior vs. species and urbanization. Presented at ESA.",
@@ -77,60 +131,6 @@
       "stars": 0,
       "created": "2026-03-03",
       "pushed": "2026-10-22"
-    },
-    {
-      "name": "synthkit",
-      "description": "pytest fixtures that look like your production data, without your production data.",
-      "url": "https://github.com/grizz6/synthkit",
-      "homepage": "",
-      "language": "Python",
-      "topics": [
-        "gaussian-copula",
-        "privacy",
-        "pytest",
-        "python",
-        "synthetic-data",
-        "test-fixtures",
-        "testing"
-      ],
-      "stars": 0,
-      "created": "2026-08-26",
-      "pushed": "2026-10-22"
-    },
-    {
-      "name": "ai-data-analyst",
-      "description": "Upload a CSV or Excel file and get data-quality checks, automatic cleaning, statistics, interactive charts, a custom chart builder, Q&A and a downloadable report. Every number is computed with Pandas; an optional language model only explains the results.",
-      "url": "https://github.com/grizz6/ai-data-analyst",
-      "homepage": "",
-      "language": "Python",
-      "topics": [
-        "csv",
-        "data-analysis",
-        "data-cleaning",
-        "data-visualization",
-        "excel",
-        "fastapi",
-        "llm",
-        "pandas",
-        "plotly",
-        "python",
-        "react",
-        "typescript"
-      ],
-      "stars": 0,
-      "created": "2026-10-11",
-      "pushed": "2026-10-13"
-    },
-    {
-      "name": "filings-qa",
-      "description": "Retrieval-augmented question answering over SEC 10-K Risk Factors. Cited answers from 10 major US companies, with a verified benchmark, CI evaluation gates and production monitoring.",
-      "url": "https://github.com/grizz6/filings-qa",
-      "homepage": "https://filings.streamlit.app",
-      "language": "Python",
-      "topics": [],
-      "stars": 0,
-      "created": "2026-10-06",
-      "pushed": "2026-10-13"
     },
     {
       "name": "grizz6",
