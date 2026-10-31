@@ -78,9 +78,24 @@ window.PORTFOLIO = {
     { dates: "2024 – 2025", role: "Research Assistant, Data Analysis", org: "Webster University", line: "Merged 10,000+ records from seven institutions into one validated dataset for a USDA-funded pollination study." },
     { dates: "2021 – 2023", role: "Software Engineer", org: "Aaran Tech", line: "Made production SQL and PySpark jobs 60% faster; built Laravel APIs with React front ends." },
   ],
-  // Photographs for the film strip. Put the files in photos/ and add one entry each; the section stays hidden while this is empty.
-  // Example: { src: "photos/forest-park.jpg", title: "Forest Park, St. Louis", settings: "35mm · ƒ/2 · 1/500 · ISO 100", year: "2026" }
-  photos: [],
+  // Photographs, all on an iPhone 15 Pro Max. Settings come from each file's EXIF (24mm main or 120mm telephoto
+  // lens); place and month from the shoot. w and h are the file's pixel size, so the grid reserves the right space.
+  camera: "iPhone 15 Pro Max",
+  photos: [
+    { src: "photos/gateway-arch.jpg", title: "Gateway Arch", place: "St. Louis", date: "Jun 2024", settings: "24mm · ƒ/1.8 · 1/4950 · ISO 100", w: 768, h: 1024 },
+    { src: "photos/manhattan-bridge.jpg", title: "Manhattan Bridge from DUMBO", place: "New York", date: "Oct 2024", settings: "120mm · ƒ/2.8 · 1/1048 · ISO 50", w: 768, h: 1024 },
+    { src: "photos/stained-glass-ceiling.jpg", title: "Stained-glass ceiling", place: "Boston", date: "Oct 2026", settings: "24mm · ƒ/1.8 · 1/120 · ISO 80", w: 480, h: 360 },
+    { src: "photos/hancock-tower.jpg", title: "Hancock Tower", place: "Boston", date: "Oct 2026", settings: "24mm · ƒ/1.8 · 1/5376 · ISO 100", w: 768, h: 1024 },
+    { src: "photos/lakefront-golden-hour.jpg", title: "Lakefront, golden hour", place: "Chicago", date: "Aug 2026", settings: "24mm · ƒ/1.8 · 1/459 · ISO 100", w: 360, h: 480 },
+    { src: "photos/under-the-dome.jpg", title: "Under the dome", place: "", date: "Jan 2024", settings: "24mm · ƒ/1.8 · 1/120 · ISO 50", w: 768, h: 1024 },
+    { src: "photos/mother-church-dusk.jpg", title: "The Mother Church at dusk", place: "Boston", date: "Oct 2026", settings: "24mm · ƒ/1.8 · 1/216 · ISO 64", w: 768, h: 1024 },
+    { src: "photos/chicago-river-above.jpg", title: "The river from above", place: "Chicago", date: "Aug 2026", settings: "120mm · ƒ/2.8 · 1/99 · ISO 160", w: 768, h: 1024 },
+    { src: "photos/public-garden.jpg", title: "Public Garden", place: "Boston", date: "Oct 2026", settings: "24mm · ƒ/1.8 · 1/6849 · ISO 100", w: 480, h: 360 },
+    { src: "photos/skyline-rooftops.jpg", title: "Skyline over the rooftops", place: "New York", date: "Oct 2026", settings: "24mm · ƒ/1.8 · 1/1172 · ISO 64", w: 360, h: 480 },
+    { src: "photos/snow-at-night.jpg", title: "Snow, downtown at night", place: "Chicago", date: "Feb 2026", settings: "24mm · ƒ/1.8 · 1/40 · ISO 250", w: 310, h: 552 },
+    { src: "photos/tower-in-fog.jpg", title: "Tower in the fog", place: "Chicago", date: "Feb 2026", settings: "24mm · ƒ/1.8 · 1/30 · ISO 640", w: 310, h: 552 },
+    { src: "photos/salmon-citrus-greens.jpg", title: "Salmon, citrus, greens", place: "Boston", date: "Oct 2026", settings: "24mm · ƒ/1.8 · 1/40 · ISO 640", w: 360, h: 480 },
+  ],
 
   skills: ["SQL", "Python", "R", "pandas", "scikit-learn", "statsmodels", "dbt", "BigQuery", "PostgreSQL", "pgvector", "Tableau", "Power BI", "FastAPI", "React", "Playwright", "GitHub Actions"],
 };

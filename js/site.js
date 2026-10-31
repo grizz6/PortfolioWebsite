@@ -1,7 +1,7 @@
 /**
- * Renders js/content.js and runs the page: slow tree-ring contours behind the hero, scroll reveals, a small live
- * figure for each project (four show, the rest behind Load more), the daily GitHub list, and a film strip whose
- * photographs develop as they reach the middle. Only what is on screen animates; reduced motion gets stills.
+ * Renders js/content.js and runs the page: scroll reveals, a small live figure for each project (four show, the
+ * rest behind Load more), the daily GitHub list, and the photographs (prints by the intro, a grid filtered by place
+ * whose frames develop as they arrive, and a viewer). Only what is on screen animates; reduced motion gets stills.
  */
 (() => {
   "use strict";
@@ -15,9 +15,9 @@
   const gauss = (r) => { let u = 0, v = 0; while (!u) u = r(); while (!v) v = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(6.2832 * v); };
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const wide = () => innerWidth > 820;
-  // Cloud Dancer ground, ink, teal accent, smoky jade second accent (see the palette note in index.html)
-  const C = { bg: "#F6F4F0", fg: "#1A1F1E", muted: "#5E6662", faint: "#C9C5BB", line: "#DCD8CF", signal: "#0F5F5C", warm: "#0F5F5C", cite: "#0F5F5C", jade: "#5E7B72" };
-  const TEAL = (a) => `rgba(15,95,92,${a})`, INK = (a) => `rgba(26,31,30,${a})`;
+  // Figure palette: ink on white, a wine-rose accent, warm amber second, slate blue third (see index.html)
+  const C = { bg: "#FFFFFF", fg: "#18161B", muted: "#67626C", faint: "#DCD6D0", line: "#ECE6DF", signal: "#A63A5E", warm: "#C9853F", cite: "#A63A5E", jade: "#4F5DA8" };
+  const TEAL = (a) => `rgba(166,58,94,${a})`, INK = (a) => `rgba(24,22,27,${a})`;
   const MONO = '"Geist Mono", ui-monospace, Menlo, monospace';
 
   // ---------- Content ----------
@@ -36,7 +36,7 @@
   const watch = (n) => { n.classList.add("reveal"); if (reduce) n.classList.add("in"); else io.observe(n); };
 
   // ---------- Hero rings: tree-ring contours that drift slowly ----------
-  const rc = $(".rings"), rx = rc.getContext("2d"); let RW = 0, ringsOn = true;
+  const rc = $(".rings"), rx = rc && rc.getContext("2d"); let RW = 0, ringsOn = false;
   const ringNoise = (a, k, t) => Math.sin(a * 3 + k * 0.7 + t * 0.25) * 0.05 + Math.sin(a * 5 - k * 0.4 - t * 0.18) * 0.03 + Math.sin(a * 2 + t * 0.12 + k) * 0.04;
   function sizeRings() { const d = Math.min(devicePixelRatio || 1, 2); RW = rc.clientWidth; rc.width = rc.height = Math.round(RW * d); rx.setTransform(d, 0, 0, d, 0, 0); drawRings(reduce ? 0 : performance.now() / 1000); }
   function drawRings(t) {
@@ -47,8 +47,7 @@
       rx.closePath(); rx.strokeStyle = k % 6 === 5 ? TEAL(0.55) : k % 3 === 2 ? "rgba(94,123,114,.35)" : INK(0.12); rx.lineWidth = k % 6 === 5 ? 1.6 : 1; rx.stroke();
     }
   }
-  new ResizeObserver(sizeRings).observe(rc);
-  new IntersectionObserver(([e]) => (ringsOn = e.isIntersecting)).observe(rc);
+  if (rc) { new ResizeObserver(sizeRings).observe(rc); new IntersectionObserver(([e]) => (ringsOn = e.isIntersecting)).observe(rc); }
 
   // ---------- Project figures ----------
   // Each returns draw(x, w, h, t, hover). Text in the figures is either a label or a number from the repo's README.
@@ -141,14 +140,14 @@
           tx.strokeStyle = [C.signal, C.jade, C.fg][i % 3]; tx.globalAlpha = 0.35; tx.beginPath(); tx.moveTo(px, py); tx.lineTo(b.x, b.y); tx.stroke(); tx.globalAlpha = 1;
         });
         g.drawImage(trail, 0, 0, w, h);
-        fl.forEach(([fx, fy]) => { g.fillStyle = "#A9BDB5"; for (let k = 0; k < 5; k++) { const a = k * 1.2566; g.beginPath(); g.arc(fx + Math.cos(a) * 4, fy + Math.sin(a) * 4, 3.2, 0, 6.283); g.fill(); } g.fillStyle = C.signal; g.beginPath(); g.arc(fx, fy, 2.4, 0, 6.283); g.fill(); });
+        fl.forEach(([fx, fy]) => { g.fillStyle = "#E9B7C7"; for (let k = 0; k < 5; k++) { const a = k * 1.2566; g.beginPath(); g.arc(fx + Math.cos(a) * 4, fy + Math.sin(a) * 4, 3.2, 0, 6.283); g.fill(); } g.fillStyle = C.signal; g.beginPath(); g.arc(fx, fy, 2.4, 0, 6.283); g.fill(); });
         bs.forEach((b) => { g.fillStyle = C.fg; g.beginPath(); g.ellipse(b.x, b.y, 3.6, 2.4, Math.atan2(b.vy, b.vx), 0, 6.283); g.fill(); });
         label(g, "camcorder ethograms · 2022–2024", w * 0.04, h - 8);
       };
     },
     // Phenology: a year as a ring, flowering windows as arcs, a hand sweeping the days
     bloom() {
-      const arcs = [[60, 110, C.fg], [75, 125, C.jade], [90, 140, "#8FA9A1"], [100, 165, C.signal], [120, 200, "#3E5651"], [70, 230, C.muted]];
+      const arcs = [[60, 110, C.fg], [75, 125, C.jade], [90, 140, "#A9B1D8"], [100, 165, C.signal], [120, 200, C.warm], [70, 230, C.muted]];
       return (g, w, h, t) => {
         const cx = w * 0.5, cy = h * 0.52, R = Math.min(w, h) * 0.4, day = reduce ? 120 : (t * 18) % 365, ang = (d) => (d / 365) * 6.2832 - Math.PI / 2;
         g.strokeStyle = C.line; g.lineWidth = 1; g.beginPath(); g.arc(cx, cy, R, 0, 6.283); g.stroke();
@@ -185,7 +184,7 @@
 
   const figs = [];
   P.projects.forEach((p, i) => {
-    const card = el("article", "exp" + (i >= 4 ? " extra" : "")); card.style.setProperty("--i", i % 2); if (i >= 4) card.hidden = true;
+    const card = el("article", "exp card" + (i >= 4 ? " extra" : "")); card.style.setProperty("--i", i % 2); if (i >= 4) card.hidden = true;
     const cnv = el("canvas"); cnv.setAttribute("aria-hidden", "true");
     const body = el("div", "body"), meta = el("div", "meta mono"); meta.append(el("span", null, pad(i + 1)), el("span", null, p.year));
     const facts = el("div", "facts"); p.facts.forEach((f) => facts.appendChild(el("span", null, f)));
@@ -224,7 +223,7 @@
 
   // ---------- Experience ----------
   P.experience.forEach((x, i) => {
-    const li = el("li"); li.style.setProperty("--i", i);
+    const li = el("li", "card"); li.style.setProperty("--i", i);
     const top = el("div", "top mono"); top.append(el("span", null, x.dates), el("span", "org", x.org));
     li.append(top, el("h3", null, x.role), el("p", null, x.line));
     $("[data-cv]").appendChild(li); watch(li);
@@ -232,34 +231,83 @@
   P.skills.forEach((s) => $("[data-skills]").appendChild(el("li", null, s)));
   $$("section .head").forEach(watch);
 
-  // ---------- Film strip ----------
+  // ---------- Photographs: prints by the intro, a filtered masonry grid, and a viewer ----------
   const photos = P.photos || [];
-  const film = $("#photos"), strip = $("[data-strip]"), pin = $(".strip-pin"), lb = $("dialog.lightbox");
-  let travel = 0;
-  const pinned = () => photos.length > 0 && wide() && !reduce;
-  function layoutStrip() {
-    if (!photos.length) return;
-    if (!pinned()) { pin.style.height = ""; strip.style.transform = ""; return; }
-    travel = Math.max(0, strip.scrollWidth - innerWidth); pin.style.height = innerHeight + travel + "px";
+  const lb = $("dialog.lightbox"), lbImg = $(".lb-stage img", lb);
+  let view = photos.map((_, i) => i), at = 0;
+  const where = (p) => [p.place, p.date].filter(Boolean).join(" · ");
+  function show(k, dir = 0) {
+    at = (k + view.length) % view.length; const p = photos[view[at]];
+    const set = () => { lbImg.src = p.src; lbImg.alt = p.title + (p.place ? ", " + p.place : ""); lbImg.classList.remove("swap"); };
+    if (dir && !reduce) { lbImg.classList.add("swap"); setTimeout(set, 160); } else set();
+    $("[data-lb-title]", lb).textContent = p.title; $("[data-lb-where]", lb).textContent = where(p);
+    $("[data-lb-count]", lb).textContent = `${pad(at + 1)} / ${pad(view.length)}`;
+    const hud = $("[data-lb-hud]", lb); hud.replaceChildren(...[P.camera, ...(p.settings || "").split(" · ")].filter(Boolean).map((t) => el("span", null, t)));
+    [view[at + 1], view[at - 1]].forEach((j) => { if (j != null) new Image().src = photos[j].src; }); // warm the neighbours
   }
+  function open(i) { view = photos.map((_, j) => j).filter((j) => !$$(".ph")[j] || !$$(".ph")[j].classList.contains("gone")); if (!view.includes(i)) view = photos.map((_, j) => j); show(view.indexOf(i)); lb.showModal(); }
   if (photos.length) {
-    film.hidden = false; $("[data-photos-link]").hidden = false;
-    $("[data-photo-count]").textContent = `${pad(photos.length)} exposures`;
-    photos.forEach((p, i) => {
-      const f = el("figure", "shot"), b = el("button"), img = el("img");
-      b.type = "button"; b.setAttribute("aria-label", "Open " + p.title);
-      img.src = p.src; img.alt = p.title; img.loading = "lazy"; img.decoding = "async"; img.addEventListener("load", layoutStrip);
-      b.appendChild(img);
-      const cap = el("figcaption", "mono"); cap.append(el("span", "t", p.title), el("span", null, [p.settings, p.year].filter(Boolean).join(" · ") || pad(i + 1) + "A"));
-      f.append(b, cap); strip.appendChild(f);
-      b.addEventListener("click", () => { const im = $("img", lb); im.src = p.src; im.alt = p.title; $("[data-lb-title]", lb).textContent = p.title; $("[data-lb-meta]", lb).textContent = [p.settings, p.year].filter(Boolean).join(" · "); lb.showModal(); });
-    });
-    $("[data-close]", lb).addEventListener("click", () => lb.close());
-    lb.addEventListener("click", (e) => { if (e.target === lb) lb.close(); });
-  }
-  addEventListener("resize", layoutStrip); addEventListener("load", layoutStrip); layoutStrip();
+    $("#photos").hidden = false; $("[data-photos-link]").hidden = false;
+    const n = (c) => photos.filter((p) => p.place === c).length;
+    const places = [...new Set(photos.map((p) => p.place).filter(Boolean))].sort((a, b) => n(b) - n(a));
+    $("[data-photo-count]").textContent = `${pad(photos.length)} frames`;
+    $("[data-photo-intro]").textContent = [P.camera, `${places.length} cities`, "mostly looking up"].filter(Boolean).join(" · ");
 
-  // ---------- Scroll: progress, nav, header, strip ----------
+    // Prints beside the intro: the first five, scattered, each drifting a little with the pointer at its own depth
+    const tray = $("[data-prints]"), spots = [["4%", "6%", "-7deg", 0.5], ["40%", "0%", "5deg", 0.9], ["18%", "30%", "-2deg", 0.7], ["44%", "40%", "8deg", 1.1], ["2%", "52%", "4deg", 0.8]];
+    const prints = photos.slice(0, 5).map((p, i) => {
+      const b = el("button", "print"); b.type = "button"; b.setAttribute("aria-label", "Open " + p.title);
+      const [x, y, r, d] = spots[i]; b.style.cssText = `--x:${x};--y:${y};--r:${r}`; b.dataset.depth = d;
+      const img = el("img"); img.src = p.src; img.alt = ""; img.decoding = "async";
+      b.append(img, el("span", null, [p.title, p.place].filter(Boolean).join(", "))); b.addEventListener("click", () => open(i)); tray.appendChild(b); return b;
+    });
+    tray.hidden = false;
+    if (!reduce && matchMedia("(pointer: fine)").matches) $(".hero").addEventListener("pointermove", (e) => {
+      const dx = e.clientX / innerWidth - 0.5, dy = e.clientY / innerHeight - 0.5;
+      prints.forEach((b) => { const d = +b.dataset.depth; b.style.setProperty("--px", (dx * 26 * d).toFixed(1) + "px"); b.style.setProperty("--py", (dy * 20 * d).toFixed(1) + "px"); });
+    });
+
+    // The grid. Each frame keeps its own shape (width and height are set, so nothing jumps while it loads),
+    // develops from grey to colour when it arrives on screen, and tilts a touch toward the pointer.
+    const gal = $("[data-gallery]");
+    const dev = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("dev"); dev.unobserve(e.target); } }), { rootMargin: "0px 0px -18% 0px" });
+    photos.forEach((p, i) => {
+      const b = el("button", "ph"); b.type = "button"; b.dataset.place = p.place || ""; b.setAttribute("aria-label", `Open ${p.title}${p.place ? ", " + p.place : ""}`);
+      const img = el("img"); img.src = p.src; img.alt = p.title + (p.place ? ", " + p.place : ""); img.loading = "lazy"; img.decoding = "async"; if (p.w) { img.width = p.w; img.height = p.h; }
+      const cap = el("span", "cap"); cap.append(el("strong", null, p.title), el("small", null, [where(p), p.settings].filter(Boolean).join("  ·  ")));
+      b.append(img, cap); gal.appendChild(b);
+      b.addEventListener("click", () => open(i));
+      if (reduce) b.classList.add("dev"); else dev.observe(b);
+      if (!reduce) {
+        b.addEventListener("pointermove", (e) => { const r = b.getBoundingClientRect(); b.style.setProperty("--tx", (((e.clientX - r.left) / r.width - 0.5) * 6).toFixed(2) + "deg"); b.style.setProperty("--ty", ((0.5 - (e.clientY - r.top) / r.height) * 6).toFixed(2) + "deg"); });
+        b.addEventListener("pointerleave", () => { b.style.removeProperty("--tx"); b.style.removeProperty("--ty"); });
+      }
+    });
+
+    // Filters by place; the grid re-flows with a view transition where the browser has them
+    const chips = $("[data-chips]");
+    [["All", ""], ...places.map((c) => [c, c])].forEach(([label, val], k) => {
+      const c = el("button", "chip", label); c.type = "button"; c.setAttribute("aria-pressed", String(k === 0));
+      c.appendChild(el("b", null, String(val ? n(val) : photos.length)));
+      c.addEventListener("click", () => {
+        const apply = () => { $$(".chip", chips).forEach((x) => x.setAttribute("aria-pressed", String(x === c))); $$(".ph", gal).forEach((x) => x.classList.toggle("gone", !!val && x.dataset.place !== val)); };
+        if (document.startViewTransition && !reduce) document.startViewTransition(apply); else apply();
+      });
+      chips.appendChild(c);
+    });
+
+    // Viewer: arrows, keys, swipe; the modal dialog keeps focus inside and Escape closes it
+    $("[data-close]", lb).addEventListener("click", () => lb.close());
+    $("[data-prev]", lb).addEventListener("click", () => show(at - 1, -1));
+    $("[data-next]", lb).addEventListener("click", () => show(at + 1, 1));
+    lb.addEventListener("keydown", (e) => { if (e.key === "ArrowRight") show(at + 1, 1); if (e.key === "ArrowLeft") show(at - 1, -1); });
+    lb.addEventListener("click", (e) => { if (e.target === lb || e.target.classList.contains("lb-stage")) lb.close(); });
+    let sx = null;
+    $(".lb-stage", lb).addEventListener("pointerdown", (e) => (sx = e.clientX));
+    $(".lb-stage", lb).addEventListener("pointerup", (e) => { if (sx == null) return; const d = e.clientX - sx; sx = null; if (Math.abs(d) > 50) show(at + (d < 0 ? 1 : -1), d < 0 ? 1 : -1); });
+  }
+
+  // ---------- Scroll: progress, nav, header ----------
   const bar = $(".progress"), navs = $$("header nav a"), hdr = $("header");
   const sio = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) navs.forEach((a) => a.classList.toggle("on", a.getAttribute("href") === "#" + e.target.id)); }), { rootMargin: "-45% 0px -50% 0px" });
   $$("section[id]").forEach((s) => sio.observe(s));
@@ -269,12 +317,9 @@
     const max = document.documentElement.scrollHeight - innerHeight;
     bar.style.transform = `scaleX(${max > 0 ? (scrollY / max).toFixed(4) : 0})`;
     hdr.classList.toggle("scrolled", scrollY > 8);
-    if (!photos.length) return;
-    if (pinned()) { const r = pin.getBoundingClientRect(), p = clamp(-r.top / Math.max(1, r.height - innerHeight), 0, 1); strip.style.transform = `translate3d(${(-p * travel).toFixed(1)}px, 0, 0)`; }
-    $$(".shot:not(.dev)", strip).forEach((s) => { const b = s.getBoundingClientRect(), cx = b.left + b.width / 2, cy = b.top + b.height / 2; if (reduce || (cy > 0 && cy < innerHeight && Math.abs(cx - innerWidth / 2) < innerWidth * (wide() ? 0.32 : 0.45))) s.classList.add("dev"); });
   }
   const queue = () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } };
-  addEventListener("scroll", queue, { passive: true }); $(".strip-stage").addEventListener("scroll", queue, { passive: true });
+  addEventListener("scroll", queue, { passive: true });
   onScroll();
 
   // ---------- One loop for everything that moves ----------
