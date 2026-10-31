@@ -15,9 +15,8 @@ keep current without a framework or a build step.
   JavaScript, served as-is by GitHub Pages.
 - **Content kept as data.** Every piece of text, project, and link lives in `js/content.js`,
   so adding a project means adding one object.
-- **Keeps itself current.** A GitHub Actions job runs daily, reads my public repositories,
-  and lists the five most recently updated ones under "Latest on GitHub". Add the topic
-  `hide` to keep a repository off the site.
+- **Photography woven in.** Prints beside the intro and a reel before contact; every photo
+  opens full screen with the settings it was shot at.
 - **Old links still work.** Earlier page URLs redirect to the matching section, and the 404
   page does the same for any other old path.
 - **Respects reduced motion.** The animations stop for visitors who set
@@ -30,7 +29,7 @@ index.html        layout and styles
 js/content.js     all text, projects, photos, and links
 js/site.js        renders the content and runs the effects
 files/            reports, posters, and slides linked from projects
-photos/           photographs for the film strip (see photos/README.md)
+photos/           photographs for the prints and the reel (see photos/README.md)
 ```
 
 To preview locally, run `python3 -m http.server` in the repository and visit

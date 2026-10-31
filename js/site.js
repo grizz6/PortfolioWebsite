@@ -214,23 +214,6 @@
   figs.forEach((f) => { fio.observe(f.cnv); ro.observe(f.cnv); });
   function paint(f, t) { const g = f.g, d = f.cnv.width / (f.w || 1); g.setTransform(d, 0, 0, d, 0, 0); g.clearRect(0, 0, f.w, f.h); f.draw(g, f.w, f.h, t, f.hover); }
 
-  // ---------- Latest on GitHub (data/github.json, written daily by .github/workflows/sync-github.yml) ----------
-  const date = (d, o) => new Date(d + "T00:00:00Z").toLocaleDateString("en-US", { ...o, timeZone: "UTC" });
-  fetch("data/github.json", { cache: "no-cache" }).then((r) => (r.ok ? r.json() : null)).then((gh) => {
-    if (!gh || !gh.repos || !gh.repos.length) return;
-    const shown = new Set(P.projects.flatMap((p) => p.links.map((l) => l.href.toLowerCase().replace(/\/$/, ""))));
-    const latest = gh.repos.filter((r) => !shown.has(r.url.toLowerCase())).slice(0, 5);
-    if (!latest.length) return;
-    latest.forEach((r) => {
-      const a = external(el("a"), r.url), li = el("li");
-      a.append(el("span", "mono", date(r.pushed, { month: "short", year: "2-digit" })), el("span", null, r.name), el("span", "mono", r.language || "↗"));
-      if (r.description) a.appendChild(el("p", null, r.description));
-      li.appendChild(a); $("[data-repos]").appendChild(li);
-    });
-    $("[data-synced]").textContent = "Synced " + date(gh.synced, { month: "short", day: "numeric", year: "numeric" });
-    $("[data-latest]").hidden = false;
-  }).catch(() => {});
-
   // ---------- Experience and education ----------
   P.experience.forEach((x, i) => {
     const li = el("li", "card"); li.style.setProperty("--i", i);
@@ -263,7 +246,6 @@
   }
   const open = (i) => { show(i); if (!lb.open) lb.showModal(); };
   if (photos.length) {
-    const places = new Set(photos.map((p) => p.place).filter(Boolean));
 
     // Prints: the first five, scattered; each drifts a little with the pointer at its own depth
     const tray = $("[data-prints]"), spots = [["2%", "8%", "-7deg", 0.5], ["48%", "1%", "5deg", 0.9], ["22%", "24%", "-2deg", 0.7], ["50%", "40%", "7deg", 1.1], ["0%", "43%", "4deg", 0.8]];
@@ -283,7 +265,6 @@
     // screen readers and the keyboard. Hovering or focusing pauses it.
     const reel = $("[data-reel]"), track = $("[data-track]");
     $("[data-reel-label]").textContent = ["Off the clock", P.camera].filter(Boolean).join(" · ");
-    $("[data-reel-count]").textContent = `${photos.length} photographs · ${places.size} cities`;
     [0, 1].forEach((copy) => photos.forEach((p, i) => {
       const b = el("button", "frame"); b.type = "button";
       const img = el("img"); img.src = p.src; img.alt = alt(p); img.loading = "lazy"; img.decoding = "async"; if (p.w) { img.width = p.w; img.height = p.h; }
@@ -307,6 +288,100 @@
     stage.addEventListener("pointerdown", (e) => (sx = e.clientX));
     stage.addEventListener("pointercancel", () => (sx = null));
     stage.addEventListener("pointerup", (e) => { if (sx == null) return; const d = e.clientX - sx; sx = null; if (Math.abs(d) > 50) show(at + (d < 0 ? 1 : -1), d < 0 ? 1 : -1); });
+  }
+
+  // ---------- The name: each letter rises in, a word at a time so lines never break mid-word ----------
+  let k = 0;
+  const split = (node) => [...node.childNodes].forEach((n) => {
+    if (n.nodeType === 3) {
+      const frag = document.createDocumentFragment();
+      n.textContent.split(/(\s+)/).forEach((part) => {
+        if (!part) return; if (/^\s+$/.test(part)) { frag.append(part); return; }
+        const w = el("span", "w"); w.setAttribute("aria-hidden", "true");
+        [...part].forEach((c) => { const ch = el("span", "ch", c); ch.style.setProperty("--k", k++); w.appendChild(ch); });
+        frag.appendChild(w);
+      });
+      n.replaceWith(frag);
+    } else if (n.nodeType === 1 && n.tagName !== "svg") split(n);
+  });
+  split($(".hero h1"));
+
+  // ---------- Ribbons: the same words repeated twice over, so sliding by half loops without a seam ----------
+  const RIB = { a: ["Data analyst", "Software engineer", "Pipelines", "APIs", "ML services", "SQL", "Python"], b: ["Messy data", "Sound decisions", "Retrieval with citations", "Synthetic data", "Bees and orchards", "Photographs"] };
+  $$("[data-run]").forEach((run) => { const words = RIB[run.dataset.run]; for (let r = 0; r < 4; r++) words.forEach((t) => run.appendChild(el("span", null, t))); });
+
+  // ---------- Titles: a giant outlined word behind each, and the title wipes up into view ----------
+  const ghosts = [];
+  $$("section h2").forEach((h) => {
+    const n = $(".n", h), txt = [...h.childNodes].filter((c) => c.nodeType === 3).map((c) => c.textContent).join("").trim();
+    [...h.childNodes].forEach((c) => { if (c.nodeType === 3) c.remove(); });
+    const t = el("span", "t"), inner = el("span", null, txt); t.appendChild(inner); h.append(t);
+    const sec = h.closest("section"); if (!sec.classList.contains("contact")) { const g = el("div", "ghost", txt); g.setAttribute("aria-hidden", "true"); sec.prepend(g); ghosts.push(g); }
+    if (n) h.prepend(n);
+    if (!h.closest(".head")) watch(h); // titles outside a .head (contact) reveal on their own
+  });
+
+  // ---------- Numbers count up the first time they come into view (years are left alone) ----------
+  const NUM = /\d[\d,]*(?:\.\d+)?/g;
+  const fmt = (v, src) => { const dec = (src.split(".")[1] || "").length; const s2 = v.toFixed(dec); return src.includes(",") ? Number(s2).toLocaleString("en-US", { minimumFractionDigits: dec, maximumFractionDigits: dec }) : s2; };
+  const counters = $$(".facts span, .cv p").filter((n) => [...n.textContent.matchAll(NUM)].some((m) => !/^(19|20)\d\d$/.test(m[0])));
+  const cio = new IntersectionObserver((es) => es.forEach((e) => {
+    if (!e.isIntersecting) return; cio.unobserve(e.target);
+    const node = e.target, final = node.textContent, t0 = performance.now();
+    (function step(now) {
+      const q = Math.min(1, (now - t0) / 1400), ease = 1 - Math.pow(1 - q, 3);
+      node.textContent = q < 1 ? final.replace(NUM, (m) => (/^(19|20)\d\d$/.test(m) ? m : fmt(parseFloat(m.replace(/,/g, "")) * ease, m))) : final;
+      if (q < 1) requestAnimationFrame(step);
+    })(t0);
+  }), { threshold: 0.6 });
+  if (!reduce) counters.forEach((n) => { n.classList.add("num"); cio.observe(n); });
+
+  // ---------- The line above the name decodes itself on load ----------
+  const eb = $(".eyebrow");
+  if (!reduce && eb) {
+    const final = eb.textContent, glyphs = "!<>-_/[]{}=+*^?#01✺", t0 = performance.now();
+    eb.setAttribute("aria-label", final);
+    (function step(now) {
+      const q = Math.min(1, (now - t0) / 1300);
+      eb.textContent = [...final].map((c, i) => (c === " " || i / final.length < q ? c : glyphs[Math.floor(Math.random() * glyphs.length)])).join("");
+      if (q < 1) requestAnimationFrame(step); else eb.textContent = final;
+    })(t0);
+  }
+
+  // ---------- Scrolling: the outlined words slide, and the bands lean with scroll speed ----------
+  if (!reduce) {
+    const leaners = $$(".ribbons, .reel .viewport"); let lastY = scrollY, lean = 0;
+    (function tick() {
+      const v = scrollY - lastY; lastY = scrollY; lean += (clamp(v * 0.12, -5, 5) - lean) * 0.12;
+      leaners.forEach((n) => n.style.setProperty("--lean", lean.toFixed(2) + "deg"));
+      ghosts.forEach((g) => { const r = g.parentElement.getBoundingClientRect(); if (r.bottom > 0 && r.top < innerHeight) g.style.transform = `translate3d(${(r.top * -0.25).toFixed(1)}px, 0, 0)`; });
+      requestAnimationFrame(tick);
+    })();
+  }
+
+  // ---------- Pointer extras, for a mouse only and never with reduced motion ----------
+  if (!reduce && matchMedia("(pointer: fine)").matches) {
+    // A vermilion spotlight that follows the pointer across cards
+    $$(".exp, .cv li").forEach((c) => {
+      c.classList.add("spot");
+      c.addEventListener("pointermove", (e) => { const r = c.getBoundingClientRect(); c.style.setProperty("--mx", e.clientX - r.left + "px"); c.style.setProperty("--my", e.clientY - r.top + "px"); });
+    });
+    // Buttons lean a little toward the pointer
+    $$(".btn").forEach((b) => {
+      b.addEventListener("pointermove", (e) => { const r = b.getBoundingClientRect(); b.style.translate = `${((e.clientX - r.left) / r.width - 0.5) * 10}px ${((e.clientY - r.top) / r.height - 0.5) * 8}px`; });
+      b.addEventListener("pointerleave", () => (b.style.translate = ""));
+    });
+    // The ring trails the pointer and changes over links and photographs
+    const ring = $(".cursor"); let tx = -100, ty = -100, cx = -100, cy = -100;
+    addEventListener("pointermove", (e) => {
+      tx = e.clientX; ty = e.clientY; ring.classList.add("on");
+      const t = e.target.closest ? e.target : null;
+      const photo = t && t.closest(".print, .frame"), link = t && t.closest("a, button, .exp");
+      ring.classList.toggle("view", !!photo); ring.classList.toggle("link", !photo && !!link); ring.textContent = photo ? "View" : "";
+    }, { passive: true });
+    document.addEventListener("pointerleave", () => ring.classList.remove("on"));
+    lb.addEventListener("close", () => ring.classList.remove("view"));
+    (function follow() { cx += (tx - cx) * 0.2; cy += (ty - cy) * 0.2; ring.style.transform = `translate3d(${cx.toFixed(1)}px, ${cy.toFixed(1)}px, 0)`; requestAnimationFrame(follow); })();
   }
 
   // ---------- Scroll: progress, nav, header ----------

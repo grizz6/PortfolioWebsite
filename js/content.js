@@ -6,7 +6,7 @@
 window.PORTFOLIO = {
   name: "Grishma Gajurel",
   title: "Data analyst · Software engineer · Photographer",
-  headline: "I clean, combine and model messy data, then report what it shows.",
+  headline: "I build pipelines, APIs and ML services in Python and SQL, and turn messy data into sound decisions.",
   email: "gajurel.grizma@gmail.com",
   github: "https://github.com/grizz6",
   social: [
@@ -42,14 +42,6 @@ window.PORTFOLIO = {
       links: [{ label: "Live app", href: "https://ai-data-analyst-xz78.onrender.com" }, { label: "Code", href: "https://github.com/grizz6/ai-data-analyst" }],
     },
     {
-      title: "Computer-use automation", year: "2026", viz: "replay",
-      line: "A model learns a task in an old app with no API once, then it replays for free.",
-      more: "The model clicks through the app to work out the task. The run is saved as a typed capability that replays without the model and hands over to a person when it gets stuck.",
-      facts: ["learn once, replay free", "human handoff"],
-      tags: ["Playwright", "Pydantic", "Gemini"],
-      links: [{ label: "Code", href: "https://github.com/grizz6/interface-ai-takehome" }],
-    },
-    {
       title: "Urban bee behaviour", year: "2025", viz: "bees",
       line: "Does a bee's species, or the pavement around an orchard, change how it forages?",
       more: "Camcorder ethograms from St. Louis orchards, 2022–2024, analysed with binomial mixed models. Co-authored poster at the ESA Annual Meeting, Baltimore, August 2025.",
@@ -72,6 +64,14 @@ window.PORTFOLIO = {
       facts: ["random forest", "gradient boosting", "neural nets"],
       tags: ["R", "caret", "glmnet"],
       links: [{ label: "Mortgage", href: "files/mortgage-payback.pdf" }, { label: "Mailing", href: "files/software-mailing.pdf" }, { label: "Phones", href: "files/used-smartphone.pdf" }, { label: "Code", href: "https://github.com/grizz6/Academic-Project---Webster-University" }],
+    },
+    {
+      title: "Computer-use automation", year: "2026", viz: "replay",
+      line: "A model learns a task in an old app with no API once, then it replays for free.",
+      more: "The model clicks through the app to work out the task. The run is saved as a typed capability that replays without the model and hands over to a person when it gets stuck.",
+      facts: ["learn once, replay free", "human handoff"],
+      tags: ["Playwright", "Pydantic", "Gemini"],
+      links: [{ label: "Code", href: "https://github.com/grizz6/interface-ai-takehome" }],
     },
     {
       title: "Python notebooks", year: "2025", viz: "heat",
