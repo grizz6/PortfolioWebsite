@@ -1,6 +1,6 @@
 /**
  * Portfolio content, taken from the public repos at github.com/grizz6 (READMEs and code, Oct 2026), the resume
- * (Sept 2026) and the documents in files/. Numbers come from the repos' own READMEs.
+ * (Oct 2026, the source of truth for numbers and dates) and the documents in files/. Numbers come from the repos' own READMEs.
  * The resume itself is not published. No phone number, GPA, or location on the site.
  */
 window.PORTFOLIO = {
@@ -11,63 +11,72 @@ window.PORTFOLIO = {
   github: "https://github.com/grizz6",
   social: [
     { label: "GitHub", href: "https://github.com/grizz6" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/in/grishma-gajurel-54891a2b5/" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/grishmagajurel/" },
   ],
 
-  // Each project draws a small live figure (`viz`) of what it does. The first four show; the rest sit behind Load more.
+  // Each project draws a small live figure (`viz`) of what it does. `line` is the one-line summary on the card and
+  // `more` the detail behind it. The first four show; the rest sit behind Load more.
   projects: [
     {
       title: "Filings Q&A", year: "2026", viz: "cite",
-      line: "Ask what a US company says about its risks. Every sentence of the answer cites the 10-K passage it came from, and questions the filings don't cover get “Not found.”",
-      facts: ["90% right passage found", "10/10 unanswerable declined", "10 companies"],
+      line: "Ask what a US company says about its risks; every sentence cites the 10-K passage it came from.",
+      more: "A retrieval system over ten companies' SEC 10-K risk disclosures, built on pgvector and Gemini. Chunking experiments tracked in MLflow raised the retrieval hit rate from 75% to 90% on a 50-question benchmark, and questions the filings don't cover get “Not found.”",
+      facts: ["75% → 90% retrieval hit rate", "50-question benchmark", "10 companies"],
       tags: ["pgvector", "Gemini", "Streamlit", "MLflow"],
       links: [{ label: "Live app", href: "https://filings.streamlit.app" }, { label: "Code", href: "https://github.com/grizz6/filings-qa" }],
     },
     {
       title: "synthkit", year: "2026", viz: "copula",
-      line: "Test data with the shape of production and none of its rows. It learns how columns move together, so tests that depend on a correlation still pass.",
-      facts: ["385 tests", "~2M rows/s", "Python 3.10–3.13"],
+      line: "Test data with the shape of production and none of its rows.",
+      more: "An open-source Python library and CLI. It learns how columns move together (a Gaussian copula), so tests that depend on a correlation still pass, and its drift checks fail the build when data departs from its saved profile.",
+      facts: ["385 cross-platform tests", "drift checks in CI", "~2M rows/s"],
       tags: ["Gaussian copula", "pytest plugin", "CI"],
       links: [{ label: "Code", href: "https://github.com/grizz6/synthkit" }],
     },
     {
       title: "AI Data Analyst", year: "2026", viz: "outliers",
-      line: "Drop in a CSV and get the whole exploratory pass: gaps, outliers with likely causes, relationships and next steps. The language model may only quote numbers pandas computed.",
-      facts: ["CSV up to 200 MB", "every number checked"],
+      line: "Drop in a CSV and get the whole exploratory pass, with no made-up numbers.",
+      more: "Gaps, outliers with likely causes, relationships and next steps. The language model may only quote numbers the code computed: a safeguard rejects any figure it didn't, backed by 433 automated tests.",
+      facts: ["433 automated tests", "every number checked", "CSV up to 200 MB"],
       tags: ["FastAPI", "pandas", "statsmodels", "React"],
       links: [{ label: "Live app", href: "https://ai-data-analyst-xz78.onrender.com" }, { label: "Code", href: "https://github.com/grizz6/ai-data-analyst" }],
     },
     {
       title: "Computer-use automation", year: "2026", viz: "replay",
-      line: "A model works out a task in an old app with no API by clicking through it. The run is saved as a typed capability that replays without the model and hands over to a person when stuck.",
+      line: "A model learns a task in an old app with no API once, then it replays for free.",
+      more: "The model clicks through the app to work out the task. The run is saved as a typed capability that replays without the model and hands over to a person when it gets stuck.",
       facts: ["learn once, replay free", "human handoff"],
       tags: ["Playwright", "Pydantic", "Gemini"],
       links: [{ label: "Code", href: "https://github.com/grizz6/interface-ai-takehome" }],
     },
     {
       title: "Urban bee behaviour", year: "2025", viz: "bees",
-      line: "Does a bee's species, or the pavement around an orchard, change how it forages? Camcorder ethograms from St. Louis orchards, 2022–2024. Co-authored poster at ESA 2025.",
-      facts: ["10 behaviours", "binomial mixed models"],
+      line: "Does a bee's species, or the pavement around an orchard, change how it forages?",
+      more: "Camcorder ethograms from St. Louis orchards, 2022–2024, analysed with binomial mixed models. Co-authored poster at the ESA Annual Meeting, Baltimore, August 2025.",
+      facts: ["ESA 2025 poster", "10 behaviours", "mixed models"],
       tags: ["R", "lme4", "GIS"],
       links: [{ label: "Poster", href: "files/Slide1.jpg" }, { label: "SEED report", href: "files/insect-distribution-usda.pdf" }, { label: "Code", href: "https://github.com/grizz6/ESA" }],
     },
     {
       title: "Orchard phenology & weather", year: "2025", viz: "bloom",
-      line: "When the trees flower, when the insects fly, and how warm each orchard runs, with weather rebuilt for sites that had no station.",
-      facts: ["growing degree days", "RAD 2025 talk"],
+      line: "When the trees flower, when the insects fly, and how warm each orchard runs.",
+      more: "Growing degree days per orchard, with weather rebuilt for sites that had no station. Presented at Research Across Disciplines, Webster University, December 2025.",
+      facts: ["RAD 2025 talk", "growing degree days"],
       tags: ["R", "mixed models"],
       links: [{ label: "Report", href: "files/weather-regression.pdf" }, { label: "Slides", href: "files/rad.pdf" }, { label: "Code", href: "https://github.com/grizz6/R-Projects" }],
     },
     {
       title: "Analytics practicum", year: "2025", viz: "roc",
-      line: "Three end-to-end models in R: which mortgages default, which catalogue customers buy, and what a used phone is worth.",
+      line: "Three end-to-end models in R: mortgage default, catalogue buyers, used-phone prices.",
+      more: "Random forests, gradient boosting and neural nets, tuned and compared with caret and glmnet, each written up as a report.",
       facts: ["random forest", "gradient boosting", "neural nets"],
       tags: ["R", "caret", "glmnet"],
       links: [{ label: "Mortgage", href: "files/mortgage-payback.pdf" }, { label: "Mailing", href: "files/software-mailing.pdf" }, { label: "Phones", href: "files/used-smartphone.pdf" }, { label: "Code", href: "https://github.com/grizz6/Academic-Project---Webster-University" }],
     },
     {
       title: "Python notebooks", year: "2025", viz: "heat",
-      line: "When 911 calls peak across 99,492 emergency calls, and a survival model on 20,000 patient records.",
+      line: "When 911 calls peak, and a survival model on 20,000 patient records.",
+      more: "Hour-by-day patterns across 99,492 emergency calls, and a survival model on 20,000 patient records, in pandas, seaborn and scikit-learn.",
       facts: ["99,492 calls", "20,000 records"],
       tags: ["pandas", "seaborn", "scikit-learn"],
       links: [{ label: "Code", href: "https://github.com/grizz6/Python-mini-projects" }],
@@ -75,9 +84,14 @@ window.PORTFOLIO = {
   ],
 
   experience: [
-    { dates: "2024 – 2025", role: "Research Assistant, Data Analysis", org: "Webster University", line: "Merged 10,000+ records from seven institutions into one validated dataset for a USDA-funded pollination study." },
-    { dates: "2021 – 2023", role: "Software Engineer", org: "Aaran Tech", line: "Made production SQL and PySpark jobs 60% faster; built Laravel APIs with React front ends." },
+    { dates: "Feb 2024 – Dec 2025", role: "Research Assistant, Natural Sciences and Mathematics", org: "Webster University", line: "Consolidated 10,000+ records from 7 partner institutions into one dataset for a USDA-funded study of 15 orchards, and fixed a survivorship bias that inflated behaviour rates." },
+    { dates: "Feb 2021 – Jun 2023", role: "Software Engineer", org: "Aaran Tech", line: "Cut hourly SQL and PySpark jobs from 80 to 42 minutes, integrated eSewa and Khalti payments for 1,000+ orders a month, and shipped ML models behind FastAPI at 80%+ accuracy." },
   ],
+  education: [
+    { degree: "M.S. Data Analytics", school: "Webster University", date: "May 2026" },
+    { degree: "B.S. Computing", school: "London Metropolitan University", date: "Oct 2022" },
+  ],
+
   // Photographs, all on an iPhone 15 Pro Max. Settings come from each file's EXIF (24mm main or 120mm telephoto
   // lens); place and month from the shoot. w and h are the file's pixel size, so the grid reserves the right space.
   camera: "iPhone 15 Pro Max",

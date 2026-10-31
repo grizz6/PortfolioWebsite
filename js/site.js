@@ -1,7 +1,7 @@
 /**
  * Renders js/content.js and runs the page: scroll reveals, a small live figure for each project (four show, the
- * rest behind Load more), the daily GitHub list, and the photographs (prints by the intro, a grid filtered by place
- * whose frames develop as they arrive, and a viewer). Only what is on screen animates; reduced motion gets stills.
+ * rest behind Load more, each with details that open in place), the daily GitHub list, and the photographs (prints
+ * by the intro, a reel before contact, and a viewer). Only what is on screen animates; reduced motion gets stills.
  */
 (() => {
   "use strict";
@@ -15,9 +15,9 @@
   const gauss = (r) => { let u = 0, v = 0; while (!u) u = r(); while (!v) v = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(6.2832 * v); };
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const wide = () => innerWidth > 820;
-  // Figure palette: ink on white, a wine-rose accent, warm amber second, slate blue third (see index.html)
-  const C = { bg: "#FFFFFF", fg: "#18161B", muted: "#67626C", faint: "#DCD6D0", line: "#ECE6DF", signal: "#A63A5E", warm: "#C9853F", cite: "#A63A5E", jade: "#4F5DA8" };
-  const TEAL = (a) => `rgba(166,58,94,${a})`, INK = (a) => `rgba(24,22,27,${a})`;
+  // Figure palette: ink on white with vermilion marks, a light vermilion second and a dark grey third (see index.html)
+  const C = { bg: "#FFFFFF", fg: "#141216", muted: "#65606A", faint: "#D8D2CB", line: "#ECE6DF", signal: "#FF4A1C", warm: "#FF9A73", cite: "#E23C12", jade: "#3A3640" };
+  const TEAL = (a) => `rgba(255,74,28,${a})`, INK = (a) => `rgba(20,18,22,${a})`;
   const MONO = '"Geist Mono", ui-monospace, Menlo, monospace';
 
   // ---------- Content ----------
@@ -79,15 +79,16 @@
         const r = RNG(91 + i); return { name, rho, pts: Array.from({ length: 150 }, () => { const a = gauss(r), b = gauss(r); return [a, rho * a + Math.sqrt(1 - rho * rho) * b, r()]; }) };
       });
       return (g, w, h, t, hover) => {
-        const pw = w / 3;
+        const pw = w / 3, narrow = pw * 0.76 < 150;
         sets.forEach((s, i) => {
-          const ox = i * pw + pw * 0.12, oy = h * 0.14, sw = pw * 0.76, sh = h * 0.62;
+          const ox = i * pw + pw * 0.12, oy = h * 0.12, sw = pw * 0.76, sh = h * (narrow ? 0.5 : 0.62);
           g.strokeStyle = C.line; g.lineWidth = 1; g.strokeRect(ox, oy, sw, sh);
           const col = i === 1 ? C.faint : i === 2 ? C.signal : C.fg;
           g.fillStyle = col;
           s.pts.forEach(([a, b, ph]) => { const wob = hover ? 0 : Math.sin(t * 1.4 + ph * 6.28) * 1.2; g.fillRect(ox + sw / 2 + clamp(a / 3, -1, 1) * sw * 0.45 + wob, oy + sh / 2 - clamp(b / 3, -1, 1) * sh * 0.45, 1.8, 1.8); });
           if (s.rho) { g.strokeStyle = col; g.globalAlpha = 0.6; g.beginPath(); g.moveTo(ox + 4, oy + sh / 2 + s.rho * sh * 0.42); g.lineTo(ox + sw - 4, oy + sh / 2 - s.rho * sh * 0.42); g.stroke(); g.globalAlpha = 1; }
-          label(g, s.name, ox, oy + sh + 16, col); label(g, "r " + s.rho.toFixed(3), ox + sw, oy + sh + 16, col, "right");
+          label(g, s.name, ox, oy + sh + 16, col); // on narrow cards the r value drops to its own line so the labels never collide
+          if (narrow) label(g, "r " + s.rho.toFixed(3), ox, oy + sh + 29, col); else label(g, "r " + s.rho.toFixed(3), ox + sw, oy + sh + 16, col, "right");
         });
         label(g, "corr(hours, income) · Adult Census", w * 0.04, h - 8);
       };
@@ -140,14 +141,14 @@
           tx.strokeStyle = [C.signal, C.jade, C.fg][i % 3]; tx.globalAlpha = 0.35; tx.beginPath(); tx.moveTo(px, py); tx.lineTo(b.x, b.y); tx.stroke(); tx.globalAlpha = 1;
         });
         g.drawImage(trail, 0, 0, w, h);
-        fl.forEach(([fx, fy]) => { g.fillStyle = "#E9B7C7"; for (let k = 0; k < 5; k++) { const a = k * 1.2566; g.beginPath(); g.arc(fx + Math.cos(a) * 4, fy + Math.sin(a) * 4, 3.2, 0, 6.283); g.fill(); } g.fillStyle = C.signal; g.beginPath(); g.arc(fx, fy, 2.4, 0, 6.283); g.fill(); });
+        fl.forEach(([fx, fy]) => { g.fillStyle = "#FFC9B6"; for (let k = 0; k < 5; k++) { const a = k * 1.2566; g.beginPath(); g.arc(fx + Math.cos(a) * 4, fy + Math.sin(a) * 4, 3.2, 0, 6.283); g.fill(); } g.fillStyle = C.signal; g.beginPath(); g.arc(fx, fy, 2.4, 0, 6.283); g.fill(); });
         bs.forEach((b) => { g.fillStyle = C.fg; g.beginPath(); g.ellipse(b.x, b.y, 3.6, 2.4, Math.atan2(b.vy, b.vx), 0, 6.283); g.fill(); });
         label(g, "camcorder ethograms · 2022–2024", w * 0.04, h - 8);
       };
     },
     // Phenology: a year as a ring, flowering windows as arcs, a hand sweeping the days
     bloom() {
-      const arcs = [[60, 110, C.fg], [75, 125, C.jade], [90, 140, "#A9B1D8"], [100, 165, C.signal], [120, 200, C.warm], [70, 230, C.muted]];
+      const arcs = [[60, 110, C.fg], [75, 125, C.jade], [90, 140, "#BDB6C2"], [100, 165, C.signal], [120, 200, C.warm], [70, 230, C.muted]];
       return (g, w, h, t) => {
         const cx = w * 0.5, cy = h * 0.52, R = Math.min(w, h) * 0.4, day = reduce ? 120 : (t * 18) % 365, ang = (d) => (d / 365) * 6.2832 - Math.PI / 2;
         g.strokeStyle = C.line; g.lineWidth = 1; g.beginPath(); g.arc(cx, cy, R, 0, 6.283); g.stroke();
@@ -167,7 +168,7 @@
         g.beginPath(); g.moveTo(ox, oy); for (let u = 0; u <= k; u += 0.01) g.lineTo(ox + u * s, oy - curve(u) * s);
         g.strokeStyle = C.signal; g.lineWidth = 1.6; g.stroke(); g.lineTo(ox + k * s, oy); g.closePath(); g.fillStyle = TEAL(0.08); g.fill(); g.lineWidth = 1;
         if (k >= 1) { const px = ox + th * s, py = oy - curve(th) * s; g.fillStyle = C.warm; g.beginPath(); g.arc(px, py, 4, 0, 6.283); g.fill(); label(g, "threshold", px + 8, py + 3, C.warm); }
-        label(g, "false positive rate", ox + s, oy + 14, C.muted, "right"); label(g, "illustrative", w * 0.96, h - 8, C.faint, "right"); label(g, "true positive rate", ox - 8, oy - s + 4, C.muted, "right");
+        label(g, "false positive rate", ox + s, oy + 14, C.muted, "right"); label(g, "illustrative", w * 0.96, h - 8, C.faint, "right"); label(g, "true positive rate", ox, oy - s - 8);
       };
     },
     // Python notebooks: 911 calls as an hour-by-weekday heatmap, a sweep running through the hours
@@ -188,9 +189,18 @@
     const cnv = el("canvas"); cnv.setAttribute("aria-hidden", "true");
     const body = el("div", "body"), meta = el("div", "meta mono"); meta.append(el("span", null, pad(i + 1)), el("span", null, p.year));
     const facts = el("div", "facts"); p.facts.forEach((f) => facts.appendChild(el("span", null, f)));
+    // The detail behind the one-line summary opens in place; the whole card (outside its links) toggles it
     const tags = el("div", "tags mono"); p.tags.forEach((t) => tags.appendChild(el("span", null, t)));
+    const more = el("div", "more"), inner = el("div"); more.id = "more-" + i; inner.append(el("p", null, p.more || ""), tags); more.appendChild(inner);
+    const toggle = el("button", "toggle"); toggle.type = "button"; toggle.setAttribute("aria-expanded", "false"); toggle.setAttribute("aria-controls", more.id);
+    toggle.append(el("i", null, "+"), el("span", null, "Details"));
+    const setOpen = (on) => { card.classList.toggle("open", on); toggle.setAttribute("aria-expanded", String(on)); $("span", toggle).textContent = on ? "Less" : "Details"; inner.inert = !on; };
+    setOpen(false);
+    toggle.addEventListener("click", () => setOpen(!card.classList.contains("open")));
+    card.addEventListener("click", (e) => { if (!e.target.closest("a, button") && !getSelection().toString()) setOpen(!card.classList.contains("open")); });
     const links = el("div", "links mono"); p.links.forEach((l) => links.appendChild(external(el("a", null, l.label + " ↗"), l.href)));
-    body.append(meta, el("h3", null, p.title), el("p", null, p.line), facts, tags, links);
+    const foot = el("div", "foot"); foot.append(links, toggle);
+    body.append(meta, el("h3", null, p.title), el("p", null, p.line), facts, more, foot);
     card.append(cnv, body); $("[data-projects]").appendChild(card); watch(card);
     const f = { cnv, g: cnv.getContext("2d"), draw: VIZ[p.viz](), on: false, hover: false, w: 0, h: 0 };
     card.addEventListener("pointerenter", () => (f.hover = true)); card.addEventListener("pointerleave", () => (f.hover = false));
@@ -221,90 +231,82 @@
     $("[data-latest]").hidden = false;
   }).catch(() => {});
 
-  // ---------- Experience ----------
+  // ---------- Experience and education ----------
   P.experience.forEach((x, i) => {
     const li = el("li", "card"); li.style.setProperty("--i", i);
     const top = el("div", "top mono"); top.append(el("span", null, x.dates), el("span", "org", x.org));
     li.append(top, el("h3", null, x.role), el("p", null, x.line));
     $("[data-cv]").appendChild(li); watch(li);
   });
+  (P.education || []).forEach((x) => {
+    const li = el("li"), name = el("div"); name.append(el("strong", null, x.degree), el("div", "mono", x.school));
+    li.append(name, el("span", "mono", x.date)); $("[data-edu]").appendChild(li);
+  });
   P.skills.forEach((s) => $("[data-skills]").appendChild(el("li", null, s)));
   $$("section .head").forEach(watch);
 
-  // ---------- Photographs: prints by the intro, a filtered masonry grid, and a viewer ----------
+  // ---------- Photographs: prints beside the intro, a reel between the work and contact, and a viewer ----------
   const photos = P.photos || [];
   const lb = $("dialog.lightbox"), lbImg = $(".lb-stage img", lb);
-  let view = photos.map((_, i) => i), at = 0;
+  let at = 0, swapT = 0;
   const where = (p) => [p.place, p.date].filter(Boolean).join(" · ");
+  const alt = (p) => p.title + (p.place ? ", " + p.place : "");
   function show(k, dir = 0) {
-    at = (k + view.length) % view.length; const p = photos[view[at]];
-    const set = () => { lbImg.src = p.src; lbImg.alt = p.title + (p.place ? ", " + p.place : ""); lbImg.classList.remove("swap"); };
-    if (dir && !reduce) { lbImg.classList.add("swap"); setTimeout(set, 160); } else set();
+    at = (k + photos.length) % photos.length; const p = photos[at];
+    clearTimeout(swapT);
+    const set = () => { lbImg.src = p.src; lbImg.alt = alt(p); lbImg.classList.remove("swap"); };
+    if (dir && !reduce) { lbImg.classList.add("swap"); swapT = setTimeout(set, 140); } else set();
     $("[data-lb-title]", lb).textContent = p.title; $("[data-lb-where]", lb).textContent = where(p);
-    $("[data-lb-count]", lb).textContent = `${pad(at + 1)} / ${pad(view.length)}`;
-    const hud = $("[data-lb-hud]", lb); hud.replaceChildren(...[P.camera, ...(p.settings || "").split(" · ")].filter(Boolean).map((t) => el("span", null, t)));
-    [view[at + 1], view[at - 1]].forEach((j) => { if (j != null) new Image().src = photos[j].src; }); // warm the neighbours
+    $("[data-lb-count]", lb).textContent = `${pad(at + 1)} / ${pad(photos.length)}`;
+    $("[data-lb-hud]", lb).replaceChildren(...[P.camera, ...(p.settings || "").split(" · ")].filter(Boolean).map((t) => el("span", null, t)));
+    [1, -1].forEach((d) => { new Image().src = photos[(at + d + photos.length) % photos.length].src; }); // warm the neighbours
   }
-  function open(i) { view = photos.map((_, j) => j).filter((j) => !$$(".ph")[j] || !$$(".ph")[j].classList.contains("gone")); if (!view.includes(i)) view = photos.map((_, j) => j); show(view.indexOf(i)); lb.showModal(); }
+  const open = (i) => { show(i); if (!lb.open) lb.showModal(); };
   if (photos.length) {
-    $("#photos").hidden = false; $("[data-photos-link]").hidden = false;
-    const n = (c) => photos.filter((p) => p.place === c).length;
-    const places = [...new Set(photos.map((p) => p.place).filter(Boolean))].sort((a, b) => n(b) - n(a));
-    $("[data-photo-count]").textContent = `${pad(photos.length)} frames`;
-    $("[data-photo-intro]").textContent = [P.camera, `${places.length} cities`, "mostly looking up"].filter(Boolean).join(" · ");
+    const places = new Set(photos.map((p) => p.place).filter(Boolean));
 
-    // Prints beside the intro: the first five, scattered, each drifting a little with the pointer at its own depth
-    const tray = $("[data-prints]"), spots = [["4%", "6%", "-7deg", 0.5], ["40%", "0%", "5deg", 0.9], ["18%", "30%", "-2deg", 0.7], ["44%", "40%", "8deg", 1.1], ["2%", "52%", "4deg", 0.8]];
+    // Prints: the first five, scattered; each drifts a little with the pointer at its own depth
+    const tray = $("[data-prints]"), spots = [["2%", "8%", "-7deg", 0.5], ["48%", "1%", "5deg", 0.9], ["22%", "24%", "-2deg", 0.7], ["50%", "40%", "7deg", 1.1], ["0%", "43%", "4deg", 0.8]];
     const prints = photos.slice(0, 5).map((p, i) => {
-      const b = el("button", "print"); b.type = "button"; b.setAttribute("aria-label", "Open " + p.title);
+      const b = el("button", "print"); b.type = "button"; b.setAttribute("aria-label", "Open photograph: " + alt(p));
       const [x, y, r, d] = spots[i]; b.style.cssText = `--x:${x};--y:${y};--r:${r}`; b.dataset.depth = d;
       const img = el("img"); img.src = p.src; img.alt = ""; img.decoding = "async";
-      b.append(img, el("span", null, [p.title, p.place].filter(Boolean).join(", "))); b.addEventListener("click", () => open(i)); tray.appendChild(b); return b;
+      b.append(img, el("span", null, alt(p))); b.addEventListener("click", () => open(i)); tray.appendChild(b); return b;
     });
     tray.hidden = false;
     if (!reduce && matchMedia("(pointer: fine)").matches) $(".hero").addEventListener("pointermove", (e) => {
       const dx = e.clientX / innerWidth - 0.5, dy = e.clientY / innerHeight - 0.5;
-      prints.forEach((b) => { const d = +b.dataset.depth; b.style.setProperty("--px", (dx * 26 * d).toFixed(1) + "px"); b.style.setProperty("--py", (dy * 20 * d).toFixed(1) + "px"); });
+      prints.forEach((b) => { const d = +b.dataset.depth; b.style.setProperty("--px", (dx * 24 * d).toFixed(1) + "px"); b.style.setProperty("--py", (dy * 18 * d).toFixed(1) + "px"); });
     });
 
-    // The grid. Each frame keeps its own shape (width and height are set, so nothing jumps while it loads),
-    // develops from grey to colour when it arrives on screen, and tilts a touch toward the pointer.
-    const gal = $("[data-gallery]");
-    const dev = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("dev"); dev.unobserve(e.target); } }), { rootMargin: "0px 0px -18% 0px" });
-    photos.forEach((p, i) => {
-      const b = el("button", "ph"); b.type = "button"; b.dataset.place = p.place || ""; b.setAttribute("aria-label", `Open ${p.title}${p.place ? ", " + p.place : ""}`);
-      const img = el("img"); img.src = p.src; img.alt = p.title + (p.place ? ", " + p.place : ""); img.loading = "lazy"; img.decoding = "async"; if (p.w) { img.width = p.w; img.height = p.h; }
-      const cap = el("span", "cap"); cap.append(el("strong", null, p.title), el("small", null, [where(p), p.settings].filter(Boolean).join("  ·  ")));
-      b.append(img, cap); gal.appendChild(b);
-      b.addEventListener("click", () => open(i));
-      if (reduce) b.classList.add("dev"); else dev.observe(b);
-      if (!reduce) {
-        b.addEventListener("pointermove", (e) => { const r = b.getBoundingClientRect(); b.style.setProperty("--tx", (((e.clientX - r.left) / r.width - 0.5) * 6).toFixed(2) + "deg"); b.style.setProperty("--ty", ((0.5 - (e.clientY - r.top) / r.height) * 6).toFixed(2) + "deg"); });
-        b.addEventListener("pointerleave", () => { b.style.removeProperty("--tx"); b.style.removeProperty("--ty"); });
-      }
-    });
+    // Reel: every photograph twice in a row, so sliding by half loops without a seam. The copy is hidden from
+    // screen readers and the keyboard. Hovering or focusing pauses it.
+    const reel = $("[data-reel]"), track = $("[data-track]");
+    $("[data-reel-label]").textContent = ["Off the clock", P.camera].filter(Boolean).join(" · ");
+    $("[data-reel-count]").textContent = `${photos.length} photographs · ${places.size} cities`;
+    [0, 1].forEach((copy) => photos.forEach((p, i) => {
+      const b = el("button", "frame"); b.type = "button";
+      const img = el("img"); img.src = p.src; img.alt = alt(p); img.loading = "lazy"; img.decoding = "async"; if (p.w) { img.width = p.w; img.height = p.h; }
+      const cap = el("span", "cap"); cap.append(el("strong", null, p.title), el("small", null, where(p)));
+      b.append(img, cap); b.addEventListener("click", () => open(i));
+      if (copy) { b.tabIndex = -1; b.setAttribute("aria-hidden", "true"); } else b.setAttribute("aria-label", "Open photograph: " + alt(p));
+      track.appendChild(b);
+    }));
+    reel.hidden = false;
+    const pace = () => track.style.setProperty("--dur", Math.max(40, track.scrollWidth / 2 / 40).toFixed(0) + "s"); // about 40 px a second
+    pace(); addEventListener("load", pace); addEventListener("resize", pace);
 
-    // Filters by place; the grid re-flows with a view transition where the browser has them
-    const chips = $("[data-chips]");
-    [["All", ""], ...places.map((c) => [c, c])].forEach(([label, val], k) => {
-      const c = el("button", "chip", label); c.type = "button"; c.setAttribute("aria-pressed", String(k === 0));
-      c.appendChild(el("b", null, String(val ? n(val) : photos.length)));
-      c.addEventListener("click", () => {
-        const apply = () => { $$(".chip", chips).forEach((x) => x.setAttribute("aria-pressed", String(x === c))); $$(".ph", gal).forEach((x) => x.classList.toggle("gone", !!val && x.dataset.place !== val)); };
-        if (document.startViewTransition && !reduce) document.startViewTransition(apply); else apply();
-      });
-      chips.appendChild(c);
-    });
-
-    // Viewer: arrows, keys, swipe; the modal dialog keeps focus inside and Escape closes it
+    // Viewer: arrows, keys and swipe; the modal dialog keeps focus inside, Escape closes it
     $("[data-close]", lb).addEventListener("click", () => lb.close());
     $("[data-prev]", lb).addEventListener("click", () => show(at - 1, -1));
     $("[data-next]", lb).addEventListener("click", () => show(at + 1, 1));
-    lb.addEventListener("keydown", (e) => { if (e.key === "ArrowRight") show(at + 1, 1); if (e.key === "ArrowLeft") show(at - 1, -1); });
+    lb.addEventListener("keydown", (e) => { if (e.key === "ArrowRight") { e.preventDefault(); show(at + 1, 1); } if (e.key === "ArrowLeft") { e.preventDefault(); show(at - 1, -1); } });
     lb.addEventListener("click", (e) => { if (e.target === lb || e.target.classList.contains("lb-stage")) lb.close(); });
     let sx = null;
-    $(".lb-stage", lb).addEventListener("pointerdown", (e) => (sx = e.clientX));
-    $(".lb-stage", lb).addEventListener("pointerup", (e) => { if (sx == null) return; const d = e.clientX - sx; sx = null; if (Math.abs(d) > 50) show(at + (d < 0 ? 1 : -1), d < 0 ? 1 : -1); });
+    const stage = $(".lb-stage", lb);
+    stage.addEventListener("pointerdown", (e) => (sx = e.clientX));
+    stage.addEventListener("pointercancel", () => (sx = null));
+    stage.addEventListener("pointerup", (e) => { if (sx == null) return; const d = e.clientX - sx; sx = null; if (Math.abs(d) > 50) show(at + (d < 0 ? 1 : -1), d < 0 ? 1 : -1); });
   }
 
   // ---------- Scroll: progress, nav, header ----------
