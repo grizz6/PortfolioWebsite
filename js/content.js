@@ -71,7 +71,7 @@ window.PORTFOLIO = {
       more: "The model clicks through the app to work out the task. The run is saved as a typed capability that replays without the model and hands over to a person when it gets stuck.",
       facts: ["learn once, replay free", "human handoff"],
       tags: ["Playwright", "Pydantic", "Gemini"],
-      links: [{ label: "Code", href: "https://github.com/grizz6/interface-ai-takehome" }],
+      links: [], // the repository is private, so no public link
     },
     {
       title: "Python notebooks", year: "2025", viz: "heat",
