@@ -115,7 +115,6 @@ window.PORTFOLIO = {
     { src: "photos/skyline-rooftops.jpg", title: "Skyline over the rooftops", place: "New York", date: "Oct 2026", settings: "24mm · ƒ/1.8 · 1/1172 · ISO 64", w: 360, h: 480 },
     { src: "photos/snow-at-night.jpg", title: "Snow, downtown at night", place: "Chicago", date: "Feb 2026", settings: "24mm · ƒ/1.8 · 1/40 · ISO 250", w: 310, h: 552 },
     { src: "photos/tower-in-fog.jpg", title: "Tower in the fog", place: "Chicago", date: "Feb 2026", settings: "24mm · ƒ/1.8 · 1/30 · ISO 640", w: 310, h: 552 },
-    { src: "photos/salmon-citrus-greens.jpg", title: "Salmon, citrus, greens", place: "Boston", date: "Oct 2026", settings: "24mm · ƒ/1.8 · 1/40 · ISO 640", w: 360, h: 480 },
   ],
 
   skills: ["SQL", "Python", "R", "pandas", "PostgreSQL", "FastAPI", "React", "Power BI"],
