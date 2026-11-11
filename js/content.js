@@ -6,7 +6,7 @@
 window.PORTFOLIO = {
   name: "Grishma Gajurel",
   title: "Data analyst · Software engineer · Photographer",
-  headline: "I build pipelines, APIs and ML services in Python and SQL, and turn messy data into sound decisions.",
+  headline: "I turn messy data into sound decisions.",
   email: "gajurel.grizma@gmail.com",
   github: "https://github.com/grizz6",
   social: [
@@ -83,9 +83,16 @@ window.PORTFOLIO = {
     },
   ],
 
+  // A few lines in my own voice, shown after the intro. *word* marks the words set in the accent colour.
+  about: [
+    "Hi, I'm Grishma. I make messy data something you can *act on*.",
+    "Off the clock I photograph cities, mostly *looking up*.",
+    "Also: hiking, pixel art, mental health, and building my own things.",
+  ],
+
   experience: [
-    { dates: "Feb 2024 – Dec 2025", role: "Research Assistant, Natural Sciences and Mathematics", org: "Webster University", line: "Consolidated 10,000+ records from 7 partner institutions into one dataset for a USDA-funded study of 15 orchards, and fixed a survivorship bias that inflated behaviour rates." },
-    { dates: "Feb 2021 – Jun 2023", role: "Software Engineer", org: "Aaran Tech", line: "Cut hourly SQL and PySpark jobs from 80 to 42 minutes, integrated eSewa and Khalti payments for 1,000+ orders a month, and shipped ML models behind FastAPI at 80%+ accuracy." },
+    { dates: "Feb 2024 – Dec 2025", role: "Research Assistant, Natural Sciences and Mathematics", org: "Webster University", line: "Merged 10,000+ records from 7 institutions for a USDA study of 15 orchards, and fixed a bias that inflated the results." },
+    { dates: "Feb 2021 – Jun 2023", role: "Software Engineer", org: "Aaran Tech", line: "Cut hourly data jobs from 80 to 42 minutes and wired eSewa and Khalti payments for 1,000+ orders a month." },
   ],
   education: [
     { degree: "M.S. Data Analytics", school: "Webster University", date: "May 2026" },
@@ -111,5 +118,5 @@ window.PORTFOLIO = {
     { src: "photos/salmon-citrus-greens.jpg", title: "Salmon, citrus, greens", place: "Boston", date: "Oct 2026", settings: "24mm · ƒ/1.8 · 1/40 · ISO 640", w: 360, h: 480 },
   ],
 
-  skills: ["SQL", "Python", "R", "pandas", "scikit-learn", "statsmodels", "dbt", "BigQuery", "PostgreSQL", "pgvector", "Tableau", "Power BI", "FastAPI", "React", "Playwright", "GitHub Actions"],
+  skills: ["SQL", "Python", "R", "pandas", "PostgreSQL", "FastAPI", "React", "Power BI"],
 };
