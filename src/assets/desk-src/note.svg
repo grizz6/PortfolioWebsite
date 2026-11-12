@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 154 154" width="154" height="154">
+  <defs><linearGradient id="nt-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6D65A"/><stop offset=".22" stop-color="#FFE36E"/><stop offset="1" stop-color="#FFE97F"/></linearGradient></defs>
+  <rect width="154" height="154" fill="url(#nt-g)"/>
+  <text x="77" y="88" text-anchor="middle" transform="rotate(-5 77 80)" font-family="Permanent Marker, cursive" font-size="32" fill="#16150F">ship it.</text>
+</svg>

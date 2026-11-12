@@ -1,0 +1,388 @@
+---
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+import { site } from "../data/site";
+
+const projects = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
+const tilt = [-2.2, 1.6, -1.1, 2];
+const host = (u: string) => new URL(u).host.replace(/^www\./, "") + new URL(u).pathname.replace(/\/$/, "");
+---
+
+<section class="work" id="work" aria-labelledby="work-title">
+  <h2 id="work-title">Things I've built</h2>
+
+  <ul class="cards">
+    {
+      projects.map(({ data: p }, i) => {
+        const href = p.live ?? p.repo;
+        return (
+          <li class="card-in" data-card style={`--tilt:${tilt[i % tilt.length]}deg`}>
+            <article class="card">
+              <div class="frame">
+                <div class="bar" aria-hidden="true">
+                  <i />
+                  <i />
+                  <i />
+                  <span>{host(href)}</span>
+                </div>
+                <div class="media">
+                  {p.recording ? (
+                    <video
+                      src={p.recording}
+                      poster={p.poster?.src}
+                      muted
+                      loop
+                      playsinline
+                      preload="none"
+                      aria-label={`Screen recording of ${p.title}`}
+                      data-autoplay
+                    />
+                  ) : p.poster ? (
+                    <Image src={p.poster} alt={`Screenshot of ${p.title}`} widths={[480, 800, 1200]} sizes="(max-width: 760px) 90vw, 30vw" />
+                  ) : (
+                    <div class={`stand-in stand-in--${p.placeholder}`} aria-hidden="true" data-standin>
+                      {p.placeholder === "cite" && (
+                        <svg viewBox="0 0 320 200">
+                          <rect x="20" y="18" width="200" height="22" rx="11" class="soft" />
+                          <rect x="34" y="27" width="120" height="4" rx="2" class="ink" />
+                          <rect x="232" y="18" width="68" height="22" rx="11" class="ink" />
+                          {[60, 76, 92, 108, 124, 140, 156, 172].map((y, k) => (
+                            <rect x="20" y={y} width={[280, 250, 270, 230, 276, 240, 262, 180][k]} height="6" rx="3" class="line" />
+                          ))}
+                          <rect x="18" y="104" width="236" height="14" rx="3" class="hl" />
+                          <path d="M262 102 q8 0 8 9 q0 9 -8 9" class="mark" />
+                          <text x="276" y="116" class="tiny">[1]</text>
+                        </svg>
+                      )}
+                      {p.placeholder === "chart" && (
+                        <svg viewBox="0 0 320 200">
+                          {[0, 1, 2, 3, 4, 5].map((r) =>
+                            [0, 1, 2].map((c) => (
+                              <rect x={20 + c * 38} y={24 + r * 26} width="32" height="18" rx="3" class={r ? "line" : "ink"} />
+                            )),
+                          )}
+                          <path d="M140 100 h24 m-8 -8 l8 8 l-8 8" class="mark" />
+                          <line x1="184" y1="176" x2="304" y2="176" class="axis" />
+                          {[70, 110, 48, 132, 92].map((h, k) => (
+                            <rect x={192 + k * 22} y={176 - h} width="14" height={h} class="bar-g" style={`--d:${k * 0.12}s`} />
+                          ))}
+                        </svg>
+                      )}
+                      {p.placeholder === "scatter" && (
+                        <svg viewBox="0 0 320 200">
+                          <line x1="160" y1="20" x2="160" y2="180" class="axis" />
+                          {[
+                            [40, 140], [58, 120], [66, 132], [78, 100], [84, 112], [96, 84], [102, 96], [112, 70], [120, 80], [130, 58], [72, 150], [108, 60],
+                          ].map(([x, y], k) => (
+                            <>
+                              <circle cx={x} cy={y} r="5" class="dot" />
+                              <circle cx={x + 160 + ((k * 7) % 9) - 4} cy={y + ((k * 5) % 11) - 5} r="5" class="dot dot-new" style={`--d:${k * 0.14}s`} />
+                            </>
+                          ))}
+                        </svg>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+              <span class="note marker" aria-hidden="true">
+                {p.note}
+              </span>
+              <h3>
+                <a href={href} target="_blank" rel="noopener">
+                  {p.title}
+                  <span class="sr-only"> (opens in a new tab)</span>
+                </a>
+              </h3>
+              <p>{p.line}</p>
+            </article>
+          </li>
+        );
+      })
+    }
+  </ul>
+
+  <a class="more marker" href={site.github} target="_blank" rel="noopener">
+    more on my GitHub
+    <svg viewBox="0 0 90 40" fill="none" aria-hidden="true">
+      <path filter="url(#wobble)" d="M4 30 C 26 34, 50 30, 80 12 M66 8 L82 11 L76 26" />
+    </svg>
+  </a>
+</section>
+
+<style>
+  .work {
+    padding: clamp(4rem, 10vh, 7rem) var(--gutter) clamp(5rem, 12vh, 8rem);
+    overflow-x: clip;
+  }
+  h2 {
+    max-width: 82rem;
+    margin: 0 auto clamp(2.5rem, 6vh, 4rem);
+    font: 400 clamp(2.6rem, 6vw, 5.5rem) / 1 var(--serif);
+    letter-spacing: -0.01em;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.5rem, 3vw, 3rem);
+    max-width: 82rem;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+  }
+  /* staggered heights */
+  .card-in:nth-child(2) {
+    margin-top: clamp(2rem, 6vw, 5rem);
+  }
+  .card-in:nth-child(3) {
+    margin-top: clamp(0.75rem, 2vw, 1.75rem);
+  }
+  .card {
+    position: relative;
+    padding: 0.85rem 0.85rem 1.25rem;
+    background: #fbfaf7;
+    box-shadow:
+      0 2px 3px rgb(22 21 15 / 0.08),
+      0 18px 32px -12px rgb(22 21 15 / 0.22);
+    transform: rotate(var(--tilt));
+    transition:
+      transform 0.35s cubic-bezier(0.3, 0.7, 0.4, 1),
+      box-shadow 0.35s;
+  }
+  .card:hover,
+  .card:focus-within {
+    transform: translateY(-6px) rotate(0deg);
+    box-shadow:
+      0 4px 6px rgb(22 21 15 / 0.08),
+      0 28px 44px -14px rgb(22 21 15 / 0.28);
+  }
+  .frame {
+    overflow: hidden;
+    border: 1px solid #d9d4c8;
+    border-radius: 8px;
+    background: #fff;
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.45rem 0.6rem;
+    border-bottom: 1px solid #e4e0d6;
+    background: #f3f1ec;
+    font-size: 0.7rem;
+    color: var(--ink-2);
+  }
+  .bar i {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: #d3cec2;
+  }
+  .bar span {
+    margin-left: 0.5rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .media {
+    aspect-ratio: 16 / 10;
+    background: #f7f6f2;
+  }
+  .media :global(img),
+  .media video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .note {
+    position: absolute;
+    top: -0.9rem;
+    right: -0.6rem;
+    padding: 0.35rem 0.65rem 0.3rem;
+    background: var(--note);
+    font-size: clamp(0.85rem, 1vw, 1rem);
+    line-height: 1.1;
+    transform: rotate(5deg);
+    box-shadow: 0 2px 3px rgb(22 21 15 / 0.12), 0 8px 14px -6px rgb(22 21 15 / 0.2);
+  }
+  .card-in:nth-child(2) .note {
+    right: auto;
+    left: -0.6rem;
+    transform: rotate(-6deg);
+  }
+  h3 {
+    margin: 1.1rem 0.2rem 0.3rem;
+    font: 400 clamp(1.6rem, 2.2vw, 2.1rem) / 1.05 var(--serif);
+  }
+  h3 a {
+    text-decoration: none;
+  }
+  h3 a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+  .card:focus-within {
+    outline: 3px solid var(--ink);
+    outline-offset: 4px;
+  }
+  h3 a:focus-visible {
+    outline: none;
+  }
+  .card p {
+    margin: 0 0.2rem;
+    color: var(--ink-2);
+    font-size: 0.98rem;
+    line-height: 1.45;
+  }
+
+  /* Stand-ins until the screen recordings arrive */
+  .stand-in,
+  .stand-in svg {
+    width: 100%;
+    height: 100%;
+  }
+  .stand-in .ink {
+    fill: var(--ink);
+  }
+  .stand-in .soft {
+    fill: #ece9e1;
+  }
+  .stand-in .line {
+    fill: #e2ded4;
+  }
+  .stand-in .axis {
+    stroke: #c9c4b7;
+    stroke-width: 2;
+  }
+  .stand-in .mark {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .stand-in .tiny {
+    font: 700 13px var(--sans);
+    fill: var(--ink);
+  }
+  .stand-in .hl {
+    fill: var(--note);
+    opacity: 0.85;
+    transform-origin: 18px 0;
+    animation: sweep 3.2s ease-in-out infinite;
+  }
+  .stand-in .bar-g {
+    fill: var(--ink);
+    transform-box: fill-box;
+    transform-origin: bottom;
+    animation: grow 3.2s cubic-bezier(0.3, 0.7, 0.4, 1) var(--d) infinite;
+  }
+  .stand-in .dot {
+    fill: #bdb7a9;
+  }
+  .stand-in .dot-new {
+    fill: var(--ink);
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: pop 3.6s ease-out var(--d) infinite;
+  }
+  .stand-in :is(.hl, .bar-g, .dot-new) {
+    animation-play-state: paused;
+  }
+  .stand-in.playing :is(.hl, .bar-g, .dot-new) {
+    animation-play-state: running;
+  }
+  @keyframes sweep {
+    0% { transform: scaleX(0); }
+    45%, 85% { transform: scaleX(1); }
+    100% { transform: scaleX(1); opacity: 0; }
+  }
+  @keyframes grow {
+    0% { transform: scaleY(0); }
+    40%, 85% { transform: scaleY(1); }
+    100% { transform: scaleY(1); opacity: 0; }
+  }
+  @keyframes pop {
+    0%, 8% { transform: scale(0); }
+    20%, 85% { transform: scale(1); }
+    100% { transform: scale(1); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .stand-in :is(.hl, .bar-g, .dot-new) {
+      animation: none;
+    }
+    .card,
+    .card:hover {
+      transition: none;
+    }
+  }
+
+  .more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    width: fit-content;
+    margin: clamp(3.5rem, 8vh, 5rem) auto 0;
+    font-size: clamp(1.4rem, 2.4vw, 2rem);
+    text-decoration: none;
+  }
+  .more svg {
+    width: 4.2rem;
+    stroke: var(--ink);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    overflow: visible;
+    transition: translate 0.25s;
+  }
+  .more:hover svg {
+    translate: 6px 0;
+  }
+
+  @media (max-width: 760px) {
+    .cards {
+      grid-template-columns: minmax(0, 1fr);
+      max-width: 30rem;
+      gap: 3rem;
+    }
+    .card-in:nth-child(n) {
+      margin-top: 0;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // cards rise and fade in, one after another
+  if (!reduce) {
+    gsap.from("[data-card]", {
+      y: 70,
+      opacity: 0,
+      duration: 0.9,
+      ease: "power3.out",
+      stagger: 0.14,
+      scrollTrigger: { trigger: ".cards", start: "top 82%", once: true },
+    });
+  }
+
+  // recordings and stand-ins only run while they are on screen
+  const io = new IntersectionObserver(
+    (entries) =>
+      entries.forEach(({ target, isIntersecting }) => {
+        if (target instanceof HTMLVideoElement) {
+          if (isIntersecting && !reduce) target.play().catch(() => {});
+          else target.pause();
+        } else target.classList.toggle("playing", isIntersecting);
+      }),
+    { threshold: 0.35 },
+  );
+  document.querySelectorAll("[data-autoplay], [data-standin]").forEach((el) => io.observe(el));
+</script>

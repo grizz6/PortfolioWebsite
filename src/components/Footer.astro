@@ -1,0 +1,112 @@
+---
+import type { ImageMetadata } from "astro";
+const year = new Date().getFullYear();
+
+// Your own drawing wins: put crew.png / crew.webp / crew.svg in src/assets/doodles and it walks across instead.
+const own = Object.values(
+  import.meta.glob<{ default: ImageMetadata }>("../assets/doodles/crew.{png,webp,svg}", { eager: true }),
+)[0]?.default;
+
+// A chubby little sailboat bobbing across, with a gull riding on the mast.
+// Every stroke is drawn twice, the second a hair off the first, like quick pencil work.
+const ship = [
+  { d: "M36 112 H204 Q206 150 170 152 H70 Q34 150 36 112 Z", fill: "#E2DDD1" },
+  { d: "M40 124 Q120 130 200 124" },
+  { d: "M80 136 a6 6 0 1 0 0.1 0 M120 137 a6 6 0 1 0 0.1 0 M160 136 a6 6 0 1 0 0.1 0", fill: "#FBFAF7" },
+  { d: "M118 112 V30" },
+  { d: "M122 34 Q178 52 178 104 H122 Z", fill: "#FBFAF7" },
+  { d: "M114 46 Q76 70 78 104 H114 Z", fill: "#FFE36E" },
+  { d: "M118 30 L140 22 L118 16 Z", fill: "#3B3A33" },
+  { d: "M108 16 q5 -6 10 0 q5 -6 10 0" },
+];
+const waves = "M0 156 q16 -8 32 0 t32 0 t32 0 t32 0 t32 0 t32 0 t32 0 t32 0 t24 0";
+const puffs = "M20 100 a4 4 0 1 0 0.1 0 M10 88 a3 3 0 1 0 0.1 0 M214 96 a3 3 0 1 0 0.1 0";
+---
+
+<footer class="site-footer">
+  <div class="sky" aria-hidden="true">
+    {own ? <img class="crew" src={own.src} width={own.width} height={own.height} alt="" /> : <svg class="crew" viewBox="0 0 280 164" fill="none">
+      <g filter="url(#wobble)" stroke="#16150F" stroke-linecap="round" stroke-linejoin="round">
+        <path d={waves} stroke-width="1.8" stroke-dasharray="1 7" />
+        <g class="bob">
+          {[0, 1].map((n) => (
+            <g stroke-width={n ? 1 : 2} opacity={n ? 0.45 : 1} transform={n ? "translate(0.9 0.6)" : undefined}>
+              {ship.map((part) => (
+                <path d={part.d} fill={!n && part.fill ? part.fill : "none"} />
+              ))}
+            </g>
+          ))}
+          <path d={puffs} stroke-width="1.4" />
+        </g>
+      </g>
+    </svg>}
+  </div>
+  <div class="row">
+    <p>Grishma Gajurel, {year}</p>
+    <a href="#top">Back to the desk</a>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding: 0 var(--gutter) 2rem;
+    overflow: clip;
+  }
+  .sky {
+    height: clamp(7rem, 11vw, 10rem);
+    position: relative;
+  }
+  .crew {
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    width: clamp(10rem, 16vw, 14rem);
+    animation: drift 30s linear infinite;
+  }
+  /* the ship rocks gently on the waves */
+  .bob {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: bob 2.4s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%, 100% { transform: rotate(-2deg) translateY(0); }
+    50% { transform: rotate(2deg) translateY(-2px); }
+  }
+  @keyframes drift {
+    from {
+      transform: translateX(-110%);
+    }
+    to {
+      transform: translateX(calc(100vw + 10%));
+    }
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    max-width: 82rem;
+    margin: 0 auto;
+    padding-top: 1.2rem;
+    border-top: 1px solid #d3cec2;
+    font-size: 0.95rem;
+  }
+  p {
+    margin: 0;
+    color: var(--ink-2);
+  }
+  a {
+    text-underline-offset: 0.2em;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bob {
+      animation: none;
+    }
+    .crew {
+      animation: none;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+</style>

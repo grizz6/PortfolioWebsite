@@ -1,0 +1,280 @@
+---
+import { site } from "../data/site";
+
+// Each group only lists tools my repositories or coursework actually use.
+const skills = [
+  { group: "Data", icon: "M8 40 h34 M12 40 v-12 M20 40 v-20 M28 40 v-8 M36 40 v-26", items: ["Python", "SQL", "R", "pandas", "Power BI", "Tableau"] },
+  {
+    group: "ML and AI",
+    icon: "M12 12 L24 24 L36 12 M12 36 L24 24 L36 36 M12 12 V36 M36 12 V36 M12 9 a3 3 0 1 0 0.01 0 M36 9 a3 3 0 1 0 0.01 0 M12 33 a3 3 0 1 0 0.01 0 M36 33 a3 3 0 1 0 0.01 0 M24 20 a4 4 0 1 0 0.01 0",
+    items: ["scikit-learn", "XGBoost", "glmnet", "mixed models", "RAG with pgvector", "LLM apps", "MLflow"] },
+  { group: "Software", icon: "M16 14 L6 24 L16 34 M32 14 L42 24 L32 34 M27 10 L21 38", items: ["FastAPI", "React", "TypeScript", "PostgreSQL", "Docker", "pytest", "CI"] },
+];
+
+const hobbies = [
+  { label: "hiking", d: "M4 40 L18 15 L26 27 L32 19 L44 40 Z M14 22 l4 3 l3 -4" },
+  { label: "gym", d: "M11 15 v18 M6 19 v10 M37 15 v18 M42 19 v10 M11 24 h26" },
+  { label: "running", d: "M5 35 q0 -7 7 -8 l8 -2 l5 -9 q5 1 6 6 l9 3 q7 2 7 9 v2 H5 Z M5 37 h39 M22 22 l3 2 M24 19 l3 2" },
+  { label: "photos", d: "M5 15 h9 l3 -5 h14 l3 5 h9 v24 H5 Z M24 19 a8 8 0 1 0 0.01 0 M37 20 h2" },
+  { label: "music", d: "M8 30 v-6 a16 16 0 0 1 32 0 v6 M5 29 h7 v11 h-7 Z M36 29 h7 v11 h-7 Z" },
+];
+
+const icons = {
+  github:
+    '<path d="M7 15.5c-3 1-3-1.5-4.5-2m9 4v-2.6a2.3 2.3 0 0 0-.6-1.7c2.1-.3 4.3-1 4.3-4.6a3.6 3.6 0 0 0-1-2.5 3.3 3.3 0 0 0-.1-2.5s-.8-.3-2.6 1a9 9 0 0 0-4.7 0C5 3.4 4.2 3.7 4.2 3.7a3.3 3.3 0 0 0 0 2.5 3.6 3.6 0 0 0-1 2.5c0 3.6 2.2 4.3 4.3 4.6a2.3 2.3 0 0 0-.6 1.7v2.6"/>',
+  linkedin: '<rect x="2.5" y="2.5" width="15" height="15" rx="2.5"/><path d="M6.5 9v4.5M6.5 6.5v.01M9.5 13.5V9m0 2.2c0-1.3 1-2.2 2.1-2.2s1.9.8 1.9 2.2v2.3"/>',
+  instagram: '<rect x="2.5" y="2.5" width="15" height="15" rx="4.5"/><circle cx="10" cy="10" r="3.3"/><path d="M14.4 5.6v.01"/>',
+};
+const socials = [
+  { label: "GitHub", href: site.github, icon: icons.github },
+  { label: "LinkedIn", href: site.linkedin, icon: icons.linkedin },
+  { label: "Instagram", href: site.instagram, icon: icons.instagram },
+].filter((s) => s.href);
+---
+
+<section class="row about" id="about" aria-labelledby="about-title">
+  <h2 class="marker label" id="about-title">about me</h2>
+  <p class="big">
+    When I'm not at my laptop, I'm usually out on a <em>hike</em>, at the <em>gym</em>, on a <em>run</em>, or taking <em>photos</em>.
+    There's always music playing.
+  </p>
+  <ul class="hobbies">
+    {
+      hobbies.map((h) => (
+        <li>
+          <svg viewBox="0 0 48 48" aria-hidden="true">
+            <path filter="url(#wobble)" d={h.d} />
+          </svg>
+          <span class="marker">{h.label}</span>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<section class="row kit" aria-labelledby="kit-title">
+  <h2 class="marker label" id="kit-title">what I reach for</h2>
+  <ul class="cards">
+    {
+      skills.map((s, i) => (
+        <li class="card" style={`--tilt:${[-2, 1.5, -1][i]}deg`}>
+          <span class="tape" aria-hidden="true" />
+          <h3>
+            <svg viewBox="0 0 48 48" aria-hidden="true">
+              <path filter="url(#wobble)" d={s.icon} />
+            </svg>
+            <span class="marker">{s.group}</span>
+          </h3>
+          <ul class="ticks">
+            {s.items.map((it) => (
+              <li>{it}</li>
+            ))}
+          </ul>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<section class="row contact" id="contact" aria-labelledby="contact-title">
+  <h2 class="marker talk" id="contact-title">let's talk.</h2>
+  <a class="email" href={`mailto:${site.email}`}>{site.email}</a>
+  <ul class="links">
+    {
+      socials.map((s) => (
+        <li>
+          <a class="pill" href={s.href} target="_blank" rel="noopener">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={s.icon} />
+            {s.label}
+            <span class="sr-only"> (opens in a new tab)</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .row {
+    max-width: 82rem;
+    margin: 0 auto;
+    padding: clamp(3.5rem, 9vh, 6rem) var(--gutter);
+  }
+  .row + .row {
+    border-top: 1px dashed #c9c4b7;
+  }
+  h2 {
+    margin: 0;
+    font-weight: 400;
+    line-height: 1;
+  }
+  .label {
+    font-size: clamp(2rem, 3.6vw, 3rem);
+  }
+
+  /* About */
+  .about {
+    padding-top: clamp(5rem, 12vh, 8rem);
+  }
+  .big {
+    max-width: 24em;
+    margin: 1.4rem 0 0;
+    font: 400 clamp(1.8rem, 3.4vw, 3.1rem) / 1.12 var(--serif);
+    letter-spacing: -0.005em;
+  }
+  .hobbies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem 1.8rem;
+    margin: 2.2rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .hobbies li {
+    display: grid;
+    justify-items: center;
+    gap: 0.35rem;
+  }
+  .hobbies svg {
+    width: 3.2rem;
+    height: 3.2rem;
+    overflow: visible;
+  }
+  .hobbies path {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .hobbies span {
+    font-size: 1rem;
+  }
+
+  /* Skills: three index cards, each with a doodle and a ticked list */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.5rem, 3vw, 2.8rem);
+    margin: 2.4rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .card {
+    position: relative;
+    padding: 1.6rem 1.4rem 1.5rem;
+    background: #fbfaf7;
+    box-shadow:
+      0 2px 3px rgb(22 21 15 / 0.08),
+      0 16px 28px -14px rgb(22 21 15 / 0.24);
+    transform: rotate(var(--tilt));
+  }
+  .tape {
+    position: absolute;
+    top: -0.7rem;
+    left: 50%;
+    width: 4.5rem;
+    height: 1.4rem;
+    background: rgb(255 227 110 / 0.75);
+    transform: translateX(-50%) rotate(-3deg);
+  }
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0 0 0.9rem;
+    font-weight: 400;
+    font-size: clamp(1.3rem, 1.8vw, 1.6rem);
+    line-height: 1;
+  }
+  h3 svg {
+    width: 2.6rem;
+    height: 2.6rem;
+    flex: none;
+    overflow: visible;
+  }
+  h3 path {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .ticks {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .ticks li {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 1.85rem;
+    font-size: 1rem;
+  }
+  .ticks li::before {
+    content: "";
+    width: 1rem;
+    height: 1rem;
+    flex: none;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2 9 L6 13 L14 3' fill='none' stroke='%2316150F' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+
+  /* Contact */
+  .contact {
+    display: grid;
+    justify-items: start;
+    gap: 1.4rem;
+    padding-bottom: clamp(4rem, 10vh, 6rem);
+  }
+  .talk {
+    font-size: clamp(3.6rem, 11vw, 10rem);
+    line-height: 0.95;
+  }
+  .email {
+    font: italic 400 clamp(1.6rem, 3.4vw, 2.8rem) / 1.2 var(--serif);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+    background: linear-gradient(var(--ink), var(--ink)) left bottom / 0% 2px no-repeat;
+    padding-bottom: 0.1em;
+    transition: background-size 0.45s cubic-bezier(0.3, 0.7, 0.4, 1);
+  }
+  .email:hover,
+  .email:focus-visible {
+    background-size: 100% 2px;
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (max-width: 860px) {
+    .cards {
+      grid-template-columns: minmax(0, 1fr);
+      max-width: 26rem;
+    }
+  }
+  @media (max-width: 480px) {
+    .hobbies {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0.5rem;
+    }
+    .hobbies svg {
+      width: 2.6rem;
+      height: 2.6rem;
+    }
+    .hobbies span {
+      font-size: 0.8rem;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .email {
+      transition: none;
+    }
+  }
+</style>

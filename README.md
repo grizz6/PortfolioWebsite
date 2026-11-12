@@ -1,39 +1,77 @@
-# Grishma Gajurel: Portfolio
+# grishmagajurel.com
 
-## The goal
+My portfolio: one page that is my desk seen from above. Built with Astro, plain CSS, vanilla
+JavaScript and GSAP, and published to GitHub Pages at
+[www.grishmagajurel.com](https://www.grishmagajurel.com/).
 
-One place for my ecology research, data analytics, and machine learning work, with the
-reports and code behind each project a click away. I wanted it hand-built, fast, and easy to
-keep current without a framework or a build step.
+## Run it locally
 
-## What I achieved
-
-- **A live site** at [www.grishmagajurel.com](https://www.grishmagajurel.com/), featuring
-  eight projects from Python libraries and AI tools to urban bee research and analytics
-  coursework, each linking to its repository or downloadable report.
-- **No framework, build step, or backend.** It's plain HTML, CSS, and JavaScript, served
-  as-is by GitHub Pages; the one library, Three.js, loads from a CDN.
-- **Content kept as data.** Every piece of text, project, and link lives in `js/content.js`,
-  so adding a project means adding one object.
-- **Photography in 3D.** The intro flies through my photographs in a WebGL scene; they
-  ripple under the cursor and bend with scroll speed, and each opens full screen.
-- **Old links still work.** Earlier page URLs redirect to the matching section, and the 404
-  page does the same for any other old path.
-- **Respects reduced motion.** Visitors who set `prefers-reduced-motion`, or whose browser
-  lacks WebGL, get still photos instead of the 3D scene.
-
-## How it works
-
-```
-index.html        layout, styles, the page script, and the 3D photo scene (Three.js)
-js/content.js     all text, projects, photos, and links
-files/            reports, posters, and slides linked from projects
-photos/           photographs for the 3D intro (see photos/README.md)
+```sh
+npm install
+npm run dev      # http://localhost:4321
+npm run build    # the finished site goes to dist/
 ```
 
-To preview locally, run `python3 -m http.server` in the repository and visit
-http://localhost:8000.
+Every push to `main` builds and publishes the site through `.github/workflows/deploy.yml`.
 
-## License
+## Add photos
 
-MIT. See [`LICENSE`](LICENSE).
+Drop images (JPEG, PNG, WebP or AVIF) into `src/assets/photos/` and push. They show up in
+"through my lens" in file-name order, so start names with `01-`, `02-` to set the order.
+About 2000 px on the long side is plenty; the site makes the smaller sizes itself.
+
+Captions and alt text are optional. Either add a `.txt` file with the same name (first line is
+the caption, second line the alt text), or an entry in `src/assets/photos/photos.json`:
+
+```json
+"gateway-arch.jpg": { "alt": "The Gateway Arch seen from below", "caption": "Gateway Arch, St. Louis" }
+```
+
+## Add or reorder projects
+
+Each card in "Things I've built" is one file in `src/content/projects/`:
+
+```md
+---
+title: Filings Q&A
+line: One sentence about it.
+order: 1
+repo: https://github.com/grizz6/filings-qa
+live: https://filings.streamlit.app
+note: try it
+recording: /projects/filings-qa.mp4
+poster: ../../assets/projects/filings-qa.png
+---
+```
+
+- `order` sets the position (lowest first). `live` and `note` are optional.
+- `recording` is a muted, looping screen recording placed in `public/projects/`.
+- `poster` is a still image in `src/assets/projects/`. It shows before the video plays, or on its own
+  if there is no recording.
+- With neither, the card shows a small animated stand-in.
+
+To add a project, copy a file and change it. To remove one, delete its file.
+
+## Swap a desk object for a real photo
+
+Each object on the desk is `src/assets/desk/<name>.webp` (laptop, book, glasses, phone,
+airpods, note, pizza, watch, card, marker, tea, bottle).
+
+1. Photograph the item from directly above and remove the background, so you have a PNG with
+   transparency.
+2. Save it as `src/assets/desk-src/<name>.png`, for example `laptop.png`.
+3. Run `npm run cutouts -- laptop`. It adds the torn white paper edge and writes
+   `src/assets/desk/laptop.webp`. (The first time, run `npx playwright install chromium`.)
+4. Commit both files and push.
+
+Sizes, positions, labels and which objects hide on phones live in `src/data/desk.ts`. If you
+replace the watch, adjust `watchFace` there so the live time sits on its screen.
+
+## Use your own doodles
+
+Put `crew.png` (the footer) or `scroll.png` (the scroll hint on the desk) in
+`src/assets/doodles/` and they replace the built-in drawings. Transparent backgrounds work best.
+
+## Links and contact details
+
+Email, GitHub, LinkedIn and Instagram are set in `src/data/site.ts`.

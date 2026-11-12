@@ -1,0 +1,66 @@
+---
+// *asterisks* mark the italic phrases
+const text =
+  "I started out *writing software* and stayed for *the data.* When a problem is too big, I make it small, ask around, and *keep going* until it works.";
+
+const words: { w: string; em: boolean }[] = [];
+text.split(/(\*[^*]+\*)/).forEach((part) => {
+  const em = part.startsWith("*");
+  part
+    .replace(/\*/g, "")
+    .split(/\s+/)
+    .filter(Boolean)
+    .forEach((w) => words.push({ w, em }));
+});
+---
+
+<section class="statement" id="statement" aria-label="About my work">
+  <p data-statement>
+    {
+      words.map(({ w, em }, i) => (
+        <>
+          {em ? <em class="w">{w}</em> : <span class="w">{w}</span>}
+          {i < words.length - 1 ? " " : ""}
+        </>
+      ))
+    }
+  </p>
+</section>
+
+<style>
+  .statement {
+    padding: clamp(6rem, 16vh, 11rem) var(--gutter);
+  }
+  p {
+    max-width: 22em;
+    margin: 0 auto;
+    font: 400 clamp(2.1rem, 5.2vw, 5rem) / 1.08 var(--serif);
+    letter-spacing: -0.01em;
+    text-indent: 2.2em;
+  }
+  em {
+    font-style: italic;
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  const p = document.querySelector<HTMLElement>("[data-statement]");
+  if (p && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    // words go from faint to full ink, one by one, as the section scrolls through.
+    // The faint grey still clears 3:1 against the paper, enough for text this large.
+    gsap.fromTo(
+      p.querySelectorAll(".w"),
+      { color: "#86837A" },
+      {
+        color: "#16150F",
+        ease: "none",
+        stagger: 0.12,
+        scrollTrigger: { trigger: p, start: "top 78%", end: "bottom 45%", scrub: 0.4 },
+      },
+    );
+  }
+</script>

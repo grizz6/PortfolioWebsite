@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 270 96" width="270" height="96">
+  <defs>
+    <linearGradient id="bt-b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E3DDCD"/><stop offset=".4" stop-color="#F6F2E8"/><stop offset="1" stop-color="#DAD3C1"/></linearGradient>
+    <linearGradient id="bt-s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8E9297"/><stop offset=".45" stop-color="#E2E4E6"/><stop offset="1" stop-color="#7E8287"/></linearGradient>
+  </defs>
+  <path d="M10 6 H180 C196 6 202 22 214 24 V72 C202 74 196 90 180 90 H10 Q2 90 2 82 V14 Q2 6 10 6 Z" fill="url(#bt-b)"/>
+  <rect x="212" y="22" width="11" height="52" rx="2" fill="url(#bt-s)"/>
+  <rect x="222" y="20" width="34" height="56" rx="6" fill="#1B1B1C"/>
+  <g stroke="#3A3A3D" stroke-width="1.5"><line x1="227" y1="22" x2="227" y2="74"/><line x1="232" y1="22" x2="232" y2="74"/><line x1="237" y1="22" x2="237" y2="74"/><line x1="242" y1="22" x2="242" y2="74"/><line x1="247" y1="22" x2="247" y2="74"/><line x1="252" y1="22" x2="252" y2="74"/></g>
+  <path d="M254 36 C 270 36, 270 60, 254 60" fill="none" stroke="#1B1B1C" stroke-width="7"/>
+  <g transform="translate(78 48)">
+    <circle r="21" fill="#3D4A42" stroke="#FFFFFF" stroke-width="3"/>
+    <path d="M-15 9 L-5 -7 L1 2 L6 -4 L15 9 Z" fill="#FFFFFF"/>
+    <path d="M-5 -7 L-2 -2 L-7 0 Z" fill="#3D4A42" opacity=".35"/>
+  </g>
+</svg>
