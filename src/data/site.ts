@@ -6,6 +6,5 @@ export const site = {
   email: "gajurel.grizma@gmail.com",
   github: "https://github.com/grizz6",
   linkedin: "https://www.linkedin.com/in/grishmagajurel",
-  // Instagram profile link; the button appears in let's talk once this is filled in
-  instagram: "",
+  instagram: "https://www.instagram.com/grizzz.ma",
 };

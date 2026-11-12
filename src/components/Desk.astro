@@ -105,14 +105,15 @@ const widthsFor = (img: ImageMetadata) => [0.25, 0.5, 0.75, 1].map((k) => Math.r
     <div class="hint hint-scroll" aria-hidden="true" data-hint>
       <svg viewBox="0 0 150 120" fill="none" stroke="#16150F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
         <g filter="url(#wobble)">
-          <!-- a hooded ninja doodle pointing you down the page -->
-          <path d="M16 50 q0 -30 24 -30 q24 0 24 30 q-2 8 -8 10 h-32 q-6 -2 -8 -10 Z" />
-          <path d="M22 38 h36 v9 h-36 Z" />
-          <path d="M29 42 l6 2 M45 44 l6 -2" />
-          <path d="M14 112 q0 -36 26 -48 q26 12 26 48" />
-          <path d="M58 58 q12 6 24 -2 q-6 12 -20 12" />
-          <path d="M30 80 l10 10 l10 -10" />
-          <path d="M66 86 l16 -20 M78 62 l8 8" />
+          <!-- an original chibi ninja, sketched, holding a rolled scroll -->
+          <g transform="translate(0 14) scale(0.86)">
+          <path d="M14 50 C14 30 24 20 40 20 C56 20 66 30 66 50 C66 64 56 72 40 72 C24 72 14 64 14 50 Z" fill="#EFEDE7" />
+          <path d="M12 46 C14 22 30 14 40 14 C54 14 68 24 68 46 C60 36 50 34 40 34 C30 34 20 38 12 46 Z" />
+          <path d="M16 52 Q40 46 64 52 L62 64 Q40 74 18 64 Z" />
+          <path d="M28 44 l7 2 M45 46 l7 -2" />
+          <path d="M24 72 Q22 90 26 104 H54 Q58 90 56 72" />
+          <path d="M56 80 l14 -6 M66 70 h12 a3 5 0 0 1 0 10 h-12 a3 5 0 0 1 0 -10" />
+          </g>
           <path d="M74 18 h62 q8 0 8 8 v26 q0 8 -8 8 h-44 l-14 12 l2 -12 h-6 q-8 0 -8 -8 v-26 q0 -8 8 -8 z" />
         </g>
         <text x="106" y="47" text-anchor="middle" fill="#16150F" stroke="none" font-family="Permanent Marker, cursive" font-size="20">scroll</text>

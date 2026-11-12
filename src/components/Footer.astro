@@ -1,47 +1,49 @@
 ---
 const year = new Date().getFullYear();
+
+// An original crew of chibi doodles, drawn like a quick pencil sketch: every stroke is laid down
+// twice, the second a hair off the first. Big heads, small bodies, two walking poses.
+const head = "M14 34 C14 18 24 10 32 10 C42 10 50 18 50 34 C50 46 42 52 32 52 C22 52 14 46 14 34 Z";
+const body = "M25 52 Q23 62 25 72 H39 Q41 62 39 52";
+const poseA = "M25 56 L18 65 M39 56 L46 64 M28 72 L24 86 M36 72 L40 86";
+const poseB = "M25 56 L22 66 M39 56 L42 66 M29 72 L28 86 M35 72 L36 86";
+const crew = [
+  // bucket hat, easy smile
+  "M12 26 Q32 18 52 26 L48 18 Q32 4 16 18 Z M25 36 v3 M39 36 v3 M28 44 q4 3 8 0",
+  // beanie with a pom
+  "M14 28 Q14 8 32 8 Q50 8 50 28 Z M14 28 H50 M32 4 a3 3 0 1 0 0.01 0 M25 37 v3 M39 37 v3 M29 45 h6",
+  // long hair to the shoulders, side part
+  "M14 34 C12 16 22 8 34 9 C46 10 52 20 50 34 L52 56 M14 34 L12 56 M20 22 Q30 26 36 12 M26 37 v3 M38 37 v3 M29 45 q3 2 6 0",
+  // curly hair and goggles up top
+  "M14 28 q-3 -10 6 -13 q1 -8 9 -5 q5 -6 11 -1 q9 -1 8 9 q6 5 2 11 M18 24 H46 M24 24 a4 3 0 1 0 0.01 0 M40 24 a4 3 0 1 0 0.01 0 M25 37 v3 M39 37 v3 M28 44 q4 4 8 0",
+  // cap worn backwards, short hair
+  "M16 26 Q18 10 32 10 Q46 10 48 26 Z M16 26 H48 M16 26 L8 29 M25 36 l4 1 M35 37 l4 -1 M29 45 q3 2 6 0",
+];
 ---
 
 <footer class="site-footer">
   <div class="sky" aria-hidden="true">
-    <svg class="crew" viewBox="0 0 200 84" fill="none">
-      <!-- an original doodled crew, walking across: a captain in a straw hat leads -->
-      <g filter="url(#wobble)" stroke="#16150F" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-        <g class="walker" transform="translate(160 0)">
-          <circle cx="20" cy="22" r="7" />
-          <path d="M20 29 V54" />
-          <g class="pose-a"><path d="M20 34 l-9 12 M20 34 l9 10 M20 54 l-8 22 M20 54 l9 21" /></g>
-          <g class="pose-b"><path d="M20 34 l-4 14 M20 34 l5 14 M20 54 l-2 22 M20 54 l3 22" /></g>
-          <path d="M9 17 q11 -5 22 0 M13 16 q1 -9 7 -9 t7 9" />
-        </g>
-        <g class="walker" transform="translate(40 0)">
-          <circle cx="20" cy="22" r="7" />
-          <path d="M20 29 V54" />
-          <g class="pose-a"><path d="M20 34 l-9 12 M20 34 l9 10 M20 54 l-8 22 M20 54 l9 21" /></g>
-          <g class="pose-b"><path d="M20 34 l-4 14 M20 34 l5 14 M20 54 l-2 22 M20 54 l3 22" /></g>
-          <path d="M14 18 q6 -4 12 0 M26 18 l6 -3 M8 46 L30 30" />
-        </g>
-        <g class="walker" transform="translate(80 0)">
-          <circle cx="20" cy="22" r="7" />
-          <path d="M20 29 V54" />
-          <g class="pose-a"><path d="M20 34 l-9 12 M20 34 l9 10 M20 54 l-8 22 M20 54 l9 21" /></g>
-          <g class="pose-b"><path d="M20 34 l-4 14 M20 34 l5 14 M20 54 l-2 22 M20 54 l3 22" /></g>
-          <path d="M14 18 q-4 10 -2 18 M26 18 q4 10 2 18 M32 30 v34" />
-        </g>
-        <g class="walker" transform="translate(120 0)">
-          <circle cx="20" cy="22" r="7" />
-          <path d="M20 29 V54" />
-          <g class="pose-a"><path d="M20 34 l-9 12 M20 34 l9 10 M20 54 l-8 22 M20 54 l9 21" /></g>
-          <g class="pose-b"><path d="M20 34 l-4 14 M20 34 l5 14 M20 54 l-2 22 M20 54 l3 22" /></g>
-          <path d="M13 28 q7 5 14 0 M27 28 l6 6" />
-        </g>
-        <g class="walker" transform="translate(0 0)">
-          <circle cx="20" cy="22" r="7" />
-          <path d="M20 29 V54" />
-          <g class="pose-a"><path d="M20 34 l-9 12 M20 34 l9 10 M20 54 l-8 22 M20 54 l9 21" /></g>
-          <g class="pose-b"><path d="M20 34 l-4 14 M20 34 l5 14 M20 54 l-2 22 M20 54 l3 22" /></g>
-          <path d="M24 32 h10 v18 h-10" />
-        </g>
+    <svg class="crew" viewBox="0 0 330 92" fill="none">
+      <g filter="url(#wobble)" stroke="#16150F" stroke-linecap="round" stroke-linejoin="round">
+        {
+          crew.map((extra, i) => (
+            <g class="walker" transform={`translate(${i * 66} 0)`}>
+              {[0, 1].map((k) => (
+                <g
+                  stroke-width={k ? 1.1 : 2}
+                  opacity={k ? 0.5 : 1}
+                  transform={k ? "translate(0.8 0.6)" : undefined}
+                >
+                  <path d={head} fill={k ? "none" : "#EFEDE7"} />
+                  <path d={extra} />
+                  <path d={body} />
+                  <path class="pose-a" d={poseA} />
+                  <path class="pose-b" d={poseB} />
+                </g>
+              ))}
+            </g>
+          ))
+        }
       </g>
     </svg>
   </div>
@@ -57,14 +59,14 @@ const year = new Date().getFullYear();
     overflow: clip;
   }
   .sky {
-    height: clamp(5rem, 8vw, 7rem);
+    height: clamp(7rem, 11vw, 10rem);
     position: relative;
   }
   .crew {
     position: absolute;
     left: 0;
     top: 0.5rem;
-    width: clamp(12rem, 20vw, 16rem);
+    width: clamp(18rem, 30vw, 26rem);
     animation: drift 30s linear infinite;
   }
   /* legs and arms swap between two poses, like a flip book */
