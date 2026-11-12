@@ -1,0 +1,47 @@
+---
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+import Desk from "../components/Desk.astro";
+
+// Sections still to come (statement, work, photos, about and contact, footer) are stand-ins for now.
+const upcoming = [
+  { id: "statement", label: "Statement" },
+  { id: "work", label: "Things I've built" },
+  { id: "photos", label: "Through my lens" },
+  { id: "about", label: "About me" },
+  { id: "contact", label: "Let's talk" },
+];
+---
+
+<Base>
+  <Header />
+  <main id="main">
+    <Desk />
+    {
+      upcoming.map((s) => (
+        <section class="soon" id={s.id}>
+          <h2>{s.label}</h2>
+          <p>This section is built in the next phase.</p>
+        </section>
+      ))
+    }
+  </main>
+</Base>
+
+<style>
+  .soon {
+    display: grid;
+    place-content: center;
+    min-height: 60vh;
+    padding: 4rem var(--gutter);
+    border-top: 1px dashed #c9c4b7;
+    text-align: center;
+  }
+  .soon h2 {
+    margin: 0;
+    font: 400 clamp(2.4rem, 5vw, 4rem) / 1 var(--serif);
+  }
+  .soon p {
+    color: var(--ink-2);
+  }
+</style>

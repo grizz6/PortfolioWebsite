@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 116 104" width="116" height="104">
+  <defs><linearGradient id="cd-l" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8A5732"/><stop offset="1" stop-color="#6C4125"/></linearGradient></defs>
+  <rect x="16" y="2" width="84" height="56" rx="4" fill="#F2EFE8" stroke="#D9D4C8"/>
+  <text x="58" y="25" text-anchor="middle" font-family="Instrument Serif, Georgia, serif" font-style="italic" font-size="19" fill="#16150F">G.G.</text>
+  <path d="M6 32 H44 Q58 44 72 32 H110 Q114 32 114 36 V96 Q114 102 108 102 H8 Q2 102 2 96 V36 Q2 32 6 32 Z" fill="url(#cd-l)"/>
+  <path d="M9 38 H43 Q58 50 73 38 H107 V95 H9 Z" fill="none" stroke="#D3A274" stroke-width="1.4" stroke-dasharray="3 3"/>
+</svg>

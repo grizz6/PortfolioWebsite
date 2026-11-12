@@ -1,0 +1,145 @@
+/* Design tokens */
+:root {
+  --paper: #efede7;
+  --ink: #16150f;
+  --ink-2: #4a4943;
+  --pill: #e2ddd1;
+  --note: #ffe36e;
+  --underline: #2a3c8f;
+  --lens: #8fa2da;
+
+  --sans: "Instrument Sans Variable", "Instrument Sans Fallback", system-ui, sans-serif;
+  --serif: "Instrument Serif", "Instrument Serif Fallback", Georgia, serif;
+  --marker: "Permanent Marker", "Permanent Marker Fallback", "Comic Sans MS", cursive;
+
+  --gutter: clamp(1rem, 3vw, 2.5rem);
+  --shadow: drop-shadow(0 3px 2px rgb(22 21 15 / 0.14)) drop-shadow(0 10px 14px rgb(22 21 15 / 0.12));
+  --shadow-up: drop-shadow(0 6px 4px rgb(22 21 15 / 0.12)) drop-shadow(0 22px 26px rgb(22 21 15 / 0.16));
+
+  color-scheme: light;
+}
+
+/* Fallback faces sized to match the web fonts, so text does not jump when they arrive */
+@font-face {
+  font-family: "Instrument Sans Fallback";
+  src: local("Arial"), local("Helvetica"), local("Liberation Sans");
+  size-adjust: 102.74%;
+  ascent-override: 94.42%;
+  descent-override: 24.33%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Instrument Serif Fallback";
+  src: local("Times New Roman"), local("Times"), local("Liberation Serif");
+  size-adjust: 83.94%;
+  ascent-override: 117.94%;
+  descent-override: 36.93%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Permanent Marker Fallback";
+  src: local("Arial"), local("Helvetica"), local("Liberation Sans");
+  size-adjust: 113.69%;
+  ascent-override: 97.58%;
+  descent-override: 27.92%;
+  line-gap-override: 2.66%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 1rem/1.55 var(--sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip {
+  position: fixed;
+  left: var(--gutter);
+  top: 0.75rem;
+  z-index: 100;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+.skip:focus-visible {
+  transform: none;
+}
+
+.marker {
+  font-family: var(--marker);
+  font-weight: 400;
+}
+
+/* Pill buttons */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.5rem;
+  padding: 0.5rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--pill);
+  color: var(--ink);
+  font: 500 0.9375rem/1 var(--sans);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+.pill:hover,
+.pill--dark {
+  background: var(--ink);
+  color: var(--paper);
+}
+.pill--dark:hover {
+  background: #2e2d26;
+}
+.pill svg {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+}
