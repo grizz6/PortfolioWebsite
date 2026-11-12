@@ -8,148 +8,145 @@ const skills = [
   { group: "Software", items: ["FastAPI", "React", "TypeScript", "PostgreSQL", "Docker", "pytest", "CI"] },
 ];
 
+// From my resume
+const path = [
+  {
+    when: "Feb 2024 – Dec 2025",
+    what: "Research Assistant, Webster University",
+    line: "Merged 10,000+ records from 7 institutions for a USDA study of 15 orchards, and fixed a bias that inflated the results.",
+  },
+  {
+    when: "Feb 2021 – Jun 2023",
+    what: "Software Engineer, Aaran Tech",
+    line: "Cut hourly data jobs from 80 to 42 minutes and wired eSewa and Khalti payments for 1,000+ orders a month.",
+  },
+  { when: "May 2026", what: "M.S. Data Analytics, Webster University", line: "" },
+  { when: "Oct 2022", what: "B.S. Computing, London Metropolitan University", line: "" },
+];
+
 const hobbies = [
   { label: "hiking", d: "M4 40 L18 15 L26 27 L32 19 L44 40 Z M14 22 l4 3 l3 -4" },
   { label: "gym", d: "M11 15 v18 M6 19 v10 M37 15 v18 M42 19 v10 M11 24 h26" },
-  {
-    label: "running",
-    d: "M5 35 q0 -7 7 -8 l8 -2 l5 -9 q5 1 6 6 l9 3 q7 2 7 9 v2 H5 Z M5 37 h39 M22 22 l3 2 M24 19 l3 2",
-  },
+  { label: "running", d: "M5 35 q0 -7 7 -8 l8 -2 l5 -9 q5 1 6 6 l9 3 q7 2 7 9 v2 H5 Z M5 37 h39 M22 22 l3 2 M24 19 l3 2" },
   { label: "photos", d: "M5 15 h9 l3 -5 h14 l3 5 h9 v24 H5 Z M24 19 a8 8 0 1 0 0.01 0 M37 20 h2" },
   { label: "music", d: "M8 30 v-6 a16 16 0 0 1 32 0 v6 M5 29 h7 v11 h-7 Z M36 29 h7 v11 h-7 Z" },
 ];
+
+const icons = {
+  github:
+    '<path d="M7 15.5c-3 1-3-1.5-4.5-2m9 4v-2.6a2.3 2.3 0 0 0-.6-1.7c2.1-.3 4.3-1 4.3-4.6a3.6 3.6 0 0 0-1-2.5 3.3 3.3 0 0 0-.1-2.5s-.8-.3-2.6 1a9 9 0 0 0-4.7 0C5 3.4 4.2 3.7 4.2 3.7a3.3 3.3 0 0 0 0 2.5 3.6 3.6 0 0 0-1 2.5c0 3.6 2.2 4.3 4.3 4.6a2.3 2.3 0 0 0-.6 1.7v2.6"/>',
+  linkedin: '<rect x="2.5" y="2.5" width="15" height="15" rx="2.5"/><path d="M6.5 9v4.5M6.5 6.5v.01M9.5 13.5V9m0 2.2c0-1.3 1-2.2 2.1-2.2s1.9.8 1.9 2.2v2.3"/>',
+  instagram: '<rect x="2.5" y="2.5" width="15" height="15" rx="4.5"/><circle cx="10" cy="10" r="3.3"/><path d="M14.4 5.6v.01"/>',
+};
+const socials = [
+  { label: "GitHub", href: site.github, icon: icons.github },
+  { label: "LinkedIn", href: site.linkedin, icon: icons.linkedin },
+  { label: "Instagram", href: site.instagram, icon: icons.instagram },
+].filter((s) => s.href);
 ---
 
-<section class="about" id="about" aria-labelledby="about-title">
-  <div class="story">
-    <h2 class="marker" id="about-title">about me</h2>
-    <p class="big">
-      When I'm not at my laptop, I'm usually out on a <em>hike</em>, at the <em>gym</em>, on a <em>run</em>, or taking <em>photos</em>.
-      There's always music playing.
-    </p>
-    <ul class="hobbies">
-      {
-        hobbies.map((h) => (
-          <li>
-            <svg viewBox="0 0 48 48" aria-hidden="true">
-              <path filter="url(#wobble)" d={h.d} />
-            </svg>
-            <span class="marker">{h.label}</span>
-          </li>
-        ))
-      }
-    </ul>
-  </div>
-
-  <div class="kit">
-    <p class="kicker marker">ex-SWE, now on the data side</p>
-    <p class="lead">What I reach for most days:</p>
-    <dl>
-      {
-        skills.map((s) => (
-          <div class="group">
-            <dt>{s.group}</dt>
-            <dd>
-              <ul>
-                {s.items.map((i) => (
-                  <li>{i}</li>
-                ))}
-              </ul>
-            </dd>
-          </div>
-        ))
-      }
-    </dl>
-  </div>
+<section class="row about" id="about" aria-labelledby="about-title">
+  <h2 class="marker label" id="about-title">about me</h2>
+  <p class="big">
+    When I'm not at my laptop, I'm usually out on a <em>hike</em>, at the <em>gym</em>, on a <em>run</em>, or taking <em>photos</em>.
+    There's always music playing.
+  </p>
+  <ul class="hobbies">
+    {
+      hobbies.map((h) => (
+        <li>
+          <svg viewBox="0 0 48 48" aria-hidden="true">
+            <path filter="url(#wobble)" d={h.d} />
+          </svg>
+          <span class="marker">{h.label}</span>
+        </li>
+      ))
+    }
+  </ul>
 </section>
 
-<section class="contact" id="contact" aria-labelledby="contact-title">
-    <h2 class="marker talk" id="contact-title">let's talk.</h2>
-    <div class="reach">
-    <a class="email" href={`mailto:${site.email}`}>{site.email}</a>
-    <div class="links">
-      <a class="pill" href={site.github} target="_blank" rel="noopener">
-        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 15.5c-3 1-3-1.5-4.5-2m9 4v-2.6a2.3 2.3 0 0 0-.6-1.7c2.1-.3 4.3-1 4.3-4.6a3.6 3.6 0 0 0-1-2.5 3.3 3.3 0 0 0-.1-2.5s-.8-.3-2.6 1a9 9 0 0 0-4.7 0C5 3.4 4.2 3.7 4.2 3.7a3.3 3.3 0 0 0 0 2.5 3.6 3.6 0 0 0-1 2.5c0 3.6 2.2 4.3 4.3 4.6a2.3 2.3 0 0 0-.6 1.7v2.6" /></svg>
-        GitHub<span class="sr-only"> (opens in a new tab)</span>
-      </a>
-      <a class="pill" href={site.linkedin} target="_blank" rel="noopener">
-        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="15" height="15" rx="2.5" /><path d="M6.5 9v4.5M6.5 6.5v.01M9.5 13.5V9m0 2.2c0-1.3 1-2.2 2.1-2.2s1.9.8 1.9 2.2v2.3" /></svg>
-        LinkedIn<span class="sr-only"> (opens in a new tab)</span>
-      </a>
-    </div>
-    </div>
+<section class="row kit" aria-labelledby="kit-title">
+  <h2 class="marker label" id="kit-title">what I reach for</h2>
+  <dl class="groups">
+    {
+      skills.map((s) => (
+        <div class="group">
+          <dt>{s.group}</dt>
+          <dd>
+            <ul>
+              {s.items.map((i) => (
+                <li>{i}</li>
+              ))}
+            </ul>
+          </dd>
+        </div>
+      ))
+    }
+  </dl>
+</section>
+
+<section class="row path" aria-labelledby="path-title">
+  <h2 class="marker label" id="path-title">where I've been</h2>
+  <ol>
+    {
+      path.map((p) => (
+        <li>
+          <span class="when">{p.when}</span>
+          <div>
+            <h3>{p.what}</h3>
+            {p.line && <p>{p.line}</p>}
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<section class="row contact" id="contact" aria-labelledby="contact-title">
+  <h2 class="marker talk" id="contact-title">let's talk.</h2>
+  <a class="email" href={`mailto:${site.email}`}>{site.email}</a>
+  <ul class="links">
+    {
+      socials.map((s) => (
+        <li>
+          <a class="pill" href={s.href} target="_blank" rel="noopener">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={s.icon} />
+            {s.label}
+            <span class="sr-only"> (opens in a new tab)</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
 </section>
 
 <style>
-  .about {
-    display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-    gap: clamp(3rem, 7vw, 7rem);
+  .row {
     max-width: 82rem;
     margin: 0 auto;
-    padding: clamp(5rem, 12vh, 8rem) var(--gutter) clamp(3rem, 8vh, 5rem);
-    align-items: start;
+    padding: clamp(3.5rem, 9vh, 6rem) var(--gutter);
+  }
+  .row + .row {
+    border-top: 1px dashed #c9c4b7;
   }
   h2 {
     margin: 0;
     font-weight: 400;
     line-height: 1;
   }
-  .about h2 {
+  .label {
     font-size: clamp(2rem, 3.6vw, 3rem);
   }
+
+  /* About */
+  .about {
+    padding-top: clamp(5rem, 12vh, 8rem);
+  }
   .big {
+    max-width: 24em;
     margin: 1.4rem 0 0;
-    font: 400 clamp(1.8rem, 3.2vw, 2.9rem) / 1.12 var(--serif);
+    font: 400 clamp(1.8rem, 3.4vw, 3.1rem) / 1.12 var(--serif);
     letter-spacing: -0.005em;
-  }
-  .kit {
-    padding-top: clamp(0rem, 4vw, 3.4rem);
-  }
-  .kicker {
-    margin: 0;
-    font-size: clamp(1.3rem, 2vw, 1.7rem);
-    line-height: 1.1;
-    transform: rotate(-2deg);
-    transform-origin: left;
-  }
-  .lead {
-    margin: 0.9rem 0 1.4rem;
-    color: var(--ink-2);
-  }
-  dl {
-    display: grid;
-    gap: 1.1rem;
-    margin: 0;
-  }
-  .group {
-    display: grid;
-    grid-template-columns: 6.5rem minmax(0, 1fr);
-    gap: 0.4rem 1rem;
-    padding-top: 1.1rem;
-    border-top: 1px solid #d3cec2;
-  }
-  dt {
-    font-weight: 600;
-    font-size: 0.95rem;
-  }
-  dd {
-    margin: 0;
-  }
-  dd ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  dd li {
-    padding: 0.25rem 0.65rem;
-    border-radius: 999px;
-    background: var(--pill);
-    font-size: 0.875rem;
-    line-height: 1.3;
   }
   .hobbies {
     display: flex;
@@ -180,29 +177,79 @@ const hobbies = [
     font-size: 1rem;
   }
 
-  .contact {
+  /* Skills: three groups side by side, one under another on phones */
+  .groups {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem clamp(1.5rem, 3vw, 3rem);
+    margin: 2rem 0 0;
+  }
+  dt {
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid #d3cec2;
+    font-weight: 600;
+  }
+  dd {
+    margin: 0;
+  }
+  dd ul {
     display: flex;
     flex-wrap: wrap;
-    align-items: end;
-    justify-content: space-between;
-    gap: 1.6rem 3rem;
-    max-width: 82rem;
-    margin: 0 auto;
-    padding: clamp(3rem, 8vh, 5rem) var(--gutter) clamp(4rem, 10vh, 6rem);
-    border-top: 1px dashed #c9c4b7;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
-  .reach {
+  dd li {
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    background: var(--pill);
+    font-size: 0.9rem;
+    line-height: 1.3;
+  }
+
+  /* Where I've been */
+  ol {
+    margin: 2rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  ol li {
+    display: grid;
+    grid-template-columns: 11rem minmax(0, 1fr);
+    gap: 0.3rem 2rem;
+    padding: 1.1rem 0;
+    border-top: 1px solid #d3cec2;
+  }
+  .when {
+    color: var(--ink-2);
+    font-size: 0.95rem;
+    font-variant-numeric: tabular-nums;
+  }
+  h3 {
+    margin: 0;
+    font: 400 clamp(1.4rem, 2.2vw, 1.8rem) / 1.15 var(--serif);
+  }
+  ol p {
+    max-width: 40rem;
+    margin: 0.35rem 0 0;
+    color: var(--ink-2);
+  }
+
+  /* Contact */
+  .contact {
     display: grid;
     justify-items: start;
-    gap: 1.2rem;
-    padding-bottom: 0.6rem;
+    gap: 1.4rem;
+    padding-bottom: clamp(4rem, 10vh, 6rem);
   }
   .talk {
     font-size: clamp(3.6rem, 11vw, 10rem);
     line-height: 0.95;
   }
   .email {
-    font: italic 400 clamp(1.6rem, 3vw, 2.6rem) / 1.2 var(--serif);
+    font: italic 400 clamp(1.6rem, 3.4vw, 2.8rem) / 1.2 var(--serif);
     text-decoration: none;
     overflow-wrap: anywhere;
     background: linear-gradient(var(--ink), var(--ink)) left bottom / 0% 2px no-repeat;
@@ -217,10 +264,16 @@ const hobbies = [
     display: flex;
     flex-wrap: wrap;
     gap: 0.6rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
   @media (max-width: 860px) {
-    .about {
+    .groups {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    ol li {
       grid-template-columns: minmax(0, 1fr);
     }
   }
@@ -236,9 +289,6 @@ const hobbies = [
     }
     .hobbies span {
       font-size: 0.8rem;
-    }
-    .group {
-      grid-template-columns: minmax(0, 1fr);
     }
   }
   @media (prefers-reduced-motion: reduce) {

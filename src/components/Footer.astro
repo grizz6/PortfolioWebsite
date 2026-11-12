@@ -4,20 +4,44 @@ const year = new Date().getFullYear();
 
 <footer class="site-footer">
   <div class="sky" aria-hidden="true">
-    <svg class="ship" viewBox="0 0 220 120" fill="none">
+    <svg class="crew" viewBox="0 0 200 84" fill="none">
+      <!-- an original doodled crew, walking across: a captain in a straw hat leads -->
       <g filter="url(#wobble)" stroke="#16150F" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-        <!-- a little doodled ship with a straw hat on the mast, sailing across -->
-        <path d="M2 108 q14 -8 28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t22 0" stroke-dasharray="1 7" />
-        <path d="M26 78 H194 Q184 102 158 102 H64 Q38 102 26 78 Z" />
-        <circle cx="72" cy="89" r="3" /><circle cx="98" cy="89" r="3" /><circle cx="124" cy="89" r="3" /><circle cx="150" cy="89" r="3" />
-        <path d="M194 78 l20 -12" />
-        <path d="M110 78 V16" />
-        <path d="M76 26 Q110 20 144 26 Q153 46 144 66 Q110 60 76 66 Q67 46 76 26 Z" />
-        <path d="M70 24 H150" />
-        <path d="M110 20 l22 5 l-22 5" />
-        <path d="M94 15 q16 -6 32 0 q-16 5 -32 0 Z" />
-        <path d="M101 13 q1 -10 9 -10 t9 10" />
-        <path d="M101.5 10 h17" />
+        <g class="walker" transform="translate(160 0)">
+          <circle cx="20" cy="22" r="7" />
+          <path d="M20 29 V54" />
+          <g class="pose-a"><path d="M20 34 l-9 12 M20 34 l9 10 M20 54 l-8 22 M20 54 l9 21" /></g>
+          <g class="pose-b"><path d="M20 34 l-4 14 M20 34 l5 14 M20 54 l-2 22 M20 54 l3 22" /></g>
+          <path d="M9 17 q11 -5 22 0 M13 16 q1 -9 7 -9 t7 9" />
+        </g>
+        <g class="walker" transform="translate(40 0)">
+          <circle cx="20" cy="22" r="7" />
+          <path d="M20 29 V54" />
+          <g class="pose-a"><path d="M20 34 l-9 12 M20 34 l9 10 M20 54 l-8 22 M20 54 l9 21" /></g>
+          <g class="pose-b"><path d="M20 34 l-4 14 M20 34 l5 14 M20 54 l-2 22 M20 54 l3 22" /></g>
+          <path d="M14 18 q6 -4 12 0 M26 18 l6 -3 M8 46 L30 30" />
+        </g>
+        <g class="walker" transform="translate(80 0)">
+          <circle cx="20" cy="22" r="7" />
+          <path d="M20 29 V54" />
+          <g class="pose-a"><path d="M20 34 l-9 12 M20 34 l9 10 M20 54 l-8 22 M20 54 l9 21" /></g>
+          <g class="pose-b"><path d="M20 34 l-4 14 M20 34 l5 14 M20 54 l-2 22 M20 54 l3 22" /></g>
+          <path d="M14 18 q-4 10 -2 18 M26 18 q4 10 2 18 M32 30 v34" />
+        </g>
+        <g class="walker" transform="translate(120 0)">
+          <circle cx="20" cy="22" r="7" />
+          <path d="M20 29 V54" />
+          <g class="pose-a"><path d="M20 34 l-9 12 M20 34 l9 10 M20 54 l-8 22 M20 54 l9 21" /></g>
+          <g class="pose-b"><path d="M20 34 l-4 14 M20 34 l5 14 M20 54 l-2 22 M20 54 l3 22" /></g>
+          <path d="M13 28 q7 5 14 0 M27 28 l6 6" />
+        </g>
+        <g class="walker" transform="translate(0 0)">
+          <circle cx="20" cy="22" r="7" />
+          <path d="M20 29 V54" />
+          <g class="pose-a"><path d="M20 34 l-9 12 M20 34 l9 10 M20 54 l-8 22 M20 54 l9 21" /></g>
+          <g class="pose-b"><path d="M20 34 l-4 14 M20 34 l5 14 M20 54 l-2 22 M20 54 l3 22" /></g>
+          <path d="M24 32 h10 v18 h-10" />
+        </g>
       </g>
     </svg>
   </div>
@@ -36,12 +60,30 @@ const year = new Date().getFullYear();
     height: clamp(5rem, 8vw, 7rem);
     position: relative;
   }
-  .ship {
+  .crew {
     position: absolute;
     left: 0;
     top: 0.5rem;
-    width: clamp(7rem, 12vw, 10rem);
-    animation: drift 26s linear infinite;
+    width: clamp(12rem, 20vw, 16rem);
+    animation: drift 30s linear infinite;
+  }
+  /* legs and arms swap between two poses, like a flip book */
+  .pose-b {
+    opacity: 0;
+  }
+  .crew .pose-a {
+    animation: step 0.5s steps(1) infinite;
+  }
+  .crew .pose-b {
+    animation: step 0.5s steps(1) infinite reverse;
+  }
+  .walker:nth-child(even) .pose-a,
+  .walker:nth-child(even) .pose-b {
+    animation-delay: -0.25s;
+  }
+  @keyframes step {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
   }
   @keyframes drift {
     from {
@@ -70,7 +112,11 @@ const year = new Date().getFullYear();
     text-underline-offset: 0.2em;
   }
   @media (prefers-reduced-motion: reduce) {
-    .ship {
+    .crew .pose-a,
+    .crew .pose-b {
+      animation: none;
+    }
+    .crew {
       animation: none;
       left: 50%;
       transform: translateX(-50%);
