@@ -143,3 +143,8 @@ a {
   height: 1rem;
   flex: none;
 }
+
+/* in-page links land below the fixed header */
+section[id] {
+  scroll-margin-top: 5rem;
+}

@@ -17,8 +17,8 @@ export interface DeskObject {
 }
 
 export const desk: DeskObject[] = [
-  { key: "laptop", label: "my laptop", w: 20, wPhone: 44, scatter: [50, 76, 2], pile: [88, 10, -12] },
-  { key: "book", label: "reading: [book]", w: 10, wPhone: 22, scatter: [10, 22, -8], pile: [40, 60, -14] },
+  { key: "laptop", label: "my laptop", w: 20, wPhone: 44, scatter: [50, 76, 2], pile: [87, 19, -12] },
+  { key: "book", label: "reading: Data Science, by Kelleher and Tierney", w: 10, wPhone: 22, scatter: [10, 22, -8], pile: [40, 60, -14] },
   { key: "glasses", label: "blue light glasses", w: 11, wPhone: 25, scatter: [47, 15, 4], pile: [51, 57, 7] },
   { key: "phone", label: "my phone, my camera", w: 5.5, wPhone: 13, scatter: [86, 76, 12], pile: [61, 62, -9] },
   { key: "airpods", label: "AirPods, always in", w: 5, wPhone: 11, scatter: [27, 50, 28], pile: [47, 68, 40], hideOnPhone: true },

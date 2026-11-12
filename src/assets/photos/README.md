@@ -1,10 +1,14 @@
 # Photos
 
-Put photographs here (JPEG or WebP; about 2000 px on the long side keeps the page fast), then add one entry per
-photo to `photos` in `js/content.js`:
+Any JPEG, PNG, WebP or AVIF you put in this folder appears in "through my lens" on the next build.
+No code changes needed. They appear in alphabetical order of file name, so
+prefix names with a number (01-, 02-) if you want a set order.
 
-```js
-{ src: "photos/forest-park.jpg", title: "Forest Park", place: "St. Louis", date: "Oct 2026", settings: "24mm · ƒ/1.8 · 1/500 · ISO 100", w: 1536, h: 2048 }
-```
+Captions and alt text are optional. Add them either way:
 
-`w` and `h` are the file's pixel size; every photo becomes a panel in the 3D intro. `settings`, `place` and `date` are optional.
+- a text file with the same name: `gateway-arch.txt` next to `gateway-arch.jpg`. The first line is
+  the caption; a second line, if present, is the alt text.
+- or an entry in `photos.json`: `"gateway-arch.jpg": { "alt": "...", "caption": "..." }`
+
+Without either, the alt text is made from the file name and there is no caption.
+Photos about 2000 px on the long side look sharp and stay fast; the site makes smaller copies itself.

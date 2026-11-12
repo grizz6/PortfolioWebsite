@@ -2,12 +2,12 @@
 import Base from "../layouts/Base.astro";
 import Header from "../components/Header.astro";
 import Desk from "../components/Desk.astro";
+import Statement from "../components/Statement.astro";
+import Work from "../components/Work.astro";
+import Photos from "../components/Photos.astro";
 
-// Sections still to come (statement, work, photos, about and contact, footer) are stand-ins for now.
+// About, contact and the footer are stand-ins until the next phase.
 const upcoming = [
-  { id: "statement", label: "Statement" },
-  { id: "work", label: "Things I've built" },
-  { id: "photos", label: "Through my lens" },
   { id: "about", label: "About me" },
   { id: "contact", label: "Let's talk" },
 ];
@@ -17,6 +17,9 @@ const upcoming = [
   <Header />
   <main id="main">
     <Desk />
+    <Statement />
+    <Work />
+    <Photos />
     {
       upcoming.map((s) => (
         <section class="soon" id={s.id}>

@@ -1,0 +1,14 @@
+{
+  "gateway-arch.jpg": { "alt": "The Gateway Arch seen from below against the sky", "caption": "Gateway Arch, St. Louis" },
+  "manhattan-bridge.jpg": { "alt": "The Manhattan Bridge framed between buildings in DUMBO", "caption": "Manhattan Bridge from DUMBO, New York" },
+  "stained-glass-ceiling.jpg": { "alt": "A stained-glass ceiling seen from directly below", "caption": "Stained-glass ceiling, Boston" },
+  "hancock-tower.jpg": { "alt": "The Hancock Tower rising into the sky", "caption": "Hancock Tower, Boston" },
+  "lakefront-golden-hour.jpg": { "alt": "The Chicago lakefront at golden hour", "caption": "Lakefront, golden hour, Chicago" },
+  "under-the-dome.jpg": { "alt": "Looking straight up under a dome", "caption": "Under the dome" },
+  "mother-church-dusk.jpg": { "alt": "The Mother Church in Boston at dusk", "caption": "The Mother Church at dusk, Boston" },
+  "chicago-river-above.jpg": { "alt": "The Chicago River seen from above", "caption": "The river from above, Chicago" },
+  "public-garden.jpg": { "alt": "The Boston Public Garden", "caption": "Public Garden, Boston" },
+  "skyline-rooftops.jpg": { "alt": "The New York skyline over the rooftops", "caption": "Skyline over the rooftops, New York" },
+  "snow-at-night.jpg": { "alt": "Snow falling downtown at night", "caption": "Snow, downtown at night, Chicago" },
+  "tower-in-fog.jpg": { "alt": "A tower disappearing into fog", "caption": "Tower in the fog, Chicago" }
+}

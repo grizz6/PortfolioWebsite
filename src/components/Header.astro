@@ -19,7 +19,7 @@ const links = [
 const mail = '<rect x="2.5" y="4.5" width="15" height="11" rx="1.5"/><path d="M3 5.5l7 5.5 7-5.5"/>';
 ---
 
-<header class="site-header">
+<header class="site-header" data-header>
   <a class="logo marker" href="#top" aria-label="grishma, back to the top">grishma</a>
   <nav aria-label="Main">
     <ul>
@@ -54,6 +54,14 @@ const mail = '<rect x="2.5" y="4.5" width="15" height="11" rx="1.5"/><path d="M3
     gap: 1rem;
     padding: 1rem var(--gutter);
     pointer-events: none;
+    transition: background-color 0.3s, box-shadow 0.3s;
+  }
+  /* transparent over the desk; once the page moves on, a paper backing keeps it readable */
+  .site-header.solid {
+    background: rgb(239 237 231 / 0.92);
+    box-shadow: 0 1px 0 rgb(22 21 15 / 0.08);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
   .site-header > * {
     pointer-events: auto;
@@ -85,3 +93,17 @@ const mail = '<rect x="2.5" y="4.5" width="15" height="11" rx="1.5"/><path d="M3
     }
   }
 </style>
+
+<script>
+  const header = document.querySelector<HTMLElement>("[data-header]");
+  const after = document.getElementById("statement");
+  if (header && after) {
+    let raf = 0;
+    const check = () => {
+      raf = 0;
+      header.classList.toggle("solid", after.getBoundingClientRect().top <= header.offsetHeight);
+    };
+    addEventListener("scroll", () => (raf ||= requestAnimationFrame(check)), { passive: true });
+    check();
+  }
+</script>
