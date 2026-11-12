@@ -7,21 +7,20 @@ const own = Object.values(
   import.meta.glob<{ default: ImageMetadata }>("../assets/doodles/crew.{png,webp,svg}", { eager: true }),
 )[0]?.default;
 
-// A doodled ship sailing across, flying a classic skull and crossbones.
+// A chubby little sailboat bobbing across, with a gull riding on the mast.
 // Every stroke is drawn twice, the second a hair off the first, like quick pencil work.
 const ship = [
-  { d: "M20 120 H236 Q226 148 196 152 H64 Q34 148 20 120 Z", fill: "#E2DDD1" },
-  { d: "M28 132 H228 M60 141 h16 M96 141 h16 M132 141 h16 M168 141 h16" },
-  { d: "M236 120 L262 104 M244 115 L262 104" },
-  { d: "M128 120 V18" },
-  { d: "M86 30 Q128 22 170 30 Q182 54 170 78 Q128 70 86 78 Q74 54 86 30 Z", fill: "#FBFAF7" },
-  { d: "M90 86 Q128 80 166 86 Q174 100 166 114 Q128 108 90 114 Q82 100 90 86 Z", fill: "#FBFAF7" },
-  { d: "M80 28 H176 M84 84 H172" },
-  { d: "M128 18 H160 V40 H128", fill: "#3B3A33" },
+  { d: "M36 112 H204 Q206 150 170 152 H70 Q34 150 36 112 Z", fill: "#E2DDD1" },
+  { d: "M40 124 Q120 130 200 124" },
+  { d: "M80 136 a6 6 0 1 0 0.1 0 M120 137 a6 6 0 1 0 0.1 0 M160 136 a6 6 0 1 0 0.1 0", fill: "#FBFAF7" },
+  { d: "M118 112 V30" },
+  { d: "M122 34 Q178 52 178 104 H122 Z", fill: "#FBFAF7" },
+  { d: "M114 46 Q76 70 78 104 H114 Z", fill: "#FFE36E" },
+  { d: "M118 30 L140 22 L118 16 Z", fill: "#3B3A33" },
+  { d: "M108 16 q5 -6 10 0 q5 -6 10 0" },
 ];
-// the flag's skull and crossbones, in paper on the dark flag
-const flag = "M139 30 L149 36 M149 30 L139 36 M144 23 a5 5 0 1 0 0.1 0 M141 27.5 h1 M146 27.5 h1";
 const waves = "M0 156 q16 -8 32 0 t32 0 t32 0 t32 0 t32 0 t32 0 t32 0 t32 0 t24 0";
+const puffs = "M20 100 a4 4 0 1 0 0.1 0 M10 88 a3 3 0 1 0 0.1 0 M214 96 a3 3 0 1 0 0.1 0";
 ---
 
 <footer class="site-footer">
@@ -37,7 +36,7 @@ const waves = "M0 156 q16 -8 32 0 t32 0 t32 0 t32 0 t32 0 t32 0 t32 0 t32 0 t24 
               ))}
             </g>
           ))}
-          <path d={flag} stroke="#FBFAF7" stroke-width="1.6" />
+          <path d={puffs} stroke-width="1.4" />
         </g>
       </g>
     </svg>}
