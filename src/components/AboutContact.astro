@@ -1,6 +1,13 @@
 ---
 import { site } from "../data/site";
 
+// Each group only lists tools my repositories or coursework actually use.
+const skills = [
+  { group: "Data", items: ["Python", "SQL", "R", "pandas", "Power BI", "Tableau"] },
+  { group: "ML and AI", items: ["scikit-learn", "XGBoost", "glmnet", "mixed models", "RAG with pgvector", "LLM apps", "MLflow"] },
+  { group: "Software", items: ["FastAPI", "React", "TypeScript", "PostgreSQL", "Docker", "pytest", "CI"] },
+];
+
 const hobbies = [
   { label: "hiking", d: "M4 40 L18 15 L26 27 L32 19 L44 40 Z M14 22 l4 3 l3 -4" },
   { label: "gym", d: "M11 15 v18 M6 19 v10 M37 15 v18 M42 19 v10 M11 24 h26" },
@@ -13,14 +20,13 @@ const hobbies = [
 ];
 ---
 
-<section class="ac" id="about" aria-label="About me and contact">
-  <div class="about">
-    <h2 class="marker">about me</h2>
+<section class="about" id="about" aria-labelledby="about-title">
+  <div class="story">
+    <h2 class="marker" id="about-title">about me</h2>
     <p class="big">
       When I'm not at my laptop, I'm usually out on a <em>hike</em>, at the <em>gym</em>, on a <em>run</em>, or taking <em>photos</em>.
       There's always music playing.
     </p>
-    <p class="tools">Most days I work in Python, SQL, R, Power BI and Tableau.</p>
     <ul class="hobbies">
       {
         hobbies.map((h) => (
@@ -35,8 +41,31 @@ const hobbies = [
     </ul>
   </div>
 
-  <div class="contact" id="contact">
-    <h2 class="marker talk">let's talk.</h2>
+  <div class="kit">
+    <p class="kicker marker">ex-SWE, now on the data side</p>
+    <p class="lead">What I reach for most days:</p>
+    <dl>
+      {
+        skills.map((s) => (
+          <div class="group">
+            <dt>{s.group}</dt>
+            <dd>
+              <ul>
+                {s.items.map((i) => (
+                  <li>{i}</li>
+                ))}
+              </ul>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>
+
+<section class="contact" id="contact" aria-labelledby="contact-title">
+    <h2 class="marker talk" id="contact-title">let's talk.</h2>
+    <div class="reach">
     <a class="email" href={`mailto:${site.email}`}>{site.email}</a>
     <div class="links">
       <a class="pill" href={site.github} target="_blank" rel="noopener">
@@ -48,17 +77,17 @@ const hobbies = [
         LinkedIn<span class="sr-only"> (opens in a new tab)</span>
       </a>
     </div>
-  </div>
+    </div>
 </section>
 
 <style>
-  .ac {
+  .about {
     display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
     gap: clamp(3rem, 7vw, 7rem);
     max-width: 82rem;
     margin: 0 auto;
-    padding: clamp(5rem, 12vh, 8rem) var(--gutter);
+    padding: clamp(5rem, 12vh, 8rem) var(--gutter) clamp(3rem, 8vh, 5rem);
     align-items: start;
   }
   h2 {
@@ -74,10 +103,53 @@ const hobbies = [
     font: 400 clamp(1.8rem, 3.2vw, 2.9rem) / 1.12 var(--serif);
     letter-spacing: -0.005em;
   }
-  .tools {
-    margin: 1.4rem 0 0;
+  .kit {
+    padding-top: clamp(0rem, 4vw, 3.4rem);
+  }
+  .kicker {
+    margin: 0;
+    font-size: clamp(1.3rem, 2vw, 1.7rem);
+    line-height: 1.1;
+    transform: rotate(-2deg);
+    transform-origin: left;
+  }
+  .lead {
+    margin: 0.9rem 0 1.4rem;
     color: var(--ink-2);
-    font-size: 1rem;
+  }
+  dl {
+    display: grid;
+    gap: 1.1rem;
+    margin: 0;
+  }
+  .group {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    gap: 0.4rem 1rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid #d3cec2;
+  }
+  dt {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  dd {
+    margin: 0;
+  }
+  dd ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  dd li {
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    background: var(--pill);
+    font-size: 0.875rem;
+    line-height: 1.3;
   }
   .hobbies {
     display: flex;
@@ -109,13 +181,24 @@ const hobbies = [
   }
 
   .contact {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1.6rem 3rem;
+    max-width: 82rem;
+    margin: 0 auto;
+    padding: clamp(3rem, 8vh, 5rem) var(--gutter) clamp(4rem, 10vh, 6rem);
+    border-top: 1px dashed #c9c4b7;
+  }
+  .reach {
     display: grid;
     justify-items: start;
-    gap: 1.6rem;
-    padding-top: clamp(0rem, 3vw, 2.5rem);
+    gap: 1.2rem;
+    padding-bottom: 0.6rem;
   }
   .talk {
-    font-size: clamp(3.6rem, 9vw, 8.5rem);
+    font-size: clamp(3.6rem, 11vw, 10rem);
     line-height: 0.95;
   }
   .email {
@@ -137,7 +220,7 @@ const hobbies = [
   }
 
   @media (max-width: 860px) {
-    .ac {
+    .about {
       grid-template-columns: minmax(0, 1fr);
     }
   }
@@ -153,6 +236,9 @@ const hobbies = [
     }
     .hobbies span {
       font-size: 0.8rem;
+    }
+    .group {
+      grid-template-columns: minmax(0, 1fr);
     }
   }
   @media (prefers-reduced-motion: reduce) {
