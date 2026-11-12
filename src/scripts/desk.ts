@@ -21,6 +21,7 @@ if (section && stage) {
     i: number;
     sc: [number, number, number];
     pi: [number, number, number];
+    spots: { sc: [number, number, number]; pi: [number, number, number]; psc: [number, number, number]; ppi: [number, number, number] };
     w: number;
     h: number;
     hidden: boolean;
@@ -39,6 +40,12 @@ if (section && stage) {
     i,
     sc: nums(el.dataset.scatter),
     pi: nums(el.dataset.pile),
+    spots: {
+      sc: nums(el.dataset.scatter),
+      pi: nums(el.dataset.pile),
+      psc: nums(el.dataset.phoneScatter),
+      ppi: nums(el.dataset.phonePile),
+    },
     w: 0,
     h: 0,
     hidden: false,
@@ -68,6 +75,8 @@ if (section && stage) {
     W = stage!.clientWidth;
     H = stage!.clientHeight;
     for (const o of objs) {
+      o.sc = phone.matches ? o.spots.psc : o.spots.sc;
+      o.pi = phone.matches ? o.spots.ppi : o.spots.pi;
       o.hidden = getComputedStyle(o.el).display === "none";
       o.w = o.el.offsetWidth;
       o.h = o.el.offsetHeight;

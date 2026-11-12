@@ -33,6 +33,8 @@ const widthsFor = (img: ImageMetadata) => [0.25, 0.5, 0.75, 1].map((k) => Math.r
             data-label={o.label}
             data-scatter={o.scatter.join(",")}
             data-pile={o.pile.join(",")}
+            data-phone-scatter={(o.phoneScatter ?? o.scatter).join(",")}
+            data-phone-pile={(o.phonePile ?? o.pile).join(",")}
             data-phone-hide={o.hideOnPhone ? "" : undefined}
             style={`--w:${o.w};--wp:${o.wPhone};--x:${o.scatter[0]};--y:${o.scatter[1]};--r:${o.scatter[2]}deg`}
           >

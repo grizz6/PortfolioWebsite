@@ -145,6 +145,7 @@ a {
 }
 
 /* in-page links land below the fixed header */
-section[id] {
+section[id],
+#contact {
   scroll-margin-top: 5rem;
 }

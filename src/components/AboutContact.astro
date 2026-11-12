@@ -1,0 +1,163 @@
+---
+import { site } from "../data/site";
+
+const hobbies = [
+  { label: "hiking", d: "M4 40 L18 15 L26 27 L32 19 L44 40 Z M14 22 l4 3 l3 -4" },
+  { label: "gym", d: "M11 15 v18 M6 19 v10 M37 15 v18 M42 19 v10 M11 24 h26" },
+  {
+    label: "running",
+    d: "M5 35 q0 -7 7 -8 l8 -2 l5 -9 q5 1 6 6 l9 3 q7 2 7 9 v2 H5 Z M5 37 h39 M22 22 l3 2 M24 19 l3 2",
+  },
+  { label: "photos", d: "M5 15 h9 l3 -5 h14 l3 5 h9 v24 H5 Z M24 19 a8 8 0 1 0 0.01 0 M37 20 h2" },
+  { label: "music", d: "M8 30 v-6 a16 16 0 0 1 32 0 v6 M5 29 h7 v11 h-7 Z M36 29 h7 v11 h-7 Z" },
+];
+---
+
+<section class="ac" id="about" aria-label="About me and contact">
+  <div class="about">
+    <h2 class="marker">about me</h2>
+    <p class="big">
+      When I'm not at my laptop, I'm usually out on a <em>hike</em>, at the <em>gym</em>, on a <em>run</em>, or taking <em>photos</em>.
+      There's always music playing.
+    </p>
+    <p class="tools">Most days I work in Python, SQL, R, Power BI and Tableau.</p>
+    <ul class="hobbies">
+      {
+        hobbies.map((h) => (
+          <li>
+            <svg viewBox="0 0 48 48" aria-hidden="true">
+              <path filter="url(#wobble)" d={h.d} />
+            </svg>
+            <span class="marker">{h.label}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="contact" id="contact">
+    <h2 class="marker talk">let's talk.</h2>
+    <a class="email" href={`mailto:${site.email}`}>{site.email}</a>
+    <div class="links">
+      <a class="pill" href={site.github} target="_blank" rel="noopener">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 15.5c-3 1-3-1.5-4.5-2m9 4v-2.6a2.3 2.3 0 0 0-.6-1.7c2.1-.3 4.3-1 4.3-4.6a3.6 3.6 0 0 0-1-2.5 3.3 3.3 0 0 0-.1-2.5s-.8-.3-2.6 1a9 9 0 0 0-4.7 0C5 3.4 4.2 3.7 4.2 3.7a3.3 3.3 0 0 0 0 2.5 3.6 3.6 0 0 0-1 2.5c0 3.6 2.2 4.3 4.3 4.6a2.3 2.3 0 0 0-.6 1.7v2.6" /></svg>
+        GitHub<span class="sr-only"> (opens in a new tab)</span>
+      </a>
+      <a class="pill" href={site.linkedin} target="_blank" rel="noopener">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="15" height="15" rx="2.5" /><path d="M6.5 9v4.5M6.5 6.5v.01M9.5 13.5V9m0 2.2c0-1.3 1-2.2 2.1-2.2s1.9.8 1.9 2.2v2.3" /></svg>
+        LinkedIn<span class="sr-only"> (opens in a new tab)</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ac {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: clamp(3rem, 7vw, 7rem);
+    max-width: 82rem;
+    margin: 0 auto;
+    padding: clamp(5rem, 12vh, 8rem) var(--gutter);
+    align-items: start;
+  }
+  h2 {
+    margin: 0;
+    font-weight: 400;
+    line-height: 1;
+  }
+  .about h2 {
+    font-size: clamp(2rem, 3.6vw, 3rem);
+  }
+  .big {
+    margin: 1.4rem 0 0;
+    font: 400 clamp(1.8rem, 3.2vw, 2.9rem) / 1.12 var(--serif);
+    letter-spacing: -0.005em;
+  }
+  .tools {
+    margin: 1.4rem 0 0;
+    color: var(--ink-2);
+    font-size: 1rem;
+  }
+  .hobbies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem 1.8rem;
+    margin: 2.2rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .hobbies li {
+    display: grid;
+    justify-items: center;
+    gap: 0.35rem;
+  }
+  .hobbies svg {
+    width: 3.2rem;
+    height: 3.2rem;
+    overflow: visible;
+  }
+  .hobbies path {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .hobbies span {
+    font-size: 1rem;
+  }
+
+  .contact {
+    display: grid;
+    justify-items: start;
+    gap: 1.6rem;
+    padding-top: clamp(0rem, 3vw, 2.5rem);
+  }
+  .talk {
+    font-size: clamp(3.6rem, 9vw, 8.5rem);
+    line-height: 0.95;
+  }
+  .email {
+    font: italic 400 clamp(1.6rem, 3vw, 2.6rem) / 1.2 var(--serif);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+    background: linear-gradient(var(--ink), var(--ink)) left bottom / 0% 2px no-repeat;
+    padding-bottom: 0.1em;
+    transition: background-size 0.45s cubic-bezier(0.3, 0.7, 0.4, 1);
+  }
+  .email:hover,
+  .email:focus-visible {
+    background-size: 100% 2px;
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  @media (max-width: 860px) {
+    .ac {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  @media (max-width: 480px) {
+    .hobbies {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0.5rem;
+    }
+    .hobbies svg {
+      width: 2.6rem;
+      height: 2.6rem;
+    }
+    .hobbies span {
+      font-size: 0.8rem;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .email {
+      transition: none;
+    }
+  }
+</style>

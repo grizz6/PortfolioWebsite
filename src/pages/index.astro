@@ -5,12 +5,8 @@ import Desk from "../components/Desk.astro";
 import Statement from "../components/Statement.astro";
 import Work from "../components/Work.astro";
 import Photos from "../components/Photos.astro";
-
-// About, contact and the footer are stand-ins until the next phase.
-const upcoming = [
-  { id: "about", label: "About me" },
-  { id: "contact", label: "Let's talk" },
-];
+import AboutContact from "../components/AboutContact.astro";
+import Footer from "../components/Footer.astro";
 ---
 
 <Base>
@@ -20,31 +16,7 @@ const upcoming = [
     <Statement />
     <Work />
     <Photos />
-    {
-      upcoming.map((s) => (
-        <section class="soon" id={s.id}>
-          <h2>{s.label}</h2>
-          <p>This section is built in the next phase.</p>
-        </section>
-      ))
-    }
+    <AboutContact />
   </main>
+  <Footer />
 </Base>
-
-<style>
-  .soon {
-    display: grid;
-    place-content: center;
-    min-height: 60vh;
-    padding: 4rem var(--gutter);
-    border-top: 1px dashed #c9c4b7;
-    text-align: center;
-  }
-  .soon h2 {
-    margin: 0;
-    font: 400 clamp(2.4rem, 5vw, 4rem) / 1 var(--serif);
-  }
-  .soon p {
-    color: var(--ink-2);
-  }
-</style>
