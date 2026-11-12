@@ -50,12 +50,13 @@ text.split(/(\*[^*]+\*)/).forEach((part) => {
 
   const p = document.querySelector<HTMLElement>("[data-statement]");
   if (p && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    // words go from faint to full ink, one by one, as the section scrolls through
+    // words go from faint to full ink, one by one, as the section scrolls through.
+    // The faint grey still clears 3:1 against the paper, enough for text this large.
     gsap.fromTo(
       p.querySelectorAll(".w"),
-      { opacity: 0.16 },
+      { color: "#86837A" },
       {
-        opacity: 1,
+        color: "#16150F",
         ease: "none",
         stagger: 0.12,
         scrollTrigger: { trigger: p, start: "top 78%", end: "bottom 45%", scrub: 0.4 },

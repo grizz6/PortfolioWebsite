@@ -24,7 +24,7 @@ const photos = await Promise.all(
       const caption = txtCaption || meta.caption || "";
       const alt = txtAlt || meta.alt || caption || stem(path).replace(/[-_]+/g, " ");
       const full = await getImage({ src: img, width: Math.min(img.width, 2000), format: "webp" });
-      const widths = [...new Set([320, 480, 720, 1000].filter((w) => w < img.width).concat(img.width))];
+      const widths = [...new Set([240, 360, 480, 720, 1000].filter((w) => w < img.width).concat(img.width))];
       return { img, alt, caption, full: full.src, widths, tilt: [-2.4, 1.8, -1.2, 2.6, -1.8, 1.1][i % 6] };
     }),
 );
@@ -52,7 +52,6 @@ const columns = [0, 1, 2, 3].map((c) => photos.map((p, i) => ({ ...p, i })).filt
                 data-full={p.full}
                 data-alt={p.alt}
                 data-caption={p.caption}
-                aria-label={`Open photo: ${p.alt}`}
               >
                 <Picture
                   src={p.img}

@@ -266,6 +266,7 @@ if (section && stage) {
 
   // ---------- start ----------
   measure();
+  headline.classList.add("driven");
   render();
 
   const pops = objs.map((o) => o.el.firstElementChild as HTMLElement);

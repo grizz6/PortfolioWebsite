@@ -225,12 +225,13 @@ const widthsFor = (img: ImageMetadata) => [0.25, 0.5, 0.75, 1].map((k) => Math.r
     left: 50%;
     top: 42%;
     z-index: 5;
-    width: min(92vw, 62rem);
+    width: min(92vw, 86rem);
     text-align: center;
     transform: translate(-50%, -50%);
     pointer-events: none;
   }
-  :global(.js) .headline {
+  /* the script takes over positioning; until then the headline paints where it starts */
+  .headline.driven {
     top: 0;
     will-change: transform;
   }
@@ -329,6 +330,12 @@ const widthsFor = (img: ImageMetadata) => [0.25, 0.5, 0.75, 1].map((k) => Math.r
     opacity: 1;
   }
 
+  /* tablets: the same desk, objects a little larger */
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .obj {
+      width: calc(var(--w) * 1.35vw);
+    }
+  }
   @media (max-width: 640px) {
     .obj {
       width: calc(var(--wp) * 1vw);

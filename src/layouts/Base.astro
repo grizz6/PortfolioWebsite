@@ -4,7 +4,6 @@ import "@fontsource/instrument-serif/400.css";
 import "@fontsource/instrument-serif/400-italic.css";
 import "@fontsource/permanent-marker/400.css";
 import "../styles/global.css";
-import sansUrl from "@fontsource-variable/instrument-sans/files/instrument-sans-latin-wght-normal.woff2?url";
 import serifUrl from "@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2?url";
 import markerUrl from "@fontsource/permanent-marker/files/permanent-marker-latin-400-normal.woff2?url";
 import { site } from "../data/site";
@@ -12,8 +11,9 @@ import { site } from "../data/site";
 interface Props {
   title?: string;
   description?: string;
+  noindex?: boolean;
 }
-const { title = site.name, description = site.description } = Astro.props;
+const { title = site.name, description = site.description, noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, site.url).href;
 ---
 
@@ -24,7 +24,7 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="theme-color" content="#EFEDE7" />
@@ -32,8 +32,11 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL("/og.png", site.url).href} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="A paper desk seen from above, with a laptop, notebook, milk tea and a sticky note that says ship it." />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="preload" href={sansUrl} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={serifUrl} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={markerUrl} as="font" type="font/woff2" crossorigin />
     <script is:inline>document.documentElement.classList.add("js");</script>
