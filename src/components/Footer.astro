@@ -1,44 +1,80 @@
 ---
 const year = new Date().getFullYear();
 
-// An original crew of chibi doodles, drawn like a quick pencil sketch: every stroke is laid down
-// twice, the second a hair off the first. Big heads, small bodies, two walking poses.
-const head = "M14 34 C14 18 24 10 32 10 C42 10 50 18 50 34 C50 46 42 52 32 52 C22 52 14 46 14 34 Z";
-const body = "M25 52 Q23 62 25 72 H39 Q41 62 39 52";
-const poseA = "M25 56 L18 65 M39 56 L46 64 M28 72 L24 86 M36 72 L40 86";
-const poseB = "M25 56 L22 66 M39 56 L42 66 M29 72 L28 86 M35 72 L36 86";
-const crew = [
-  // bucket hat, easy smile
-  "M12 26 Q32 18 52 26 L48 18 Q32 4 16 18 Z M25 36 v3 M39 36 v3 M28 44 q4 3 8 0",
-  // beanie with a pom
-  "M14 28 Q14 8 32 8 Q50 8 50 28 Z M14 28 H50 M32 4 a3 3 0 1 0 0.01 0 M25 37 v3 M39 37 v3 M29 45 h6",
-  // long hair to the shoulders, side part
-  "M14 34 C12 16 22 8 34 9 C46 10 52 20 50 34 L52 56 M14 34 L12 56 M20 22 Q30 26 36 12 M26 37 v3 M38 37 v3 M29 45 q3 2 6 0",
-  // curly hair and goggles up top
-  "M14 28 q-3 -10 6 -13 q1 -8 9 -5 q5 -6 11 -1 q9 -1 8 9 q6 5 2 11 M18 24 H46 M24 24 a4 3 0 1 0 0.01 0 M40 24 a4 3 0 1 0 0.01 0 M25 37 v3 M39 37 v3 M28 44 q4 4 8 0",
-  // cap worn backwards, short hair
-  "M16 26 Q18 10 32 10 Q46 10 48 26 Z M16 26 H48 M16 26 L8 29 M25 36 l4 1 M35 37 l4 -1 M29 45 q3 2 6 0",
+// An original crew of chibi sketches walking across, each carrying something from the desk.
+// Every stroke is drawn twice, the second a hair off the first, like quick pencil work.
+type Kid = { back?: string; hair: string; face?: string; prop?: string; mouth: string; eyes?: boolean };
+const head = "M14 44 C12 24 26 12 40 12 C56 12 68 24 66 44 C66 58 54 66 40 66 C26 66 14 58 14 44 Z";
+const body = "M29 66 L25 92 H55 L51 66 Z";
+const collar = "M33 66 L40 74 L47 66";
+const legsA = "M32 92 L28 104 M48 92 L53 103";
+const legsB = "M33 92 L33 104 M47 92 L47 104";
+const armsA = "M28 72 L20 84 M52 72 L60 82";
+const armsB = "M28 72 L24 86 M52 72 L56 86";
+const kids: Kid[] = [
+  {
+    // messy spiky hair, headphones round the neck, big grin
+    hair: "M14 40 C10 20 24 8 40 8 C58 8 70 20 66 40 L61 30 L57 38 L51 25 L45 36 L39 23 L33 36 L27 27 L22 38 L18 30 Z",
+    prop: "M24 66 Q40 78 56 66 M20 62 a4 5 0 1 0 0.1 0 M60 62 a4 5 0 1 0 0.1 0",
+    mouth: "M33 55 Q40 63 47 55 Z",
+  },
+  {
+    // long hair under a beanie with a pom
+    back: "M15 44 C11 62 13 80 19 84 L29 70 Z M65 44 C69 62 67 80 61 84 L51 70 Z",
+    hair: "M12 34 C14 8 66 8 68 34 Z M12 32 H68 V39 H12 Z M40 3 a5 5 0 1 0 0.1 0",
+    mouth: "M36 57 Q40 60 44 57",
+  },
+  {
+    // bob with a clip, camera in hand
+    hair: "M12 50 C8 22 24 10 40 10 C56 10 72 22 68 50 L62 52 C62 38 56 30 47 27 C39 35 27 37 18 36 C18 42 18 48 18 52 Z",
+    face: "M55 25 l9 -5",
+    prop: "M29 74 H51 V87 H29 Z M40 80.5 a3.5 3.5 0 1 0 0.1 0 M33 74 V71 H39 V74",
+    mouth: "M36 57 Q40 61 44 57",
+  },
+  {
+    // curls, round glasses, a book under the arm
+    hair: "M14 38 q-6 -10 2 -16 q-2 -12 10 -12 q4 -8 14 -4 q10 -6 16 2 q12 0 10 12 q8 6 2 16 q-8 -6 -14 -4 q-6 -6 -14 -2 q-8 -4 -14 2 q-6 -2 -12 6 Z",
+    face: "M23 46 a7 7 0 1 0 14 0 a7 7 0 1 0 -14 0 M43 46 a7 7 0 1 0 14 0 a7 7 0 1 0 -14 0 M37 45 H43",
+    prop: "M55 74 L66 72 L68 90 L57 92 Z M57 76 L66 74",
+    mouth: "M37 57 H43",
+  },
+  {
+    // backwards cap, water bottle
+    hair: "M14 32 C16 10 64 10 66 32 Z M14 32 L4 35 L5 39 L15 36 M20 33 l2 6 M27 33 l1 6 M60 33 l-2 6",
+    prop: "M58 78 H66 V96 H58 Z M59 74 H65 V78 H59 Z M58 86 H66",
+    mouth: "M35 56 Q40 61 45 56",
+  },
 ];
 ---
 
 <footer class="site-footer">
   <div class="sky" aria-hidden="true">
-    <svg class="crew" viewBox="0 0 330 92" fill="none">
+    <svg class="crew" viewBox="0 0 410 112" fill="none">
       <g filter="url(#wobble)" stroke="#16150F" stroke-linecap="round" stroke-linejoin="round">
         {
-          crew.map((extra, i) => (
-            <g class="walker" transform={`translate(${i * 66} 0)`}>
-              {[0, 1].map((k) => (
-                <g
-                  stroke-width={k ? 1.1 : 2}
-                  opacity={k ? 0.5 : 1}
-                  transform={k ? "translate(0.8 0.6)" : undefined}
-                >
-                  <path d={head} fill={k ? "none" : "#EFEDE7"} />
-                  <path d={extra} />
-                  <path d={body} />
-                  <path class="pose-a" d={poseA} />
-                  <path class="pose-b" d={poseB} />
+          kids.map((k, i) => (
+            <g class="walker" transform={`translate(${i * 82} 0)`}>
+              {[0, 1].map((n) => (
+                <g stroke-width={n ? 1 : 1.9} opacity={n ? 0.45 : 1} transform={n ? "translate(0.9 0.6)" : undefined}>
+                  {k.back && <path d={k.back} fill={n ? "none" : "#C9C3B4"} />}
+                  <path d={body} fill={n ? "none" : "#E2DDD1"} />
+                  <path d={collar} />
+                  <path class="pose-a" d={`${legsA} ${armsA}`} />
+                  <path class="pose-b" d={`${legsB} ${armsB}`} />
+                  <path d={head} fill={n ? "none" : "#FBFAF7"} />
+                  <path d={k.hair} fill={n ? "none" : "#3B3A33"} />
+                  {!n && (
+                    <g fill="#16150F" stroke="none">
+                      <ellipse cx="31" cy="47" rx="3" ry="4" />
+                      <ellipse cx="49" cy="47" rx="3" ry="4" />
+                      <circle cx="32" cy="45.6" r="1.1" fill="#FBFAF7" />
+                      <circle cx="50" cy="45.6" r="1.1" fill="#FBFAF7" />
+                    </g>
+                  )}
+                  <path d="M22 54 l3 -2 M25 55 l3 -2 M52 54 l3 -2 M55 55 l3 -2" stroke-width={n ? 0.8 : 1.2} />
+                  {k.face && <path d={k.face} />}
+                  <path d={k.mouth} fill={k.mouth.endsWith("Z") && !n ? "#16150F" : "none"} />
+                  {k.prop && <path d={k.prop} fill={n ? "none" : "#FBFAF7"} />}
                 </g>
               ))}
             </g>
@@ -66,7 +102,7 @@ const crew = [
     position: absolute;
     left: 0;
     top: 0.5rem;
-    width: clamp(18rem, 30vw, 26rem);
+    width: clamp(18rem, 32vw, 28rem);
     animation: drift 30s linear infinite;
   }
   /* legs and arms swap between two poses, like a flip book */
