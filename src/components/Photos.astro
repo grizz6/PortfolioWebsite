@@ -71,9 +71,10 @@ const columns = [0, 1, 2, 3].map((c) => photos.map((p, i) => ({ ...p, i })).filt
     }
   </div>
 
-  <dialog class="viewer" aria-label="Photo viewer" data-viewer>
+  <dialog class="viewer" aria-labelledby="viewer-title" data-viewer>
+    <h2 class="sr-only" id="viewer-title">Photo viewer</h2>
     <figure>
-      <img alt="" data-viewer-img />
+      <span class="vimg" data-viewer-img></span>
       <figcaption data-viewer-cap></figcaption>
     </figure>
     <button type="button" class="vbtn close" data-close aria-label="Close">
@@ -317,13 +318,16 @@ const columns = [0, 1, 2, 3].map((c) => photos.map((p, i) => ({ ...p, i })).filt
     }
 
     // the viewer
-    const img = viewer.querySelector<HTMLImageElement>("[data-viewer-img]")!;
+    // the viewer's image is made on first open, so the page never ships an image without a source
+    const img = document.createElement("img");
+    const slot = viewer.querySelector("[data-viewer-img]")!;
     const cap = viewer.querySelector<HTMLElement>("[data-viewer-cap]")!;
     let at = 0;
     let opener: HTMLElement | null = null;
     const show = (i: number) => {
       at = (i + allPrints.length) % allPrints.length;
       const p = allPrints[at];
+      if (!img.isConnected) slot.replaceWith(img);
       img.src = p.dataset.full!;
       img.alt = p.dataset.alt!;
       cap.textContent = p.dataset.caption ?? "";

@@ -7,85 +7,38 @@ const own = Object.values(
   import.meta.glob<{ default: ImageMetadata }>("../assets/doodles/crew.{png,webp,svg}", { eager: true }),
 )[0]?.default;
 
-// An original crew of chibi sketches walking across, each carrying something from the desk.
+// A doodled ship sailing across, flying a classic skull and crossbones.
 // Every stroke is drawn twice, the second a hair off the first, like quick pencil work.
-type Kid = { back?: string; hair: string; face?: string; prop?: string; mouth: string; eyes?: boolean };
-const head = "M14 44 C12 24 26 12 40 12 C56 12 68 24 66 44 C66 58 54 66 40 66 C26 66 14 58 14 44 Z";
-const body = "M29 66 L25 92 H55 L51 66 Z";
-const collar = "M33 66 L40 74 L47 66";
-const legsA = "M32 92 L28 104 M48 92 L53 103";
-const legsB = "M33 92 L33 104 M47 92 L47 104";
-const armsA = "M28 72 L20 84 M52 72 L60 82";
-const armsB = "M28 72 L24 86 M52 72 L56 86";
-const kids: Kid[] = [
-  {
-    // messy spiky hair, headphones round the neck, big grin
-    hair: "M14 40 C10 20 24 8 40 8 C58 8 70 20 66 40 L61 30 L57 38 L51 25 L45 36 L39 23 L33 36 L27 27 L22 38 L18 30 Z",
-    prop: "M24 66 Q40 78 56 66 M20 62 a4 5 0 1 0 0.1 0 M60 62 a4 5 0 1 0 0.1 0",
-    mouth: "M33 55 Q40 63 47 55 Z",
-  },
-  {
-    // long hair under a beanie with a pom
-    back: "M15 44 C11 62 13 80 19 84 L29 70 Z M65 44 C69 62 67 80 61 84 L51 70 Z",
-    hair: "M12 34 C14 8 66 8 68 34 Z M12 32 H68 V39 H12 Z M40 3 a5 5 0 1 0 0.1 0",
-    mouth: "M36 57 Q40 60 44 57",
-  },
-  {
-    // bob with a clip, camera in hand
-    hair: "M12 50 C8 22 24 10 40 10 C56 10 72 22 68 50 L62 52 C62 38 56 30 47 27 C39 35 27 37 18 36 C18 42 18 48 18 52 Z",
-    face: "M55 25 l9 -5",
-    prop: "M29 74 H51 V87 H29 Z M40 80.5 a3.5 3.5 0 1 0 0.1 0 M33 74 V71 H39 V74",
-    mouth: "M36 57 Q40 61 44 57",
-  },
-  {
-    // curls, round glasses, a book under the arm
-    hair: "M14 38 q-6 -10 2 -16 q-2 -12 10 -12 q4 -8 14 -4 q10 -6 16 2 q12 0 10 12 q8 6 2 16 q-8 -6 -14 -4 q-6 -6 -14 -2 q-8 -4 -14 2 q-6 -2 -12 6 Z",
-    face: "M23 46 a7 7 0 1 0 14 0 a7 7 0 1 0 -14 0 M43 46 a7 7 0 1 0 14 0 a7 7 0 1 0 -14 0 M37 45 H43",
-    prop: "M55 74 L66 72 L68 90 L57 92 Z M57 76 L66 74",
-    mouth: "M37 57 H43",
-  },
-  {
-    // backwards cap, water bottle
-    hair: "M14 32 C16 10 64 10 66 32 Z M14 32 L4 35 L5 39 L15 36 M20 33 l2 6 M27 33 l1 6 M60 33 l-2 6",
-    prop: "M58 78 H66 V96 H58 Z M59 74 H65 V78 H59 Z M58 86 H66",
-    mouth: "M35 56 Q40 61 45 56",
-  },
+const ship = [
+  { d: "M20 120 H236 Q226 148 196 152 H64 Q34 148 20 120 Z", fill: "#E2DDD1" },
+  { d: "M28 132 H228 M60 141 h16 M96 141 h16 M132 141 h16 M168 141 h16" },
+  { d: "M236 120 L262 104 M244 115 L262 104" },
+  { d: "M128 120 V18" },
+  { d: "M86 30 Q128 22 170 30 Q182 54 170 78 Q128 70 86 78 Q74 54 86 30 Z", fill: "#FBFAF7" },
+  { d: "M90 86 Q128 80 166 86 Q174 100 166 114 Q128 108 90 114 Q82 100 90 86 Z", fill: "#FBFAF7" },
+  { d: "M80 28 H176 M84 84 H172" },
+  { d: "M128 18 H160 V40 H128", fill: "#3B3A33" },
 ];
+// the flag's skull and crossbones, in paper on the dark flag
+const flag = "M139 30 L149 36 M149 30 L139 36 M144 23 a5 5 0 1 0 0.1 0 M141 27.5 h1 M146 27.5 h1";
+const waves = "M0 156 q16 -8 32 0 t32 0 t32 0 t32 0 t32 0 t32 0 t32 0 t32 0 t24 0";
 ---
 
 <footer class="site-footer">
   <div class="sky" aria-hidden="true">
-    {own ? <img class="crew" src={own.src} width={own.width} height={own.height} alt="" /> : <svg class="crew" viewBox="0 0 410 112" fill="none">
+    {own ? <img class="crew" src={own.src} width={own.width} height={own.height} alt="" /> : <svg class="crew" viewBox="0 0 280 164" fill="none">
       <g filter="url(#wobble)" stroke="#16150F" stroke-linecap="round" stroke-linejoin="round">
-        {
-          kids.map((k, i) => (
-            <g class="walker" transform={`translate(${i * 82} 0)`}>
-              {[0, 1].map((n) => (
-                <g stroke-width={n ? 1 : 1.9} opacity={n ? 0.45 : 1} transform={n ? "translate(0.9 0.6)" : undefined}>
-                  {k.back && <path d={k.back} fill={n ? "none" : "#C9C3B4"} />}
-                  <path d={body} fill={n ? "none" : "#E2DDD1"} />
-                  <path d={collar} />
-                  <path class="pose-a" d={`${legsA} ${armsA}`} />
-                  <path class="pose-b" d={`${legsB} ${armsB}`} />
-                  <path d={head} fill={n ? "none" : "#FBFAF7"} />
-                  <path d={k.hair} fill={n ? "none" : "#3B3A33"} />
-                  {!n && (
-                    <g fill="#16150F" stroke="none">
-                      <ellipse cx="31" cy="47" rx="3" ry="4" />
-                      <ellipse cx="49" cy="47" rx="3" ry="4" />
-                      <circle cx="32" cy="45.6" r="1.1" fill="#FBFAF7" />
-                      <circle cx="50" cy="45.6" r="1.1" fill="#FBFAF7" />
-                    </g>
-                  )}
-                  <path d="M22 54 l3 -2 M25 55 l3 -2 M52 54 l3 -2 M55 55 l3 -2" stroke-width={n ? 0.8 : 1.2} />
-                  {k.face && <path d={k.face} />}
-                  <path d={k.mouth} fill={k.mouth.endsWith("Z") && !n ? "#16150F" : "none"} />
-                  {k.prop && <path d={k.prop} fill={n ? "none" : "#FBFAF7"} />}
-                </g>
+        <path d={waves} stroke-width="1.8" stroke-dasharray="1 7" />
+        <g class="bob">
+          {[0, 1].map((n) => (
+            <g stroke-width={n ? 1 : 2} opacity={n ? 0.45 : 1} transform={n ? "translate(0.9 0.6)" : undefined}>
+              {ship.map((part) => (
+                <path d={part.d} fill={!n && part.fill ? part.fill : "none"} />
               ))}
             </g>
-          ))
-        }
+          ))}
+          <path d={flag} stroke="#FBFAF7" stroke-width="1.6" />
+        </g>
       </g>
     </svg>}
   </div>
@@ -108,26 +61,18 @@ const kids: Kid[] = [
     position: absolute;
     left: 0;
     top: 0.5rem;
-    width: clamp(18rem, 32vw, 28rem);
+    width: clamp(10rem, 16vw, 14rem);
     animation: drift 30s linear infinite;
   }
-  /* legs and arms swap between two poses, like a flip book */
-  .pose-b {
-    opacity: 0;
+  /* the ship rocks gently on the waves */
+  .bob {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: bob 2.4s ease-in-out infinite;
   }
-  .crew .pose-a {
-    animation: step 0.5s steps(1) infinite;
-  }
-  .crew .pose-b {
-    animation: step 0.5s steps(1) infinite reverse;
-  }
-  .walker:nth-child(even) .pose-a,
-  .walker:nth-child(even) .pose-b {
-    animation-delay: -0.25s;
-  }
-  @keyframes step {
-    0% { opacity: 1; }
-    50% { opacity: 0; }
+  @keyframes bob {
+    0%, 100% { transform: rotate(-2deg) translateY(0); }
+    50% { transform: rotate(2deg) translateY(-2px); }
   }
   @keyframes drift {
     from {
@@ -156,8 +101,7 @@ const kids: Kid[] = [
     text-underline-offset: 0.2em;
   }
   @media (prefers-reduced-motion: reduce) {
-    .crew .pose-a,
-    .crew .pose-b {
+    .bob {
       animation: none;
     }
     .crew {
