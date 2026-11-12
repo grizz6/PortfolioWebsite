@@ -18,6 +18,11 @@ const objects = desk.map((o) => {
   return { ...o, cut, svg: find(drawings, o.key), sw, sh };
 });
 
+// Your own scroll-hint character wins: src/assets/doodles/scroll.png / .webp / .svg
+const ownHint = Object.values(
+  import.meta.glob<{ default: ImageMetadata }>("../assets/doodles/scroll.{png,webp,svg}", { eager: true }),
+)[0]?.default;
+
 const sizesFor = (o: (typeof desk)[number]) => `(max-width: 640px) ${o.wPhone}vw, ${o.w}vw`;
 const widthsFor = (img: ImageMetadata) => [0.25, 0.5, 0.75, 1].map((k) => Math.round(img.width * k));
 ---
@@ -103,6 +108,7 @@ const widthsFor = (img: ImageMetadata) => [0.25, 0.5, 0.75, 1].map((k) => Math.r
     </div>
 
     <div class="hint hint-scroll" aria-hidden="true" data-hint>
+      {ownHint && <img src={ownHint.src} width={ownHint.width} height={ownHint.height} alt="" class="own-hint" />}
       <svg viewBox="0 0 150 120" fill="none" stroke="#16150F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
         <g filter="url(#wobble)">
           <!-- an original chibi ninja, sketched: hood up, mask on, bun peeking out, scroll in hand -->
@@ -303,6 +309,13 @@ const widthsFor = (img: ImageMetadata) => [0.25, 0.5, 0.75, 1].map((k) => Math.r
   .hint-scroll {
     left: var(--gutter);
     width: clamp(5.5rem, 8vw, 8rem);
+  }
+  .own-hint {
+    width: 100%;
+    height: auto;
+  }
+  .own-hint + svg {
+    display: none;
   }
   .hint-throw {
     right: var(--gutter);
