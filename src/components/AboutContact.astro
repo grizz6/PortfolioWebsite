@@ -33,12 +33,12 @@ const socials = [
 ---
 
 <section class="row about" id="about" aria-labelledby="about-title">
-  <h2 class="marker label" id="about-title">about me</h2>
-  <p class="big">
+  <h2 class="marker label" id="about-title" data-reveal>about me</h2>
+  <p class="big" data-reveal>
     When I'm not at my laptop, I'm usually out on a <em>hike</em>, at the <em>gym</em>, on a <em>run</em>, or taking <em>photos</em>.
     There's always music playing.
   </p>
-  <ul class="hobbies">
+  <ul class="hobbies" data-reveal-group>
     {
       hobbies.map((h) => (
         <li>
@@ -53,8 +53,8 @@ const socials = [
 </section>
 
 <section class="row kit" aria-labelledby="kit-title">
-  <h2 class="marker label" id="kit-title">what I reach for</h2>
-  <ul class="cards">
+  <h2 class="marker label" id="kit-title" data-reveal>what I reach for</h2>
+  <ul class="cards" data-reveal-group>
     {
       skills.map((s, i) => (
         <li class="card" style={`--tilt:${[-2, 1.5, -1][i]}deg`}>
@@ -77,9 +77,9 @@ const socials = [
 </section>
 
 <section class="row contact" id="contact" aria-labelledby="contact-title">
-  <h2 class="marker talk" id="contact-title">let's talk.</h2>
-  <a class="email" href={`mailto:${site.email}`}>{site.email}</a>
-  <ul class="links">
+  <h2 class="marker talk" id="contact-title" data-reveal>let's talk.</h2>
+  <a class="email" data-reveal href={`mailto:${site.email}`}>{site.email}</a>
+  <ul class="links" data-reveal-group>
     {
       socials.map((s) => (
         <li>

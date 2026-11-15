@@ -34,7 +34,7 @@ const columns = [0, 1, 2, 3].map((c) => photos.map((p, i) => ({ ...p, i })).filt
 ---
 
 <section class="photos" id="photos" aria-labelledby="photos-title">
-  <div class="head">
+  <div class="head" data-reveal>
     <h2 id="photos-title" class="marker">through my lens</h2>
   </div>
 
@@ -71,7 +71,7 @@ const columns = [0, 1, 2, 3].map((c) => photos.map((p, i) => ({ ...p, i })).filt
     }
   </div>
 
-  <dialog class="viewer" aria-labelledby="viewer-title" data-viewer>
+  <dialog class="viewer" aria-labelledby="viewer-title" data-viewer data-lenis-prevent>
     <h2 class="sr-only" id="viewer-title">Photo viewer</h2>
     <figure>
       <span class="vimg" data-viewer-img></span>
@@ -311,7 +311,7 @@ const columns = [0, 1, 2, 3].map((c) => photos.map((p, i) => ({ ...p, i })).filt
           {
             y: drift[c] / 2,
             ease: "none",
-            scrollTrigger: { trigger: grid, start: "top bottom", end: "bottom top", scrub: 0.5 },
+            scrollTrigger: { trigger: grid, start: "top bottom", end: "bottom top", scrub: 1 },
           },
         ),
       );

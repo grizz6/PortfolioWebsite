@@ -181,6 +181,31 @@ const widthsFor = (img: ImageMetadata) => [0.25, 0.5, 0.75, 1].map((k) => Math.r
     height: auto;
     pointer-events: none;
   }
+  /* at rest, each object sways a hair, each on its own timing, so the desk never looks frozen */
+  @media (prefers-reduced-motion: no-preference) {
+    .lift {
+      animation: sway 6s ease-in-out infinite;
+      animation-delay: calc(var(--w) * -0.45s);
+    }
+    .obj:nth-child(even) .lift {
+      animation-duration: 7.5s;
+      animation-direction: reverse;
+    }
+    .obj.held .lift {
+      animation-play-state: paused;
+    }
+    .hint-scroll svg {
+      animation: nudge 2.6s ease-in-out infinite;
+    }
+  }
+  @keyframes sway {
+    0%, 100% { rotate: -0.7deg; }
+    50% { rotate: 0.7deg; }
+  }
+  @keyframes nudge {
+    0%, 100% { translate: 0 0; }
+    50% { translate: 0 -4px; }
+  }
   .obj:hover .lift,
   .obj.held .lift {
     translate: 0 -5px;

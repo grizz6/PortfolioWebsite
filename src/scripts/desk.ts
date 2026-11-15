@@ -291,7 +291,7 @@ if (section && stage) {
         start: "top top",
         end: "+=100%",
         pin: stage,
-        scrub: 0.6,
+        scrub: 0.9,
         invalidateOnRefresh: true,
       },
       onUpdate() {

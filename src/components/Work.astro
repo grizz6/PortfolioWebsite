@@ -9,7 +9,7 @@ const host = (u: string) => new URL(u).host.replace(/^www\./, "") + new URL(u).p
 ---
 
 <section class="work" id="work" aria-labelledby="work-title">
-  <h2 id="work-title">Things I've built</h2>
+  <h2 id="work-title" data-reveal>Things I've built</h2>
 
   <ul class="cards">
     {
@@ -102,7 +102,7 @@ const host = (u: string) => new URL(u).host.replace(/^www\./, "") + new URL(u).p
     }
   </ul>
 
-  <a class="more marker" href={site.github} target="_blank" rel="noopener">
+  <a class="more marker" data-reveal href={site.github} target="_blank" rel="noopener">
     more on my GitHub
     <svg viewBox="0 0 90 40" fill="none" aria-hidden="true">
       <path filter="url(#wobble)" d="M4 30 C 26 34, 50 30, 80 12 M66 8 L82 11 L76 26" />

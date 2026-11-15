@@ -149,3 +149,18 @@ section[id],
 #contact {
   scroll-margin-top: 5rem;
 }
+
+/* smooth scrolling (mouse and trackpad only) */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+.lenis [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
