@@ -82,7 +82,18 @@ const socials = [
 </section>
 
 <section class="row contact" id="contact" aria-labelledby="contact-title">
-  <h2 class="marker talk" id="contact-title" data-write>let's talk.</h2>
+  <h2 class="talk" id="contact-title">
+    <span class="sr-only">Let's talk.</span>
+    <!-- "let's talk" doodled inside a wobbly speech bubble -->
+    <svg viewBox="0 0 320 150" aria-hidden="true">
+      <g filter="url(#wobble)" fill="none" stroke="#16150F" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M30 18 C 110 6, 230 8, 290 22 C 312 28, 314 92, 292 100 C 230 116, 140 112, 96 108 L 58 138 L 66 106 C 36 104, 14 96, 12 62 C 10 36, 16 22, 30 18 Z" fill="#FBFAF7" />
+        <path d="M268 34 l10 -10 M280 48 l14 -4 M262 22 l2 -12" />
+      </g>
+      <text x="152" y="76" text-anchor="middle" font-size="46" fill="#16150F" transform="rotate(-3 152 70)">let's talk.</text>
+      <path filter="url(#wobble)" d="M70 92 C 120 86, 190 90, 238 86" fill="none" stroke="#FFE36E" stroke-width="7" stroke-linecap="round" opacity=".9" />
+    </svg>
+  </h2>
   <p class="where" data-reveal>Based in Washington, DC, USA.</p>
   <a class="email" data-reveal href={`mailto:${site.email}`}>{site.email}</a>
   <ul class="links" data-reveal-group>
@@ -258,8 +269,17 @@ const socials = [
     padding-bottom: clamp(4rem, 10vh, 6rem);
   }
   .talk {
-    font-size: clamp(3.6rem, 11vw, 10rem);
-    line-height: 0.95;
+    margin: 0;
+    width: clamp(14rem, 30vw, 22rem);
+    font-weight: 400;
+  }
+  .talk svg {
+    display: block;
+    width: 100%;
+    overflow: visible;
+  }
+  .talk text {
+    font-family: var(--marker);
   }
   .where {
     margin: -0.2rem 0 0;
@@ -267,7 +287,7 @@ const socials = [
     font-size: clamp(1.2rem, 1.8vw, 1.5rem);
   }
   .email {
-    font: italic 400 clamp(1.6rem, 3.4vw, 2.8rem) / 1.2 var(--serif);
+    font: italic 400 clamp(2rem, 5.2vw, 4.4rem) / 1.15 var(--serif);
     text-decoration: none;
     overflow-wrap: anywhere;
     background: linear-gradient(var(--ink), var(--ink)) left bottom / 0% 2px no-repeat;
@@ -278,10 +298,35 @@ const socials = [
   .email:focus-visible {
     background-size: 100% 2px;
   }
+  /* the same paper scraps as the menu */
   .links .pill {
     min-height: 3rem;
-    padding: 0.65rem 1.25rem;
-    font-size: 1.05rem;
+    padding: 0.6rem 1.15rem 0.55rem;
+    background: #fbfaf7;
+    color: var(--ink);
+    font: 400 1.15rem/1 var(--marker);
+    letter-spacing: 0.02em;
+    border-radius: 2px 6px 3px 5px / 5px 2px 6px 3px;
+    box-shadow:
+      0 1px 1px rgb(22 21 15 / 0.12),
+      0 6px 12px -6px rgb(22 21 15 / 0.25);
+    rotate: -1.4deg;
+    transition:
+      rotate 0.25s cubic-bezier(0.3, 0.7, 0.4, 1),
+      translate 0.25s cubic-bezier(0.3, 0.7, 0.4, 1);
+  }
+  .links li:nth-child(2) .pill {
+    rotate: 1.2deg;
+  }
+  .links li:nth-child(3) .pill {
+    rotate: -0.6deg;
+  }
+  .links .pill:hover,
+  .links .pill:focus-visible {
+    rotate: 0deg;
+    translate: 0 -2px;
+    background: #fbfaf7;
+    color: var(--ink);
   }
   .links .pill :global(svg) {
     width: 1.15rem;
