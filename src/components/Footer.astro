@@ -64,8 +64,10 @@ const puffs = "M20 100 a4 4 0 1 0 0.1 0 M10 88 a3 3 0 1 0 0.1 0 M214 96 a3 3 0 1
     overflow: clip;
   }
   .sky {
-    height: clamp(7rem, 11vw, 10rem);
     position: relative;
+    max-width: 82rem;
+    height: clamp(7rem, 11vw, 10rem);
+    margin: 0 auto;
   }
   .crew {
     position: absolute;
@@ -110,18 +112,35 @@ const puffs = "M20 100 a4 4 0 1 0 0.1 0 M10 88 a3 3 0 1 0 0.1 0 M214 96 a3 3 0 1
   a {
     text-underline-offset: 0.2em;
   }
-  /* your own crew: one line of characters, each taking little steps out of time with the next */
+  /* your own crew walks along the footer line. An animated file already walks on its own, so it stays put
+     and plays; separate still drawings drift across instead. Feet sit on the line under them. */
   .crew-own {
+    position: absolute;
+    left: auto;
+    right: 0;
+    top: auto;
+    bottom: 0;
     display: flex;
     align-items: flex-end;
     gap: clamp(0.4rem, 1vw, 0.9rem);
     width: max-content;
+    animation: none;
+    /* characters fade in and out at the ends of the strip instead of being cut off */
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 14%, #000 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 14%, #000 90%, transparent);
   }
   .crew-own img {
-    height: clamp(5rem, 8vw, 7.5rem);
+    height: clamp(6.5rem, 11vw, 9.5rem);
     width: auto;
+    /* the drawings' own empty space below the feet, so they stand on the line */
+    margin-bottom: calc(clamp(6.5rem, 11vw, 9.5rem) * -0.07);
   }
-  /* separate still drawings take little steps; an animated strip already walks on its own */
+  .crew-own:has(img:only-child:not([src*=".webp"]):not([src*=".gif"])),
+  .crew-own:has(img + img) {
+    left: 0;
+    right: auto;
+    animation: drift 30s linear infinite;
+  }
   .crew-own img:not([src*=".webp"]):not([src*=".gif"]) {
     animation: hop 0.6s ease-in-out infinite alternate;
     animation-delay: calc(var(--i) * -0.3s);
