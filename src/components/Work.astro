@@ -17,9 +17,9 @@ const host = (u: string) => new URL(u).host.replace(/^www\./, "") + new URL(u).p
 ---
 
 <section class="work" id="work" aria-labelledby="work-title">
-  <div class="head" data-reveal>
-    <h2 id="work-title">Things I've built</h2>
-    <a class="all" href={site.github} target="_blank" rel="noopener">
+  <div class="head">
+    <h2 id="work-title" data-write>Things I've built</h2>
+    <a class="all" data-reveal href={site.github} target="_blank" rel="noopener">
       Everything else is on my GitHub
       <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 14 L14 6 M7 6 H14 V13" /></svg>
       <span class="sr-only"> (opens in a new tab)</span>

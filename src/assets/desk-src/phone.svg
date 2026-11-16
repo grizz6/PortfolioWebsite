@@ -1,20 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 106 216" width="106" height="216">
   <defs>
-    <linearGradient id="ph-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0F1D1C"/><stop offset=".6" stop-color="#1D3A36"/><stop offset="1" stop-color="#0B1211"/></linearGradient>
-    <radialGradient id="ph-glow" cx=".5" cy=".42" r=".5"><stop offset="0" stop-color="#F6C453" stop-opacity=".55"/><stop offset="1" stop-color="#F6C453" stop-opacity="0"/></radialGradient>
     <clipPath id="ph-screen"><rect x="4.5" y="4.5" width="97" height="207" rx="14"/></clipPath>
   </defs>
   <rect width="106" height="216" rx="18" fill="#1B1C1F"/>
   
   <g clip-path="url(#ph-screen)">
-    <rect x="4.5" y="4.5" width="97" height="207" fill="url(#ph-sky)"/>
-    <rect x="4.5" y="40" width="97" height="100" fill="url(#ph-glow)"/>
-    <!-- an original wallpaper: a low gold sun glowing over dark hills -->
-    <circle cx="53" cy="132" r="22" fill="#F6C453"/>
-    <circle cx="53" cy="132" r="30" fill="none" stroke="#F6C453" stroke-width="1" opacity=".5"/>
-    <path d="M4.5 150 Q28 128 50 142 T101.5 136 V211.5 H4.5 Z" fill="#14251F"/>
-    <path d="M4.5 170 Q30 160 53 166 T101.5 162 V211.5 H4.5 Z" fill="#0A0F0E"/>
-    <text x="53" y="36" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="300" fill="#F4F3EF" fill-opacity=".9">9:41</text>
+    <!-- an original gaming lock screen: a pixel controller and "press start" -->
+    <rect x="4.5" y="4.5" width="97" height="207" fill="#141A2A"/>
+    <g fill="#FFFFFF" opacity=".07">
+      <rect x="10" y="30" width="2" height="2"/><rect x="80" y="22" width="2" height="2"/><rect x="30" y="160" width="2" height="2"/><rect x="88" y="150" width="2" height="2"/><rect x="60" y="40" width="2" height="2"/><rect x="18" y="120" width="2" height="2"/>
+    </g>
+    <g transform="translate(23 76)" shape-rendering="crispEdges">
+      <path d="M8 6 H52 V10 H56 V14 H60 V34 H56 V38 H44 V34 H40 V30 H20 V34 H16 V38 H4 V34 H0 V14 H4 V10 H8 Z" fill="#F6C453"/>
+      <rect x="10" y="16" width="4" height="12" fill="#141A2A"/><rect x="6" y="20" width="12" height="4" fill="#141A2A"/>
+      <rect x="44" y="16" width="4" height="4" fill="#141A2A"/><rect x="50" y="22" width="4" height="4" fill="#141A2A"/>
+      <rect x="26" y="20" width="8" height="2" fill="#141A2A"/>
+    </g>
+    <text x="53" y="140" text-anchor="middle" font-family="Courier New, monospace" font-weight="700" font-size="9" letter-spacing="1" fill="#F4F3EF">PRESS START</text>
+    <rect x="34" y="146" width="38" height="2" fill="#F6C453" opacity=".8"/>
+    <g fill="#F4F3EF" opacity=".55" font-family="Courier New, monospace" font-size="6">
+      <text x="10" y="30">1UP</text><text x="96" y="30" text-anchor="end">LVL 30</text>
+    </g>
   </g>
   <rect x="38" y="10" width="30" height="9" rx="4.5" fill="#0B0B0C"/>
 </svg>

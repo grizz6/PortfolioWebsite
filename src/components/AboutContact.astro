@@ -4,7 +4,7 @@ import { site } from "../data/site";
 // Each group only lists tools my repositories or coursework actually use.
 // Each row only lists tools my repositories, coursework or work actually use.
 const skills = [
-  { group: "data", items: ["Python", "SQL", "R", "pandas", "NumPy", "PostgreSQL", "BigQuery", "Snowflake", "dbt", "Airflow", "Power BI", "Tableau"] },
+  { group: "data", items: ["Python", "SQL", "R", "pandas", "NumPy", "PostgreSQL", "BigQuery", "Snowflake", "dbt", "Power BI", "Tableau"] },
   { group: "ML / AI", items: ["scikit-learn", "XGBoost", "statsmodels", "mixed-effects models", "RAG", "pgvector", "LLM APIs", "MLflow", "model evaluation"] },
   { group: "engineering", items: ["FastAPI", "React", "TypeScript", "Docker", "PySpark", "Streamlit", "pytest", "GitHub Actions"] },
 ];
@@ -31,7 +31,7 @@ const socials = [
 ---
 
 <section class="row about" id="about" aria-labelledby="about-title">
-  <h2 class="marker label" id="about-title" data-reveal>about me</h2>
+  <h2 class="marker label" id="about-title" data-write>about me</h2>
   <p class="big" data-reveal>
     When I'm not at my laptop, I'm usually out on a <em>hike</em>, at the <em>gym</em>, on a <em>run</em>, or taking <em>photos</em>.
     There's always music playing.
@@ -51,7 +51,7 @@ const socials = [
 </section>
 
 <section class="row kit" aria-labelledby="kit-title">
-  <h2 class="marker label" id="kit-title" data-reveal>what I reach for</h2>
+  <h2 class="marker label" id="kit-title" data-write>what I reach for</h2>
   <!-- the full list for screen readers; the moving rows below are decoration -->
   <ul class="sr-only">
     {skills.map((s) => <li>{s.group}: {s.items.join(", ")}</li>)}
@@ -82,7 +82,8 @@ const socials = [
 </section>
 
 <section class="row contact" id="contact" aria-labelledby="contact-title">
-  <h2 class="marker talk" id="contact-title" data-reveal>let's talk.</h2>
+  <h2 class="marker talk" id="contact-title" data-write>let's talk.</h2>
+  <p class="where" data-reveal>Based in Washington, DC.</p>
   <a class="email" data-reveal href={`mailto:${site.email}`}>{site.email}</a>
   <ul class="links" data-reveal-group>
     {
@@ -259,6 +260,11 @@ const socials = [
   .talk {
     font-size: clamp(3.6rem, 11vw, 10rem);
     line-height: 0.95;
+  }
+  .where {
+    margin: -0.4rem 0 0;
+    color: var(--ink-2);
+    font-size: 1rem;
   }
   .email {
     font: italic 400 clamp(1.6rem, 3.4vw, 2.8rem) / 1.2 var(--serif);

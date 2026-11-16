@@ -34,7 +34,7 @@ const photos = await Promise.all(
 <section class="photos" id="photos" aria-labelledby="photos-title" data-photos>
   <div class="pin" data-pin>
     <div class="head">
-      <h2 id="photos-title" class="marker">through my lens</h2>
+      <h2 id="photos-title" class="marker" data-write>through my lens</h2>
       <p class="meta" aria-hidden="true"><span data-now>01</span> / {String(photos.length).padStart(2, "0")}</p>
     </div>
 
@@ -90,8 +90,13 @@ const photos = await Promise.all(
 </section>
 
 <style>
+  /* the gallery sits on a slightly darker sheet so the photos stand out */
   .photos {
     position: relative;
+    background: #e2ded3;
+    box-shadow:
+      inset 0 1px 0 rgb(22 21 15 / 0.06),
+      inset 0 -1px 0 rgb(22 21 15 / 0.06);
   }
   .pin {
     display: grid;

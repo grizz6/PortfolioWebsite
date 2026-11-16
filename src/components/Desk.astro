@@ -122,8 +122,8 @@ const widthsFor = (img: ImageMetadata) => [0.25, 0.5, 0.75, 1].map((k) => Math.r
                   </span>
                 ))
               }
-              <svg class="underline" viewBox="0 0 200 14" preserveAspectRatio="none">
-                <path filter="url(#wobble)" d="M3 9 C 40 4, 90 12, 130 7 S 185 5, 197 8" />
+              <svg class="highlight" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M2 10 C 40 4, 120 6, 197 8 L 199 32 C 140 36, 60 34, 4 35 Z" />
               </svg>
             </span>{" "}
             data
@@ -173,6 +173,7 @@ const widthsFor = (img: ImageMetadata) => [0.25, 0.5, 0.75, 1].map((k) => Math.r
     <p class="hint hint-throw marker" aria-hidden="true" data-hint>grab something. throw it.</p>
 
     <div class="tag marker" aria-hidden="true" data-tag></div>
+    <div class="cursor" aria-hidden="true" data-cursor><span class="marker" data-cursor-word>grab</span></div>
   </div>
 </section>
 
@@ -263,6 +264,51 @@ const widthsFor = (img: ImageMetadata) => [0.25, 0.5, 0.75, 1].map((k) => Math.r
     .obj.held {
       cursor: grabbing;
     }
+  }
+
+  /* On the desk, a mouse gets a marker dot for a cursor that swells into "grab" over objects.
+     The script only turns it on for a mouse, and never with reduced motion. */
+  .cursor {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 40;
+    display: grid;
+    place-items: center;
+    width: 12px;
+    height: 12px;
+    margin: -6px 0 0 -6px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper);
+    pointer-events: none;
+    opacity: 0;
+    transition:
+      width 0.25s cubic-bezier(0.3, 0.7, 0.4, 1),
+      height 0.25s cubic-bezier(0.3, 0.7, 0.4, 1),
+      margin 0.25s cubic-bezier(0.3, 0.7, 0.4, 1),
+      opacity 0.2s;
+  }
+  .cursor span {
+    font-size: 0.8rem;
+    line-height: 1;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .stage.custom-cursor,
+  .stage.custom-cursor .obj {
+    cursor: none;
+  }
+  .stage.custom-cursor .cursor.on {
+    opacity: 1;
+  }
+  .cursor.big {
+    width: 58px;
+    height: 58px;
+    margin: -29px 0 0 -29px;
+  }
+  .cursor.big span {
+    opacity: 1;
   }
 
   /* Your own stickers on the laptop lid, with a white die-cut edge */
@@ -382,20 +428,22 @@ const widthsFor = (img: ImageMetadata) => [0.25, 0.5, 0.75, 1].map((k) => Math.r
   .word:first-child {
     position: relative;
   }
-  .underline {
+  /* a yellow highlighter swipe behind the changing word, so it reads clearly over the desk */
+  .highlight {
     position: absolute;
-    left: -2%;
-    bottom: -0.2em;
-    width: 104%;
-    height: 0.24em;
+    left: -5%;
+    top: 4%;
+    z-index: -1;
+    width: 110%;
+    height: 96%;
     overflow: visible;
   }
-  .underline path {
-    fill: none;
-    stroke: var(--underline);
-    stroke-width: 5;
-    stroke-linecap: round;
-    vector-effect: non-scaling-stroke;
+  .highlight path {
+    fill: var(--note);
+    opacity: 0.95;
+  }
+  .slot {
+    isolation: isolate;
   }
   .sub {
     margin: 1.1rem 0 0;

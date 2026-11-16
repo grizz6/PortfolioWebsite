@@ -248,6 +248,56 @@ if (section && stage) {
     else moving = false;
   }
 
+  // ---------- a marker-dot cursor and objects that lean away from it (mouse only) ----------
+  const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const cursor = stage.querySelector<HTMLElement>("[data-cursor]");
+  const cursorWord = stage.querySelector<HTMLElement>("[data-cursor-word]");
+  if (fine && !reduce && cursor && cursorWord) {
+    stage.classList.add("custom-cursor");
+    const cx = gsap.quickTo(cursor, "x", { duration: 0.18, ease: "power3.out" });
+    const cy = gsap.quickTo(cursor, "y", { duration: 0.18, ease: "power3.out" });
+    let mx = 0;
+    let my = 0;
+    let queued = 0;
+    const nudge = () => {
+      queued = 0;
+      const s = stage.getBoundingClientRect();
+      for (const o of objs) {
+        if (o.hidden) continue;
+        const pop = o.el.firstElementChild as HTMLElement;
+        if (o === held) {
+          pop.style.translate = "";
+          continue;
+        }
+        const r = o.el.getBoundingClientRect();
+        const dx = r.left + r.width / 2 - s.left - mx;
+        const dy = r.top + r.height / 2 - s.top - my;
+        const d = Math.hypot(dx, dy);
+        const reach = 150 + Math.max(r.width, r.height) / 2;
+        const push = d < reach && d > 1 ? (1 - d / reach) * 10 : 0;
+        pop.style.translate = push ? `${((dx / d) * push).toFixed(1)}px ${((dy / d) * push).toFixed(1)}px` : "";
+      }
+    };
+    stage.addEventListener("pointermove", (e) => {
+      if (e.pointerType !== "mouse") return;
+      const pt = local(e);
+      mx = pt.x;
+      my = pt.y;
+      cx(mx);
+      cy(my);
+      cursor.classList.add("on");
+      const over = (e.target as HTMLElement).closest("[data-obj]");
+      cursor.classList.toggle("big", !!over || !!held);
+      cursorWord.textContent = held ? "throw" : "grab";
+      if (!queued) queued = requestAnimationFrame(nudge);
+    });
+    stage.addEventListener("pointerleave", () => {
+      cursor.classList.remove("on", "big");
+      objs.forEach((o) => ((o.el.firstElementChild as HTMLElement).style.translate = ""));
+    });
+    objs.forEach((o) => ((o.el.firstElementChild as HTMLElement).style.transition = "translate 0.45s cubic-bezier(0.3, 0.7, 0.4, 1)"));
+  }
+
   // ---------- the watch, on Eastern time ----------
   const timeEl = stage.querySelector<HTMLElement>("[data-time]");
   const tzEl = stage.querySelector<HTMLElement>("[data-tz]");

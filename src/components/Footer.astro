@@ -31,7 +31,7 @@ const puffs = "M20 100 a4 4 0 1 0 0.1 0 M10 88 a3 3 0 1 0 0.1 0 M214 96 a3 3 0 1
 <footer class="site-footer">
   <div class="sky" aria-hidden="true">
     {crewFiles.length ? (
-      <div class="crew crew-own">
+      <div class={`crew crew-own${crewFiles.some((f) => /in[-_]place/i.test(f.src)) ? " travels" : ""}`}>
         {crewFiles.map((img, i) => (
           <img src={img.src} width={img.width} height={img.height} alt="" style={`--i:${i}`} loading="lazy" decoding="async" />
         ))}
@@ -112,8 +112,14 @@ const puffs = "M20 100 a4 4 0 1 0 0.1 0 M10 88 a3 3 0 1 0 0.1 0 M214 96 a3 3 0 1
   a {
     text-underline-offset: 0.2em;
   }
-  /* your own crew walks along the footer line. An animated file already walks on its own, so it stays put
-     and plays; separate still drawings drift across instead. Feet sit on the line under them. */
+  /* your own crew walks along the footer line. A walk-in-place animation (a file named with "in_place")
+     travels the whole line, easing in and out at its ends; a strip that already moves sideways plays where
+     it is; separate still drawings drift across. Feet sit on the line under them. */
+  .sky {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  }
   .crew-own {
     position: absolute;
     left: auto;
@@ -125,18 +131,26 @@ const puffs = "M20 100 a4 4 0 1 0 0.1 0 M10 88 a3 3 0 1 0 0.1 0 M214 96 a3 3 0 1
     gap: clamp(0.4rem, 1vw, 0.9rem);
     width: max-content;
     animation: none;
-    /* characters fade in and out at the ends of the strip instead of being cut off */
-    -webkit-mask-image: linear-gradient(to right, transparent, #000 14%, #000 90%, transparent);
-    mask-image: linear-gradient(to right, transparent, #000 14%, #000 90%, transparent);
   }
   .crew-own img {
-    height: clamp(6.5rem, 11vw, 9.5rem);
+    height: clamp(5.5rem, 9vw, 8rem);
     width: auto;
-    /* the drawings' own empty space below the feet, so they stand on the line */
-    margin-bottom: calc(clamp(6.5rem, 11vw, 9.5rem) * -0.07);
   }
-  .crew-own:has(img:only-child:not([src*=".webp"]):not([src*=".gif"])),
-  .crew-own:has(img + img) {
+  .crew-own.travels {
+    right: auto;
+    animation: along 22s linear infinite;
+  }
+  @keyframes along {
+    from {
+      left: 0;
+      transform: translateX(-100%);
+    }
+    to {
+      left: 100%;
+      transform: translateX(0);
+    }
+  }
+  .crew-own:not(.travels):has(img + img) {
     left: 0;
     right: auto;
     animation: drift 30s linear infinite;
@@ -150,8 +164,13 @@ const puffs = "M20 100 a4 4 0 1 0 0.1 0 M10 88 a3 3 0 1 0 0.1 0 M214 96 a3 3 0 1
     to { translate: 0 -4px; rotate: 2deg; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .crew-own img {
+    .crew-own img,
+    .crew-own.travels {
       animation: none;
+    }
+    .crew-own.travels {
+      left: auto;
+      right: 0;
     }
     .bob {
       animation: none;

@@ -20,6 +20,39 @@ if (!reduce) {
     });
   }
 
+  // Headings marked data-write appear letter by letter, as if written, when they arrive.
+  // Screen readers still get the plain heading through aria-label.
+  gsap.utils.toArray<HTMLElement>("[data-write]").forEach((el) => {
+    const text = el.textContent ?? "";
+    el.setAttribute("aria-label", text.trim());
+    el.textContent = "";
+    const letters: HTMLElement[] = [];
+    text.split(/(\s+)/).forEach((part) => {
+      if (/^\s+$/.test(part)) return el.append(" ");
+      const word = document.createElement("span");
+      word.style.display = "inline-block";
+      word.style.whiteSpace = "nowrap";
+      word.setAttribute("aria-hidden", "true");
+      for (const ch of part) {
+        const l = document.createElement("span");
+        l.textContent = ch;
+        l.style.display = "inline-block";
+        word.append(l);
+        letters.push(l);
+      }
+      el.append(word);
+    });
+    gsap.from(letters, {
+      opacity: 0,
+      y: "0.25em",
+      rotate: () => gsap.utils.random(-8, 8),
+      duration: 0.5,
+      ease: "back.out(2)",
+      stagger: 0.035,
+      scrollTrigger: { trigger: el, start: "top 88%", once: true },
+    });
+  });
+
   // Reveals: anything marked data-reveal rises in once; data-reveal-group reveals its children in turn.
   gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((el) => {
     gsap.from(el, {
