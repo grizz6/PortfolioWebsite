@@ -23,6 +23,18 @@ const phoneScreen = Object.values(
   import.meta.glob<{ default: ImageMetadata }>("../assets/desk/phone-screen.{png,jpg,jpeg,webp}", { eager: true }),
 )[0]?.default;
 
+// Your own laptop stickers: src/assets/desk/sticker-1.* and sticker-2.* sit in the two open spots on the lid
+const stickers = Object.entries(
+  import.meta.glob<{ default: ImageMetadata }>("../assets/desk/sticker-*.{png,jpg,jpeg,webp,svg}", { eager: true }),
+)
+  .sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }))
+  .slice(0, 2)
+  .map(([, m]) => m.default);
+const stickerSpots = [
+  { left: 83.5, top: 47, rot: 8 },
+  { left: 75, top: 73, rot: -6 },
+];
+
 // Your own scroll-hint character wins: src/assets/doodles/scroll.png / .webp / .svg
 const ownHint = Object.values(
   import.meta.glob<{ default: ImageMetadata }>("../assets/doodles/scroll.{png,webp,svg}", { eager: true }),
@@ -55,6 +67,12 @@ const widthsFor = (img: ImageMetadata) => [0.25, 0.5, 0.75, 1].map((k) => Math.r
                 ) : (
                   <img src={o.svg} alt="" width={o.sw} height={o.sh} draggable="false" />
                 )}
+                {o.key === "laptop" &&
+                  stickers.map((img, k) => (
+                    <div class="sticker" style={`left:${stickerSpots[k].left}%;top:${stickerSpots[k].top}%;--rot:${stickerSpots[k].rot}deg`}>
+                      <Image src={img} alt="" width={200} loading="eager" />
+                    </div>
+                  ))}
                 {o.key === "phone" && phoneScreen && (
                   <div class="screen">
                     <Image src={phoneScreen} alt="" width={320} loading="eager" />
@@ -119,6 +137,7 @@ const widthsFor = (img: ImageMetadata) => [0.25, 0.5, 0.75, 1].map((k) => Math.r
 
     <div class="hint hint-scroll" aria-hidden="true" data-hint>
       {ownHint && <span class="own-hint" data-own-hint={ownHint.src} data-w={ownHint.width} data-h={ownHint.height} />}
+      {ownHint && <span class="say marker">scroll</span>}
       <svg class={ownHint ? "has-own" : undefined} viewBox="0 0 150 120" fill="none" stroke="#16150F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
         <g filter="url(#wobble)">
           <!-- an original chibi ninja, sketched: hood up, mask on, bun peeking out, scroll in hand -->
@@ -232,6 +251,19 @@ const widthsFor = (img: ImageMetadata) => [0.25, 0.5, 0.75, 1].map((k) => Math.r
     .obj.held {
       cursor: grabbing;
     }
+  }
+
+  /* Your own stickers on the laptop lid, with a white die-cut edge */
+  .sticker {
+    position: absolute;
+    width: 17%;
+    translate: -50% -50%;
+    rotate: var(--rot);
+    filter: drop-shadow(0 0 1px #fff) drop-shadow(0 0 1px #fff) drop-shadow(0 0 1.5px #fff) drop-shadow(0 1px 1px rgb(22 21 15 / 0.25));
+  }
+  .sticker :global(img) {
+    width: 100%;
+    height: auto;
   }
 
   /* The phone's wallpaper, laid over the drawn screen, with the camera pill on top */
@@ -376,17 +408,66 @@ const widthsFor = (img: ImageMetadata) => [0.25, 0.5, 0.75, 1].map((k) => Math.r
     width: 100%;
     height: auto;
   }
-  /* your own character sits where the ninja was; the "scroll" bubble stays */
+  /* your own character sits on the bottom edge of the desk with a speech bubble above its head.
+     It scales with the screen, and a soft shadow underneath grounds it. */
   .hint-scroll:has(.own-hint) {
-    width: clamp(8rem, 12vw, 11rem);
+    bottom: 0;
+    width: clamp(6.5rem, 10vw, 9.5rem);
+    aspect-ratio: 344 / 337;
+  }
+  .hint-scroll:has(.own-hint) > svg {
+    display: none;
   }
   .own-hint {
     display: block;
-    aspect-ratio: 344 / 337;
     position: absolute;
-    left: -6%;
-    bottom: 0;
-    width: 62% !important;
+    inset: 0;
+    width: 100% !important;
+  }
+  .own-hint::after {
+    content: "";
+    position: absolute;
+    left: 14%;
+    right: 10%;
+    bottom: -3%;
+    height: 10%;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgb(22 21 15 / 0.22), transparent);
+    z-index: -1;
+  }
+  .say {
+    position: absolute;
+    left: 42%;
+    bottom: 96%;
+    padding: 0.3em 0.75em 0.25em;
+    border: 2.5px solid var(--ink);
+    border-radius: 1em;
+    background: var(--paper);
+    font-size: clamp(0.85rem, 1.25vw, 1.1rem);
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .say::after {
+    content: "";
+    position: absolute;
+    left: 18%;
+    top: 100%;
+    width: 0.7em;
+    height: 0.7em;
+    border-right: 2.5px solid var(--ink);
+    border-bottom: 2.5px solid var(--ink);
+    background: var(--paper);
+    transform: translateY(-50%) rotate(45deg) skew(10deg, 10deg);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .say {
+      animation: nudge 2.6s ease-in-out infinite;
+    }
+  }
+  @media (max-width: 640px) {
+    .hint-scroll:has(.own-hint) {
+      width: 26vw;
+    }
   }
   .has-own .ninja {
     display: none;
