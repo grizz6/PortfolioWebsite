@@ -4,9 +4,9 @@ import { site } from "../data/site";
 // Each group only lists tools my repositories or coursework actually use.
 // Each row only lists tools my repositories, coursework or work actually use.
 const skills = [
-  { group: "data", items: ["Python", "SQL", "R", "pandas", "NumPy", "PostgreSQL", "BigQuery", "Snowflake", "dbt", "Power BI", "Tableau"] },
+  { group: "data", items: ["Python", "SQL", "R", "pandas", "NumPy", "PostgreSQL", "Supabase", "SciPy", "BigQuery", "Snowflake", "dbt", "Power BI", "Tableau"] },
   { group: "ML / AI", items: ["scikit-learn", "XGBoost", "statsmodels", "mixed-effects models", "RAG", "pgvector", "LLM APIs", "MLflow", "model evaluation"] },
-  { group: "engineering", items: ["FastAPI", "React", "TypeScript", "Docker", "PySpark", "Streamlit", "pytest", "GitHub Actions"] },
+  { group: "engineering", items: ["FastAPI", "React", "TypeScript", "Docker", "PySpark", "Streamlit", "pytest", "Git", "GitHub Actions"] },
 ];
 
 const hobbies = [
@@ -83,7 +83,7 @@ const socials = [
 
 <section class="row contact" id="contact" aria-labelledby="contact-title">
   <h2 class="marker talk" id="contact-title" data-write>let's talk.</h2>
-  <p class="where" data-reveal>Based in Washington, DC.</p>
+  <p class="where" data-reveal>Based in Washington, DC, USA.</p>
   <a class="email" data-reveal href={`mailto:${site.email}`}>{site.email}</a>
   <ul class="links" data-reveal-group>
     {
@@ -262,9 +262,9 @@ const socials = [
     line-height: 0.95;
   }
   .where {
-    margin: -0.4rem 0 0;
+    margin: -0.2rem 0 0;
     color: var(--ink-2);
-    font-size: 1rem;
+    font-size: clamp(1.2rem, 1.8vw, 1.5rem);
   }
   .email {
     font: italic 400 clamp(1.6rem, 3.4vw, 2.8rem) / 1.2 var(--serif);
@@ -277,6 +277,15 @@ const socials = [
   .email:hover,
   .email:focus-visible {
     background-size: 100% 2px;
+  }
+  .links .pill {
+    min-height: 3rem;
+    padding: 0.65rem 1.25rem;
+    font-size: 1.05rem;
+  }
+  .links .pill :global(svg) {
+    width: 1.15rem;
+    height: 1.15rem;
   }
   .links {
     display: flex;

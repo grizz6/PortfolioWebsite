@@ -170,7 +170,6 @@ const widthsFor = (img: ImageMetadata) => [0.25, 0.5, 0.75, 1].map((k) => Math.r
         <text x="106" y="47" text-anchor="middle" fill="#16150F" stroke="none" font-family="Permanent Marker, cursive" font-size="20">scroll</text>
       </svg>
     </div>
-    <p class="hint hint-throw marker" aria-hidden="true" data-hint>grab something. throw it.</p>
 
     <div class="tag marker" aria-hidden="true" data-tag></div>
     <div class="cursor" aria-hidden="true" data-cursor><span class="marker" data-cursor-word>grab</span></div>
@@ -562,16 +561,6 @@ const widthsFor = (img: ImageMetadata) => [0.25, 0.5, 0.75, 1].map((k) => Math.r
   }
   .has-own .ninja {
     display: none;
-  }
-  .hint-throw {
-    right: var(--gutter);
-    font-size: clamp(1rem, 1.5vw, 1.35rem);
-    transform: rotate(-3deg);
-  }
-  @media (hover: none), (pointer: coarse) {
-    .hint-throw {
-      display: none;
-    }
   }
 
   /* Label tag that follows the hovered object */
