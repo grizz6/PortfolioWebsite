@@ -4,6 +4,8 @@ line: Ask what a US company says about its risks, and every sentence cites the 1
 order: 1
 repo: https://github.com/grizz6/filings-qa
 live: https://filings.streamlit.app
-note: try it
+note: watch it run
+recording: /projects/filings-qa.mp4
+poster: ../../assets/projects/filings-qa.webp
 placeholder: cite
 ---

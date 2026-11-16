@@ -18,6 +18,11 @@ const objects = desk.map((o) => {
   return { ...o, cut, svg: find(drawings, o.key), sw, sh };
 });
 
+// The phone's wallpaper: src/assets/desk/phone-screen.* sits on the phone's screen if it exists
+const phoneScreen = Object.values(
+  import.meta.glob<{ default: ImageMetadata }>("../assets/desk/phone-screen.{png,jpg,jpeg,webp}", { eager: true }),
+)[0]?.default;
+
 // Your own scroll-hint character wins: src/assets/doodles/scroll.png / .webp / .svg
 const ownHint = Object.values(
   import.meta.glob<{ default: ImageMetadata }>("../assets/doodles/scroll.{png,webp,svg}", { eager: true }),
@@ -49,6 +54,11 @@ const widthsFor = (img: ImageMetadata) => [0.25, 0.5, 0.75, 1].map((k) => Math.r
                   <Image src={o.cut} alt="" widths={widthsFor(o.cut)} sizes={sizesFor(o)} loading="eager" draggable="false" />
                 ) : (
                   <img src={o.svg} alt="" width={o.sw} height={o.sh} draggable="false" />
+                )}
+                {o.key === "phone" && phoneScreen && (
+                  <div class="screen">
+                    <Image src={phoneScreen} alt="" width={320} loading="eager" />
+                  </div>
                 )}
                 {o.key === "watch" && (
                   <div
@@ -108,11 +118,11 @@ const widthsFor = (img: ImageMetadata) => [0.25, 0.5, 0.75, 1].map((k) => Math.r
     </div>
 
     <div class="hint hint-scroll" aria-hidden="true" data-hint>
-      {ownHint && <img src={ownHint.src} width={ownHint.width} height={ownHint.height} alt="" class="own-hint" />}
-      <svg viewBox="0 0 150 120" fill="none" stroke="#16150F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      {ownHint && <span class="own-hint" data-own-hint={ownHint.src} data-w={ownHint.width} data-h={ownHint.height} />}
+      <svg class={ownHint ? "has-own" : undefined} viewBox="0 0 150 120" fill="none" stroke="#16150F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
         <g filter="url(#wobble)">
           <!-- an original chibi ninja, sketched: hood up, mask on, bun peeking out, scroll in hand -->
-          <g transform="translate(-2 10) scale(0.82)">
+          <g transform="translate(-2 10) scale(0.82)" class="ninja">
             <path d="M24 74 L18 108 H62 L56 74 Z" fill="#E2DDD1" />
             <path d="M40 74 V108 M22 92 l-8 8 M58 84 l14 -8" />
             <path d="M68 70 h14 a3 6 0 0 1 0 12 h-14 a3 6 0 0 1 0 -12 Z" fill="#FBFAF7" />
@@ -222,6 +232,33 @@ const widthsFor = (img: ImageMetadata) => [0.25, 0.5, 0.75, 1].map((k) => Math.r
     .obj.held {
       cursor: grabbing;
     }
+  }
+
+  /* The phone's wallpaper, laid over the drawn screen, with the camera pill on top */
+  .screen {
+    position: absolute;
+    left: 13.8%;
+    top: 7.6%;
+    width: 72.4%;
+    height: 84.8%;
+    overflow: hidden;
+    border-radius: 15% / 7%;
+  }
+  .screen :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .screen::after {
+    content: "";
+    position: absolute;
+    top: 2.6%;
+    left: 50%;
+    width: 30%;
+    height: 4.2%;
+    border-radius: 999px;
+    background: #0b0b0c;
+    translate: -50% 0;
   }
 
   /* The watch shows the live time in New York */
@@ -339,7 +376,19 @@ const widthsFor = (img: ImageMetadata) => [0.25, 0.5, 0.75, 1].map((k) => Math.r
     width: 100%;
     height: auto;
   }
-  .own-hint + svg {
+  /* your own character sits where the ninja was; the "scroll" bubble stays */
+  .hint-scroll:has(.own-hint) {
+    width: clamp(8rem, 12vw, 11rem);
+  }
+  .own-hint {
+    display: block;
+    aspect-ratio: 344 / 337;
+    position: absolute;
+    left: -6%;
+    bottom: 0;
+    width: 62% !important;
+  }
+  .has-own .ninja {
     display: none;
   }
   .hint-throw {
@@ -397,4 +446,20 @@ const widthsFor = (img: ImageMetadata) => [0.25, 0.5, 0.75, 1].map((k) => Math.r
 
 <script>
   import "../scripts/desk";
+
+  // your scroll-hint character arrives just after the page has loaded, so it never slows the first paint
+  const slot = document.querySelector<HTMLElement>("[data-own-hint]");
+  if (slot) {
+    const place = () => {
+      const img = new Image(Number(slot.dataset.w), Number(slot.dataset.h));
+      img.alt = "";
+      img.decoding = "async";
+      img.src = slot.dataset.ownHint!;
+      img.style.width = "100%";
+      img.style.height = "auto";
+      slot.appendChild(img);
+    };
+    if (document.readyState === "complete") place();
+    else addEventListener("load", () => setTimeout(place, 150), { once: true });
+  }
 </script>

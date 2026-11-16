@@ -1,50 +1,83 @@
 {
-  "gateway-arch.jpg": {
-    "alt": "The Gateway Arch seen from below against the sky",
-    "caption": "Gateway Arch, St. Louis"
+  "01ABC407-BB0F-4269-A347-E5EBF72676A8_4_5005_c.jpeg": {
+    "alt": "A downtown street at night, lit by lamps, with towers fading into the dark",
+    "caption": "Downtown at night, Chicago"
   },
-  "manhattan-bridge.jpg": {
-    "alt": "The Manhattan Bridge framed between buildings in DUMBO",
-    "caption": "Manhattan Bridge from DUMBO, New York"
+  "0E339442-BB56-4D1E-833F-A6E75FE630C0_1_105_c.jpeg": {
+    "alt": "A bronze angel statue on a fountain against a blue sky and autumn trees",
+    "caption": "Bethesda Fountain, Central Park, New York"
   },
-  "stained-glass-ceiling.jpg": {
-    "alt": "A stained-glass ceiling seen from directly below",
-    "caption": "Stained-glass ceiling, Boston"
+  "13138A4E-B9FF-4337-A247-FBD9CCB772C7_1_105_c.jpeg": {
+    "alt": "Looking straight up into the coffered dome of the US Capitol rotunda and its painted oculus",
+    "caption": "US Capitol rotunda, Washington, DC"
   },
-  "hancock-tower.jpg": {
-    "alt": "The Hancock Tower rising into the sky",
-    "caption": "Hancock Tower, Boston"
+  "1DE914F1-C352-4152-B1E9-1060770A758F_1_105_c.jpeg": {
+    "alt": "Skyscrapers and the river seen from high above",
+    "caption": "The river from above, Chicago"
   },
-  "lakefront-golden-hour.jpg": {
-    "alt": "The Chicago lakefront at golden hour",
-    "caption": "Lakefront, golden hour, Chicago"
+  "34D0DFFB-F9B8-4FF8-A3EB-A321F307263A_1_105_c.jpeg": {
+    "alt": "A katana in a black lacquered scabbard on a display stand"
   },
-  "under-the-dome.jpg": {
+  "44653E76-A728-4711-88C1-307C51DB522E_1_105_c.jpeg": {
     "alt": "Looking straight up into the painted dome of the Library of Congress Main Reading Room",
     "caption": "Library of Congress, Washington, DC"
   },
-  "mother-church-dusk.jpg": {
-    "alt": "The Mother Church in Boston at dusk",
-    "caption": "The Mother Church at dusk, Boston"
+  "4C0C974A-A725-4F4E-B3E6-C705BA994E31_1_105_c.jpeg": {
+    "alt": "The Gateway Arch rising against a clear blue sky",
+    "caption": "Gateway Arch, St. Louis"
   },
-  "chicago-river-above.jpg": {
-    "alt": "The Chicago River seen from above",
-    "caption": "The river from above, Chicago"
+  "53FC76A4-5BB2-4E72-8B60-B3D1146519F2_1_105_c.jpeg": {
+    "alt": "The Manhattan Bridge framed between brick buildings, with a crowd below",
+    "caption": "Manhattan Bridge from DUMBO, New York"
   },
-  "public-garden.jpg": {
-    "alt": "The Boston Public Garden",
+  "5417A80F-E5F4-4406-9BCD-6B9F2AD23904_1_105_c.jpeg": {
+    "alt": "An equestrian statue in a park under a cloudy sky, with towers behind",
     "caption": "Public Garden, Boston"
   },
-  "skyline-rooftops.jpg": {
-    "alt": "The New York skyline over the rooftops",
+  "5715EDA9-F27C-4568-BAD2-539E01A7EA27_4_5005_c.jpeg": {
+    "alt": "A round stained-glass skylight ringed with lights, seen from directly below",
+    "caption": "Stained-glass ceiling, Boston"
+  },
+  "7EEFF887-6DD5-458D-81C2-028ECB5C245C_4_5005_c.jpeg": {
+    "alt": "An orange cat lying on a bed, looking at the camera"
+  },
+  "88EADC60-E3E5-4493-9EE0-487D97ACF03C_1_105_c.jpeg": {
+    "alt": "A city skyline far off over rows of rooftops",
     "caption": "Skyline over the rooftops, New York"
   },
-  "snow-at-night.jpg": {
-    "alt": "Snow falling downtown at night",
-    "caption": "Snow, downtown at night, Chicago"
+  "8D7A76D7-E303-440E-BF2D-6C4A62D86546_1_105_c.jpeg": {
+    "alt": "Looking up a curved golden metal column inside a building"
   },
-  "tower-in-fog.jpg": {
-    "alt": "A tower disappearing into fog",
+  "993ACFE1-7D81-4C8F-8489-7227BEF8E8F9_1_105_c.jpeg": {
+    "alt": "A glass tower reflecting clouds, rising above older buildings",
+    "caption": "Hancock Tower, Boston"
+  },
+  "ACBFB397-7AF7-4D5C-8696-57FA34D19581_1_105_c.jpeg": {
+    "alt": "A grand stone library facade glowing in late sun",
+    "caption": "Library of Congress, Washington, DC"
+  },
+  "C9AA73B8-9DBF-42CD-B3B5-6BE2555B3173_1_105_c.jpeg": {
+    "alt": "A city and lakefront from high above at golden hour",
+    "caption": "Lakefront, golden hour, Chicago"
+  },
+  "D44EF7AA-C019-410F-A915-9E98B050E7C1_1_105_c.jpeg": {
+    "alt": "A domed church glowing pink at dusk behind autumn trees",
+    "caption": "The Mother Church at dusk, Boston"
+  },
+  "E39D9798-9E2D-40F3-BC27-F4C9DA0E3049_1_105_c.jpeg": {
+    "alt": "Clouds and highways seen through an airplane window"
+  },
+  "E5CE442D-9EE4-4122-BF11-BDE43E583CA4_1_105_c.jpeg": {
+    "alt": "Shelves of Harry Potter hoodies and jackets in a shop"
+  },
+  "ED510A7E-9FBB-4CD4-8464-B0811C36A42C_1_105_c.jpeg": {
+    "alt": "A wet street at night under lamps, with dark towers behind"
+  },
+  "F3555184-176D-4A6E-B173-FA5A915420B8_4_5005_c.jpeg": {
+    "alt": "A lit tower disappearing into fog at night",
     "caption": "Tower in the fog, Chicago"
+  },
+  "FDD4BB37-5C4C-46AE-9159-08360AF6CAB9_1_105_c.jpeg": {
+    "alt": "Bare trees silhouetted in a park at sunset"
   }
 }

@@ -79,6 +79,13 @@ const mail = '<rect x="2.5" y="4.5" width="15" height="11" rx="1.5"/><path d="M3
     list-style: none;
   }
   /* On narrow screens Work, Photos and About show their icon only; the word stays for screen readers */
+  .pill[aria-current]:not(.pill--dark) {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .pill--dark[aria-current] {
+    box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px var(--ink);
+  }
   @media (max-width: 600px) {
     .pill {
       padding-inline: 0.75rem;
@@ -93,6 +100,26 @@ const mail = '<rect x="2.5" y="4.5" width="15" height="11" rx="1.5"/><path d="M3
     }
   }
 </style>
+
+<script>
+  // the pill for the section you're reading darkens, so you always know where you are
+  const pills = [...document.querySelectorAll<HTMLAnchorElement>(".site-header .pill")];
+  const watched = pills.map((a) => document.querySelector<HTMLElement>(a.hash)).filter((el): el is HTMLElement => !!el);
+  const seen = new IntersectionObserver(
+    (entries) =>
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        pills.forEach((a) => (a.hash === `#${e.target.id}` ? a.setAttribute("aria-current", "location") : a.removeAttribute("aria-current")));
+      }),
+    { rootMargin: "-45% 0px -50% 0px" },
+  );
+  watched.forEach((el) => seen.observe(el));
+  // back on the desk or in the statement, nothing is highlighted
+  ["top", "statement"].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) seen.observe(el);
+  });
+</script>
 
 <script>
   const header = document.querySelector<HTMLElement>("[data-header]");
