@@ -76,7 +76,8 @@ const socials = [
 </section>
 
 <section class="row contact" id="contact" aria-labelledby="contact-title">
-  <h2 class="sr-only" id="contact-title">Let's talk.</h2>
+  <div class="card">
+  <h2 class="marker talk" id="contact-title" data-write>let's talk.</h2>
   <p class="place" data-reveal><span><span class="dot" aria-hidden="true"></span>Washington, DC</span></p>
   <a class="email" data-reveal href={`mailto:${site.email}`}>{site.email}</a>
   <ul class="links" data-reveal-group>
@@ -91,6 +92,7 @@ const socials = [
       ))
     }
   </ul>
+  </div>
 </section>
 
 <style>
@@ -243,18 +245,34 @@ const socials = [
     }
   }
 
-  /* Contact: a quiet line with where I am, the email large, links in spaced capitals */
+  /* Contact gets a whole screen: the heading sits where every other section's does,
+     and the email waits in the middle of the page */
+  .row + .contact {
+    border-top: 0;
+  }
+  .talk {
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    rotate: -2deg;
+    margin-bottom: clamp(0.5rem, 3vh, 2rem);
+  }
   .contact {
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+    padding-block: clamp(3rem, 8vh, 5rem);
+  }
+  .card {
+    flex: 1;
     display: grid;
+    align-content: center;
     justify-items: center;
-    gap: clamp(1.4rem, 3vw, 2rem);
+    gap: clamp(1.4rem, 3vw, 2.2rem);
+    padding-block: 3rem;
     text-align: center;
-    padding-block: clamp(5rem, 14vh, 8rem);
   }
   .place {
-    justify-self: stretch;
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: clamp(2rem, 8vw, 6rem) auto clamp(2rem, 8vw, 6rem);
     align-items: center;
     gap: 1.2rem;
     margin: 0;
