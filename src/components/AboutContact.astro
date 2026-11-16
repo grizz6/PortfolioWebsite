@@ -17,16 +17,10 @@ const hobbies = [
   { label: "music", d: "M8 30 v-6 a16 16 0 0 1 32 0 v6 M5 29 h7 v11 h-7 Z M36 29 h7 v11 h-7 Z" },
 ];
 
-const icons = {
-  github:
-    '<path d="M7 15.5c-3 1-3-1.5-4.5-2m9 4v-2.6a2.3 2.3 0 0 0-.6-1.7c2.1-.3 4.3-1 4.3-4.6a3.6 3.6 0 0 0-1-2.5 3.3 3.3 0 0 0-.1-2.5s-.8-.3-2.6 1a9 9 0 0 0-4.7 0C5 3.4 4.2 3.7 4.2 3.7a3.3 3.3 0 0 0 0 2.5 3.6 3.6 0 0 0-1 2.5c0 3.6 2.2 4.3 4.3 4.6a2.3 2.3 0 0 0-.6 1.7v2.6"/>',
-  linkedin: '<rect x="2.5" y="2.5" width="15" height="15" rx="2.5"/><path d="M6.5 9v4.5M6.5 6.5v.01M9.5 13.5V9m0 2.2c0-1.3 1-2.2 2.1-2.2s1.9.8 1.9 2.2v2.3"/>',
-  instagram: '<rect x="2.5" y="2.5" width="15" height="15" rx="4.5"/><circle cx="10" cy="10" r="3.3"/><path d="M14.4 5.6v.01"/>',
-};
 const socials = [
-  { label: "GitHub", href: site.github, icon: icons.github },
-  { label: "LinkedIn", href: site.linkedin, icon: icons.linkedin },
-  { label: "Instagram", href: site.instagram, icon: icons.instagram },
+  { label: "GitHub", href: site.github },
+  { label: "LinkedIn", href: site.linkedin },
+  { label: "Instagram", href: site.instagram },
 ].filter((s) => s.href);
 ---
 
@@ -82,26 +76,14 @@ const socials = [
 </section>
 
 <section class="row contact" id="contact" aria-labelledby="contact-title">
-  <h2 class="talk" id="contact-title">
-    <span class="sr-only">Let's talk.</span>
-    <!-- "let's talk" doodled inside a wobbly speech bubble -->
-    <svg viewBox="0 0 320 150" aria-hidden="true">
-      <g filter="url(#wobble)" fill="none" stroke="#16150F" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M30 18 C 110 6, 230 8, 290 22 C 312 28, 314 92, 292 100 C 230 116, 140 112, 96 108 L 58 138 L 66 106 C 36 104, 14 96, 12 62 C 10 36, 16 22, 30 18 Z" fill="#FBFAF7" />
-        <path d="M268 34 l10 -10 M280 48 l14 -4 M262 22 l2 -12" />
-      </g>
-      <text x="152" y="76" text-anchor="middle" font-size="46" fill="#16150F" transform="rotate(-3 152 70)">let's talk.</text>
-      <path filter="url(#wobble)" d="M70 92 C 120 86, 190 90, 238 86" fill="none" stroke="#FFE36E" stroke-width="7" stroke-linecap="round" opacity=".9" />
-    </svg>
-  </h2>
-  <p class="where" data-reveal>Based in Washington, DC, USA.</p>
+  <h2 class="sr-only" id="contact-title">Let's talk.</h2>
+  <p class="place" data-reveal><span><span class="dot" aria-hidden="true"></span>Washington, DC</span></p>
   <a class="email" data-reveal href={`mailto:${site.email}`}>{site.email}</a>
   <ul class="links" data-reveal-group>
     {
       socials.map((s) => (
         <li>
-          <a class="pill" href={s.href} target="_blank" rel="noopener">
-            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={s.icon} />
+          <a href={s.href} target="_blank" rel="noopener">
             {s.label}
             <span class="sr-only"> (opens in a new tab)</span>
           </a>
@@ -261,89 +243,89 @@ const socials = [
     }
   }
 
-  /* Contact */
+  /* Contact: a quiet line with where I am, the email large, links in spaced capitals */
   .contact {
     display: grid;
-    justify-items: start;
-    gap: 1.4rem;
-    padding-bottom: clamp(4rem, 10vh, 6rem);
+    justify-items: center;
+    gap: clamp(1.4rem, 3vw, 2rem);
+    text-align: center;
+    padding-block: clamp(5rem, 14vh, 8rem);
   }
-  .talk {
+  .place {
+    justify-self: stretch;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 1.2rem;
     margin: 0;
-    width: clamp(14rem, 30vw, 22rem);
-    font-weight: 400;
-  }
-  .talk svg {
-    display: block;
-    width: 100%;
-    overflow: visible;
-  }
-  .talk text {
-    font-family: var(--marker);
-  }
-  .where {
-    margin: -0.2rem 0 0;
     color: var(--ink-2);
-    font-size: clamp(1.2rem, 1.8vw, 1.5rem);
+    font: 500 0.78rem/1 var(--sans);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .place::before,
+  .place::after {
+    content: "";
+    height: 1px;
+    background: #cfc9bc;
+  }
+  .dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    margin-right: 0.6rem;
+    vertical-align: 1px;
+    border-radius: 50%;
+    background: #3f8f5a;
+    box-shadow: 0 0 0 3px rgb(63 143 90 / 0.18);
   }
   .email {
-    font: italic 400 clamp(2rem, 5.2vw, 4.4rem) / 1.15 var(--serif);
+    position: relative;
+    font: italic 500 clamp(2.1rem, 6.4vw, 5.2rem) / 1.1 "Cormorant Garamond", "Instrument Serif Fallback", Georgia, serif;
+    letter-spacing: -0.005em;
     text-decoration: none;
     overflow-wrap: anywhere;
-    background: linear-gradient(var(--ink), var(--ink)) left bottom / 0% 2px no-repeat;
-    padding-bottom: 0.1em;
-    transition: background-size 0.45s cubic-bezier(0.3, 0.7, 0.4, 1);
   }
-  .email:hover,
-  .email:focus-visible {
-    background-size: 100% 2px;
+  .email::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.08em;
+    height: 1px;
+    background: var(--ink);
+    transform: scaleX(0);
+    transition: transform 0.45s cubic-bezier(0.3, 0.7, 0.4, 1);
   }
-  /* the same paper scraps as the menu */
-  .links .pill {
-    min-height: 3rem;
-    padding: 0.6rem 1.15rem 0.55rem;
-    background: #fbfaf7;
-    color: var(--ink);
-    font: 400 1.15rem/1 var(--marker);
-    letter-spacing: 0.02em;
-    border-radius: 2px 6px 3px 5px / 5px 2px 6px 3px;
-    box-shadow:
-      0 1px 1px rgb(22 21 15 / 0.12),
-      0 6px 12px -6px rgb(22 21 15 / 0.25);
-    rotate: -1.4deg;
-    transition:
-      rotate 0.25s cubic-bezier(0.3, 0.7, 0.4, 1),
-      translate 0.25s cubic-bezier(0.3, 0.7, 0.4, 1);
-  }
-  .links li:nth-child(2) .pill {
-    rotate: 1.2deg;
-  }
-  .links li:nth-child(3) .pill {
-    rotate: -0.6deg;
-  }
-  .links .pill:hover,
-  .links .pill:focus-visible {
-    rotate: 0deg;
-    translate: 0 -2px;
-    background: #fbfaf7;
-    color: var(--ink);
-  }
-  .links .pill :global(svg) {
-    width: 1.15rem;
-    height: 1.15rem;
+  .email:hover::after,
+  .email:focus-visible::after {
+    transform: scaleX(1);
   }
   .links {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.6rem;
+    justify-content: center;
+    gap: 0.5rem clamp(1.4rem, 4vw, 2rem);
     margin: 0;
     padding: 0;
     list-style: none;
   }
-
-  @media (max-width: 860px) {
-
+  .links a {
+    display: inline-block;
+    padding: 0.7rem 0 0.35rem;
+    border-bottom: 1px solid transparent;
+    font: 500 0.8rem/1 var(--sans);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: border-color 0.25s;
   }
+  .links a:hover,
+  .links a:focus-visible {
+    border-color: var(--ink);
+  }
+
   @media (max-width: 480px) {
     .hobbies {
       display: grid;
@@ -359,7 +341,7 @@ const socials = [
     }
   }
   @media (prefers-reduced-motion: reduce) {
-    .email {
+    .email::after {
       transition: none;
     }
   }
