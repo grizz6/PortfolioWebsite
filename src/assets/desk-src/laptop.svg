@@ -10,43 +10,24 @@
     <circle r="29" fill="none" stroke="#D6A84A" stroke-width="2"/>
     <text y="11" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="32" fill="#D6A84A">30</text>
   </g>
-  <g transform="translate(232 70)">
-    <defs><clipPath id="lt-ball"><circle r="30"/></clipPath></defs>
-    <circle r="31.5" fill="#FFFFFF"/>
-    <g clip-path="url(#lt-ball)" fill="#16150F">
-      <polygon points="0,-11 10.5,-3.4 6.5,8.9 -6.5,8.9 -10.5,-3.4"/>
-      <polygon points="0,-38 11,-30 7,-18 -7,-18 -11,-30"/>
-      <polygon points="0,-38 11,-30 7,-18 -7,-18 -11,-30" transform="rotate(72)"/>
-      <polygon points="0,-38 11,-30 7,-18 -7,-18 -11,-30" transform="rotate(144)"/>
-      <polygon points="0,-38 11,-30 7,-18 -7,-18 -11,-30" transform="rotate(216)"/>
-      <polygon points="0,-38 11,-30 7,-18 -7,-18 -11,-30" transform="rotate(288)"/>
-    </g>
-    <g stroke="#16150F" stroke-width="2" clip-path="url(#lt-ball)">
-      <line x1="0" y1="-11" x2="0" y2="-18"/><line x1="0" y1="-11" x2="0" y2="-18" transform="rotate(72)"/><line x1="0" y1="-11" x2="0" y2="-18" transform="rotate(144)"/><line x1="0" y1="-11" x2="0" y2="-18" transform="rotate(216)"/><line x1="0" y1="-11" x2="0" y2="-18" transform="rotate(288)"/>
-    </g>
-    <circle r="30" fill="none" stroke="#16150F" stroke-width="2.5"/>
+  <!-- camera: I photograph cities -->
+  <g transform="translate(232 76) rotate(-8)">
+    <rect x="-34" y="-22" width="68" height="46" rx="10" fill="#16150F" stroke="#FFFFFF" stroke-width="3"/>
+    <rect x="-16" y="-30" width="20" height="10" rx="3" fill="#16150F" stroke="#FFFFFF" stroke-width="2"/>
+    <circle cx="2" cy="2" r="14" fill="#2B2B2E" stroke="#FFFFFF" stroke-width="2.5"/>
+    <circle cx="2" cy="2" r="6" fill="#6C6F72"/>
+    <circle cx="24" cy="-12" r="3" fill="#FFE36E"/>
   </g>
-  <path d="M196 122 L174 166 L190 166 L181 204 L214 152 L197 152 L208 122 Z" fill="#16150F" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round" paint-order="stroke"/>
-  <g transform="translate(46 168)">
-    <rect width="108" height="50" rx="10" fill="#FFFFFF"/>
-    <g fill="#16150F">
-      <rect x="10" y="21" width="6" height="8" rx="3"/><rect x="20" y="15" width="6" height="20" rx="3"/><rect x="30" y="8" width="6" height="34" rx="3"/><rect x="40" y="17" width="6" height="16" rx="3"/><rect x="50" y="5" width="6" height="40" rx="3"/><rect x="60" y="13" width="6" height="24" rx="3"/><rect x="70" y="18" width="6" height="14" rx="3"/><rect x="80" y="11" width="6" height="28" rx="3"/><rect x="90" y="20" width="6" height="10" rx="3"/>
-    </g>
+  <!-- trail: hiking -->
+  <g transform="translate(196 170) rotate(5)">
+    <circle r="32" fill="#3D4A42" stroke="#FFFFFF" stroke-width="3"/>
+    <path d="M-24 14 L-8 -10 L0 2 L8 -6 L24 14 Z" fill="#FFFFFF"/>
+    <path d="M-8 -10 L-4 -4 L-11 -2 Z" fill="#3D4A42"/>
+    <path d="M-20 22 Q0 14 20 22" fill="none" stroke="#FFE36E" stroke-width="2.5" stroke-dasharray="3 4" stroke-linecap="round"/>
   </g>
-  <g transform="translate(298 198) rotate(-6)">
-    <rect x="-70" y="-21" width="140" height="42" rx="21" fill="#1D428A" stroke="#FFFFFF" stroke-width="3"/>
-    <rect x="-62" y="-14" width="124" height="28" rx="14" fill="none" stroke="#FFC72C" stroke-width="2"/>
-    <text y="7" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="19" letter-spacing="1.5" fill="#FFC72C">WARRIORS</text>
-  </g>
-  <g transform="translate(330 128) rotate(8)">
-    <defs><clipPath id="lt-shield"><path d="M-24 -28 H24 V2 C24 18 10 26 0 32 C-10 26 -24 18 -24 2 Z"/></clipPath></defs>
-    <path d="M-24 -28 H24 V2 C24 18 10 26 0 32 C-10 26 -24 18 -24 2 Z" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="6" stroke-linejoin="round"/>
-    <g clip-path="url(#lt-shield)">
-      <rect x="-24" y="-28" width="48" height="60" fill="#A50044"/>
-      <rect x="-18" y="-28" width="8" height="60" fill="#004D98"/><rect x="-2" y="-28" width="8" height="60" fill="#004D98"/><rect x="14" y="-28" width="8" height="60" fill="#004D98"/>
-      <rect x="-24" y="-28" width="48" height="14" fill="#EDBB00"/>
-    </g>
-    <text y="-17" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="10" fill="#A50044">BARÇA</text>
-    <path d="M-24 -28 H24 V2 C24 18 10 26 0 32 C-10 26 -24 18 -24 2 Z" fill="none" stroke="#16150F" stroke-width="1.2"/>
+  <!-- data: the first thing I type -->
+  <g transform="translate(96 196) rotate(-4)">
+    <rect x="-58" y="-20" width="116" height="40" rx="8" fill="#FFFFFF"/>
+    <text x="0" y="7" text-anchor="middle" font-family="Courier New, monospace" font-weight="700" font-size="17" fill="#16150F">SELECT *</text>
   </g>
 </svg>
