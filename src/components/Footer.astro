@@ -132,8 +132,9 @@ const puffs = "M20 100 a4 4 0 1 0 0.1 0 M10 88 a3 3 0 1 0 0.1 0 M214 96 a3 3 0 1
     width: max-content;
     animation: none;
   }
+  /* the walk frames are 227px tall, so capping near half that keeps them sharp on retina screens */
   .crew-own img {
-    height: clamp(5.5rem, 9vw, 8rem);
+    height: clamp(5.5rem, 9vw, 7rem);
     width: auto;
   }
   .crew-own.travels {

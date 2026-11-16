@@ -253,8 +253,9 @@ const socials = [
   .contact {
     display: flex;
     flex-direction: column;
-    min-height: 100svh;
-    padding-block: clamp(3rem, 8vh, 5rem);
+    /* together with the footer below it, contact fills exactly one screen */
+    min-height: calc(100svh - clamp(7rem, 11vw, 10rem) - 4.8rem);
+    padding-block: clamp(5rem, 10vh, 7rem) 1rem;
   }
   .card {
     flex: 1;
