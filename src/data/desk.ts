@@ -29,7 +29,7 @@ export const desk: DeskObject[] = [
   { key: "pizza", label: "pizza night", w: 9, wPhone: 20, scatter: [8, 60, -18], pile: [58, 72, 22], hideOnPhone: true },
   { key: "watch", label: "Apple Watch, on Eastern time", w: 4.2, wPhone: 10, scatter: [92, 26, -6], pile: [36, 70, 12] },
   { key: "card", label: "card holder", w: 6, wPhone: 14, scatter: [18, 86, 8], pile: [8, 86, -14], hideOnPhone: true },
-  { key: "marker", label: "for the doodles", w: 13, wPhone: 28, scatter: [75, 54, -32], pile: [50, 64, -58], hideOnPhone: true },
+  { key: "marker", label: "for the doodles", w: 9, wPhone: 20, scatter: [75, 54, -32], pile: [50, 64, -58], hideOnPhone: true },
   { key: "tea", label: "milk tea, always", w: 8.5, wPhone: 20, scatter: [89, 47, 7], pile: [65, 54, 12], phoneScatter: [22, 62, 7] },
   { key: "bottle", label: "water bottle, trail ready", w: 14, wPhone: 30, scatter: [32, 21, -10], pile: [54, 78, -18] },
 ];
