@@ -2,13 +2,13 @@
 import type { ImageMetadata } from "astro";
 const year = new Date().getFullYear();
 
-import { Image } from "astro:assets";
 
-// Your own drawings win. Every file in src/assets/doodles whose name starts with "crew"
-// (crew-1.png, crew-2.png ...) joins one line that walks across the footer, in file-name order.
+// Your own drawings win. Every image in src/assets/doodles other than scroll.* walks across the footer,
+// in file-name order. Files are used exactly as uploaded, so an animated WebP or GIF keeps moving.
 const crewFiles = Object.entries(
-  import.meta.glob<{ default: ImageMetadata }>("../assets/doodles/crew*.{png,webp,svg}", { eager: true }),
+  import.meta.glob<{ default: ImageMetadata }>("../assets/doodles/*.{png,webp,gif,svg}", { eager: true }),
 )
+  .filter(([path]) => !/\/scroll\.[a-z]+$/.test(path))
   .sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }))
   .map(([, m]) => m.default);
 
@@ -33,7 +33,7 @@ const puffs = "M20 100 a4 4 0 1 0 0.1 0 M10 88 a3 3 0 1 0 0.1 0 M214 96 a3 3 0 1
     {crewFiles.length ? (
       <div class="crew crew-own">
         {crewFiles.map((img, i) => (
-          <Image src={img} alt="" height={240} style={`--i:${i}`} loading="lazy" />
+          <img src={img.src} width={img.width} height={img.height} alt="" style={`--i:${i}`} loading="lazy" decoding="async" />
         ))}
       </div>
     ) : <svg class="crew" viewBox="0 0 280 164" fill="none">
@@ -118,8 +118,11 @@ const puffs = "M20 100 a4 4 0 1 0 0.1 0 M10 88 a3 3 0 1 0 0.1 0 M214 96 a3 3 0 1
     width: max-content;
   }
   .crew-own img {
-    height: clamp(4.5rem, 7vw, 6.5rem);
+    height: clamp(5rem, 8vw, 7.5rem);
     width: auto;
+  }
+  /* separate still drawings take little steps; an animated strip already walks on its own */
+  .crew-own img:not([src*=".webp"]):not([src*=".gif"]) {
     animation: hop 0.6s ease-in-out infinite alternate;
     animation-delay: calc(var(--i) * -0.3s);
   }

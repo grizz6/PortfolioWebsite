@@ -2,13 +2,11 @@
 import { site } from "../data/site";
 
 // Each group only lists tools my repositories or coursework actually use.
+// Each row only lists tools my repositories, coursework or work actually use.
 const skills = [
-  { group: "Data", icon: "M8 40 h34 M12 40 v-12 M20 40 v-20 M28 40 v-8 M36 40 v-26", items: ["Python", "SQL", "R", "pandas", "Power BI", "Tableau"] },
-  {
-    group: "ML and AI",
-    icon: "M12 12 L24 24 L36 12 M12 36 L24 24 L36 36 M12 12 V36 M36 12 V36 M12 9 a3 3 0 1 0 0.01 0 M36 9 a3 3 0 1 0 0.01 0 M12 33 a3 3 0 1 0 0.01 0 M36 33 a3 3 0 1 0 0.01 0 M24 20 a4 4 0 1 0 0.01 0",
-    items: ["scikit-learn", "XGBoost", "glmnet", "mixed models", "RAG with pgvector", "LLM apps", "MLflow"] },
-  { group: "Software", icon: "M16 14 L6 24 L16 34 M32 14 L42 24 L32 34 M27 10 L21 38", items: ["FastAPI", "React", "TypeScript", "PostgreSQL", "Docker", "pytest", "CI"] },
+  { group: "data", items: ["Python", "SQL", "R", "pandas", "NumPy", "PostgreSQL", "BigQuery", "Snowflake", "dbt", "Airflow", "Power BI", "Tableau"] },
+  { group: "ML / AI", items: ["scikit-learn", "XGBoost", "statsmodels", "mixed-effects models", "RAG", "pgvector", "LLM APIs", "MLflow", "model evaluation"] },
+  { group: "engineering", items: ["FastAPI", "React", "TypeScript", "Docker", "PySpark", "Streamlit", "pytest", "GitHub Actions"] },
 ];
 
 const hobbies = [
@@ -54,26 +52,33 @@ const socials = [
 
 <section class="row kit" aria-labelledby="kit-title">
   <h2 class="marker label" id="kit-title" data-reveal>what I reach for</h2>
-  <ul class="cards" data-reveal-group>
+  <!-- the full list for screen readers; the moving rows below are decoration -->
+  <ul class="sr-only">
+    {skills.map((s) => <li>{s.group}: {s.items.join(", ")}</li>)}
+  </ul>
+  <div class="ticker" aria-hidden="true" data-reveal-group>
     {
       skills.map((s, i) => (
-        <li class="card" style={`--tilt:${[-2, 1.5, -1][i]}deg`}>
-          <span class="tape" aria-hidden="true" />
-          <h3>
-            <svg viewBox="0 0 48 48" aria-hidden="true">
-              <path filter="url(#wobble)" d={s.icon} />
-            </svg>
-            <span class="marker">{s.group}</span>
-          </h3>
-          <ul class="ticks">
-            {s.items.map((it) => (
-              <li>{it}</li>
+        <div class={`tick-row${i % 2 ? " rev" : ""}`} style={`--dur:${42 + i * 6}s`}>
+          <span class="tick-label marker">{s.group}</span>
+          <div class="tick-track">
+            {[0, 1].map(() => (
+              <div class="tick-set">
+                {s.items.map((it, k) => (
+                  <>
+                    <span class={k % 2 ? "it" : undefined}>{it}</span>
+                    <svg viewBox="0 0 20 20" class="star">
+                      <path filter="url(#wobble)" d="M10 2 L11.8 8.2 L18 10 L11.8 11.8 L10 18 L8.2 11.8 L2 10 L8.2 8.2 Z" />
+                    </svg>
+                  </>
+                ))}
+              </div>
             ))}
-          </ul>
-        </li>
+          </div>
+        </div>
       ))
     }
-  </ul>
+  </div>
 </section>
 
 <section class="row contact" id="contact" aria-labelledby="contact-title">
@@ -151,73 +156,97 @@ const socials = [
     font-size: 1rem;
   }
 
-  /* Skills: three index cards, each with a doodle and a ticked list */
-  .cards {
+  /* Skills: three slow rows of type that drift in opposite directions and pause under the cursor */
+  .ticker {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(1.5rem, 3vw, 2.8rem);
-    margin: 2.4rem 0 0;
-    padding: 0;
-    list-style: none;
+    gap: 0.4rem;
+    margin: 2rem calc(var(--gutter) * -1) 0;
   }
-  .card {
+  .tick-row {
     position: relative;
-    padding: 1.6rem 1.4rem 1.5rem;
-    background: #fbfaf7;
-    box-shadow:
-      0 2px 3px rgb(22 21 15 / 0.08),
-      0 16px 28px -14px rgb(22 21 15 / 0.24);
-    transform: rotate(var(--tilt));
-  }
-  .tape {
-    position: absolute;
-    top: -0.7rem;
-    left: 50%;
-    width: 4.5rem;
-    height: 1.4rem;
-    background: rgb(255 227 110 / 0.75);
-    transform: translateX(-50%) rotate(-3deg);
-  }
-  h3 {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    margin: 0 0 0.9rem;
-    font-weight: 400;
-    font-size: clamp(1.3rem, 1.8vw, 1.6rem);
+    padding: 0.7rem 0;
+    border-top: 1px solid #d3cec2;
+    overflow: hidden;
+  }
+  .tick-row:last-child {
+    border-bottom: 1px solid #d3cec2;
+  }
+  /* the label holds still on a solid strip; the words slide out from under a soft fade */
+  .tick-label {
+    position: relative;
+    z-index: 2;
+    flex: none;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    width: clamp(7.5rem, 13vw, 11rem);
+    padding-left: var(--gutter);
+    font-size: clamp(1.05rem, 1.6vw, 1.4rem);
     line-height: 1;
+    background: var(--paper);
   }
-  h3 svg {
-    width: 2.6rem;
-    height: 2.6rem;
-    flex: none;
-    overflow: visible;
+  .tick-label::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 100%;
+    width: 3rem;
+    background: linear-gradient(to right, var(--paper), transparent);
   }
-  h3 path {
-    fill: none;
-    stroke: var(--ink);
-    stroke-width: 2.6;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+  .tick-track {
+    display: flex;
+    width: max-content;
+    animation: tick var(--dur) linear infinite;
   }
-  .ticks {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  .rev .tick-track {
+    animation-direction: reverse;
   }
-  .ticks li {
+  .tick-row:hover .tick-track {
+    animation-play-state: paused;
+  }
+  .tick-set {
     display: flex;
     align-items: center;
-    gap: 0.55rem;
-    min-height: 1.85rem;
-    font-size: 1rem;
+    gap: clamp(1rem, 2vw, 1.8rem);
+    padding-right: clamp(1rem, 2vw, 1.8rem);
+    font: 400 clamp(1.9rem, 4.2vw, 3.6rem) / 1.1 var(--serif);
+    letter-spacing: -0.01em;
+    white-space: nowrap;
   }
-  .ticks li::before {
-    content: "";
-    width: 1rem;
-    height: 1rem;
+  .tick-set .it {
+    font-style: italic;
+    color: var(--ink-2);
+  }
+  .star {
+    width: 0.42em;
+    height: 0.42em;
     flex: none;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2 9 L6 13 L14 3' fill='none' stroke='%2316150F' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+  .star path {
+    fill: var(--ink);
+  }
+  @keyframes tick {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tick-track {
+      animation: none;
+      width: auto;
+      flex-wrap: wrap;
+    }
+    .tick-set + .tick-set {
+      display: none;
+    }
+    .tick-set {
+      flex-wrap: wrap;
+      white-space: normal;
+      padding: 0 var(--gutter) 0 0;
+    }
   }
 
   /* Contact */
@@ -253,10 +282,7 @@ const socials = [
   }
 
   @media (max-width: 860px) {
-    .cards {
-      grid-template-columns: minmax(0, 1fr);
-      max-width: 26rem;
-    }
+
   }
   @media (max-width: 480px) {
     .hobbies {
