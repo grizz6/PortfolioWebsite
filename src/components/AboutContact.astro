@@ -77,7 +77,7 @@ const socials = [
 
 <section class="row contact" id="contact" aria-labelledby="contact-title">
   <div class="card">
-  <h2 class="marker talk" id="contact-title" data-write>let's talk.</h2>
+  <h2 class="sr-only" id="contact-title">Contact</h2>
   <p class="place" data-reveal><span><span class="dot" aria-hidden="true"></span>Washington, DC</span></p>
   <a class="email" data-reveal href={`mailto:${site.email}`}>{site.email}</a>
   <ul class="links" data-reveal-group>
@@ -249,11 +249,6 @@ const socials = [
      and the email waits in the middle of the page */
   .row + .contact {
     border-top: 0;
-  }
-  .talk {
-    font-size: clamp(3rem, 8vw, 6.5rem);
-    rotate: -2deg;
-    margin-bottom: clamp(0.5rem, 3vh, 2rem);
   }
   .contact {
     display: flex;
